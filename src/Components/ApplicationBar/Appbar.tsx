@@ -4,6 +4,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import {makeStyles} from '@material-ui/core/styles';
 import SignInButton from '../Buttons/SignInButton';
 import SignUpButton from '../Buttons/SignUpButton';
+import AppbarGeneric from '../Generics/AppbarGeneric';
 
 const useStyles = makeStyles((theme: any) =>({
     root: {
@@ -17,36 +18,13 @@ const useStyles = makeStyles((theme: any) =>({
     }
 }));
 
-type AppbarProps = {
-    classes: Record<"title" | "root" | "menuButton", string>
-};
+const Appbar: React.FC = () => {
+    const styles = useStyles();
 
-class Appbar extends Component<AppbarProps>
-{
-
-    render() {
-        const classes = this.props.classes;
-
-        return (
-            <AppBar color="primary" position="fixed">
-                <Container fixed>
-                    <Toolbar>
-                        <Box>
-                            <IconButton edge="start" color="inherit" aria-label="menu" className={classes.menuButton}>
-                                <MenuIcon />
-                            </IconButton>
-                        </Box>
-                        <Typography variant="h6" className={classes.title}>Expense Tracker</Typography>
-                        <SignInButton />
-                        <SignUpButton />
-                    </Toolbar>
-                </Container>
-            </AppBar>
-        )
-    }
+    return(
+    <AppbarGeneric rightButtons={<><SignInButton /><SignUpButton /></>} 
+    leftMenu={<MenuIcon />} title="Expense Tracker Web Application"/>
+    );
 }
 
-export default () => {
-    const classes = useStyles();
-    return <Appbar classes={classes} />
-};
+export default Appbar;
