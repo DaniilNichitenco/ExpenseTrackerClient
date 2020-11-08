@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Box, Button, Dialog, FormControl, FormGroup, DialogContent, DialogTitle, DialogContentText, TextField, DialogActions } from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import SignInForm from '../Forms/SignInForm';
+import UserContext from '../../Context/UserContext';
 
 export interface BearerToken {
     accessToken: string;
@@ -37,7 +38,7 @@ const SignInButton:React.FC = () => {
     const handleClose = () => {
         setOpen(false);
     }
-    
+
     return (
         <Box mr={3}>
             <Button color="inherit" variant="outlined" onClick={handleClickOpen}>
