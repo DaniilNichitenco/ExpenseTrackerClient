@@ -7,7 +7,7 @@ const SignUpButton: React.FC = () => {
 
     return(
         <Box>
-            <Button color="secondary" variant="contained">
+            <Button style={{backgroundColor: "rgba(48, 48, 48, 1)"}} color="inherit" variant="contained">
                 Sign up
             </Button>
         </Box>
