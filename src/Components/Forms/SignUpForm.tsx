@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import ISignUpFormData from './FormProps/ISignUpFormData';
 import InputForm from './InputForm';
 
@@ -69,9 +69,8 @@ const SignUpForm: React.FC = () => {
     const { handleSubmit, errors } = methods;
     const styles = useStyles();
 
-    const onSubmit = (formValues: ISignUpFormData) => {
+    const onSubmit: SubmitHandler<ISignUpFormData> = (formValues) => {
         console.log(formValues);
-        console.log("formValues");
     }
 
     return(
@@ -84,7 +83,7 @@ const SignUpForm: React.FC = () => {
                     Sigh up
                 </Typography>
                 <FormProvider {...methods}>
-                    <form className={styles.form} autoComplete="on" onSubmit={handleSubmit(onSubmit)} noValidate>
+                    <form className={styles.form} autoComplete="on" noValidate>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                             <InputForm 
@@ -122,6 +121,17 @@ const SignUpForm: React.FC = () => {
                             </Grid>
                             <Grid item xs={12}>
                             <InputForm
+                                errorObj={errors}
+                                variant="outlined"
+                                required={true}
+                                type="username"
+                                label="Username"
+                                name="username"
+                                autoComplete="username"
+                            />
+                            </Grid>
+                            <Grid item xs={12}>
+                            <InputForm
                                 variant="outlined"
                                 errorObj={errors}
                                 required={true}
@@ -149,13 +159,14 @@ const SignUpForm: React.FC = () => {
                             />
                             </Grid>
                         </Grid>
+                    </form>
                         <Button
                             fullWidth
                             variant="contained"
                             color="primary"
                             className={styles.submit}
                             type="submit"
-                            // onClick={handleSubmit(onSubmit)}
+                            onClick={handleSubmit(onSubmit)}
                         >
                             Sign Up
                         </Button>
@@ -166,7 +177,6 @@ const SignUpForm: React.FC = () => {
                             </Link>
                             </Grid>
                         </Grid>
-                    </form>
                 </FormProvider>
             </div>
             <Box mt={5}>
