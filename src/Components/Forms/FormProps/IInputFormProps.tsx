@@ -7,7 +7,9 @@ interface IInputFormProps
     errorObj: DeepMap<Record<string, any>, FieldError>,
     autoFocus?: boolean,
     required?: boolean,
-    type?: string
+    autoComplete?: string,
+    type?: string,
+    variant?:"filled" | "outlined" | "standard" | undefined
 }
 
 export default IInputFormProps;
