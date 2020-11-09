@@ -1,14 +1,18 @@
-import Appbar from '../ApplicationBar/Appbar';
-import StartPost from './StartPost';
 import React from 'react';
+import StartPost from './StartPost';
+import AppbarGeneric from '../Generics/AppbarGeneric';
+import SignUpButton from '../Buttons/SignUpButton';
+import SignInButton from '../Buttons/SignInButton';
 import { Button, Box} from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
 import logo from '../../logo.svg';
 
 const UnauthorizedPage: React.FC = () => {
     
     return(
         <React.Fragment>
-            <Appbar />
+            <AppbarGeneric rightButtons={<><SignInButton /><SignUpButton /></>} 
+    leftMenu={<MenuIcon />} title="Expense Tracker Web Application"/>
             <main>
                 <StartPost />
                 <div className="App">
