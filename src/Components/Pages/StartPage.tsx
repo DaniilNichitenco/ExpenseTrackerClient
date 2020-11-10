@@ -3,10 +3,11 @@ import SignUpPage from './SignUpPage';
 import UnauthorizedPage from './UnauthorizedPage';
 import userStatus from '../../userStatus';
 import UserContext from '../../Context/UserContext';
+import HomePage from './HomePage';
 
 const StartPage:React.FC = () => {
     
-    const [status, setStatus] = useState(userStatus.SigningUp);
+    const [status, setStatus] = useState(userStatus.Authorized);
     
     const changeStatus = (newStatus: userStatus) => {
         setStatus(newStatus);
@@ -17,7 +18,7 @@ const StartPage:React.FC = () => {
         case userStatus.Authorized:
             return(
                 <UserContext.Provider value={{changeStatus}}>
-                    <SignUpPage />
+                    <HomePage />
                 </UserContext.Provider>
             );
 
