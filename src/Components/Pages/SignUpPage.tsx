@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import AppbarGeneric from '../Generics/AppbarGeneric';
 import MenuIcon from '@material-ui/icons/Menu';
 import CreditCardRoundedIcon from '@material-ui/icons/CreditCardRounded';
 import SignInButton from '../Buttons/SignInButton';
 import { makeStyles, Typography } from '@material-ui/core';
 import SignUpForm from '../Forms/SignUpForm';
+import UserContext from '../../Context/UserContext';
+import userStatus from '../../userStatus';
 
 const useStyles = makeStyles((theme) => ({
     content: {
@@ -23,11 +25,19 @@ const useStyles = makeStyles((theme) => ({
 const SignUpPage: React.FC = () => {
 
     const styles = useStyles();
+    const context = useContext(UserContext);
+
+    const leftIcon = () => {
+        
+        return(
+            <CreditCardRoundedIcon onClick={() => {context.changeStatus(userStatus.Unauthorized)}} />
+        );
+    }
 
     return(
         <React.Fragment>
             <AppbarGeneric rightButtons={<><SignInButton /></>} 
-            leftMenu={<CreditCardRoundedIcon />} title="Expense Tracker Web Application"/>
+            leftMenu={leftIcon()} title="Expense Tracker Web Application"/>
             <div className={styles.content}>
                 <SignUpForm />
             </div>
