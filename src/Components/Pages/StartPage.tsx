@@ -6,14 +6,10 @@ import UserContext from '../../Context/UserContext';
 
 const StartPage:React.FC = () => {
     
-    const [status, setStatus] = useState(userStatus.Unauthorized);
+    const [status, setStatus] = useState(userStatus.SigningUp);
     
     const changeStatus = (newStatus: userStatus) => {
         setStatus(newStatus);
-    }
-
-    const openSignUpPage = () => {
-        return <SignUpPage />
     }
 
     switch(status)

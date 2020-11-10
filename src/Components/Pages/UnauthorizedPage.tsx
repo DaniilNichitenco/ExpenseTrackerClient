@@ -6,13 +6,14 @@ import SignInButton from '../Buttons/SignInButton';
 import { Button, Box} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import logo from '../../logo.svg';
+import CreditCardRoundedIcon from '@material-ui/icons/CreditCardRounded';
 
 const UnauthorizedPage: React.FC = () => {
     
     return(
         <React.Fragment>
             <AppbarGeneric rightButtons={<><SignInButton /><SignUpButton /></>} 
-    leftMenu={<MenuIcon />} title="Expense Tracker Web Application"/>
+    leftMenu={<CreditCardRoundedIcon />} title="Expense Tracker Web Application"/>
             <main>
                 <StartPost />
                 <div className="App">

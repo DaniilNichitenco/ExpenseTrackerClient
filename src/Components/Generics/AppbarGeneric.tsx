@@ -27,7 +27,7 @@ const AppbarGeneric: React.FC<IAppbarGenericProps> = (props) => {
     const styles = useStyles();
 
     return(
-        <AppBar color="primary" position="fixed">
+        <AppBar style={{backgroundColor: "rgba(15, 15, 15, 1)"}} color="primary" position="fixed">
                 <Container fixed>
                     <Toolbar>
                         <Box>

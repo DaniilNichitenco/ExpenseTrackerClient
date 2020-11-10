@@ -2,9 +2,10 @@ import React from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
 import { TextField } from '@material-ui/core';
 import IInputFormData from './FormProps/IInputFormProps';
+import { Variant } from '@material-ui/core/styles/createTypography';
 
 const InputForm: React.FC<IInputFormData> = ({name, label, errorObj, autoFocus = false, 
-    required = false, type="text"}) => {
+    required = false, type="text", variant = "standard", autoComplete}) => {
 
     const { control } = useFormContext();
     let isError: boolean = false;
@@ -15,8 +16,11 @@ const InputForm: React.FC<IInputFormData> = ({name, label, errorObj, autoFocus =
         errorMessage = errorObj[name].message;
     }
 
+    const a = "outlined";
+
     return(
         <Controller 
+            autoComplete={autoComplete}
             as={TextField}
             type={type}
             margin="dense"
@@ -31,6 +35,7 @@ const InputForm: React.FC<IInputFormData> = ({name, label, errorObj, autoFocus =
                 required: required
             }}
             helperText={errorMessage}
+            variant={variant}
         />
     )
 }

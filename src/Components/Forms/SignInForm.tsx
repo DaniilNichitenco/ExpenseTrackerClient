@@ -38,7 +38,7 @@ const SignInForm: React.FC<ISignInFormProps> = (props) => {
     });
     const { handleSubmit, errors } = methods;
     const onSubmit = (formValues: ISignInFormData) => {
-        props.signIn(formValues.login, formValues.password);
+        props.signIn(formValues);
     };
 
     return(

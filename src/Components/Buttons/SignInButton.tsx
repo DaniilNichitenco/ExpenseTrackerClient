@@ -1,9 +1,8 @@
-import React, { useCallback, Component, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Box, Button, Dialog, FormControl, FormGroup, DialogContent, DialogTitle, DialogContentText, TextField, DialogActions } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Box, Button, Dialog} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import SignInForm from '../Forms/SignInForm';
-import UserContext from '../../Context/UserContext';
+import ISignInFormData from '../Forms/FormDatas/ISignInFormData';
 
 export interface BearerToken {
     accessToken: string;
@@ -24,14 +23,12 @@ const SignInButton:React.FC = () => {
 
     const [open, setOpen] = useState(false);
 
-    const signIn = (login: string, password: string) => {
-        console.log(login);
-        console.log(password);
+    const signIn = (formValues: ISignInFormData) => {
+        console.log(formValues);
         handleClose();
     }
 
     const handleClickOpen = () => {
-        console.log("open");
         setOpen(true);
     }
 
