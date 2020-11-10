@@ -10,6 +10,7 @@ import Sidebar from './Components/Sidebar/Sidebar';
 import HomePage from './Components/Pages/HomePage';
 import SignUpPage from './Components/Pages/SignUpPage';
 import UnauthorizedPage from './Components/Pages/UnauthorizedPage';
+import LeftMenu from './Components/LeftMenu/LeftMenu';
 
 const App: React.FC = () => {
 
@@ -17,8 +18,9 @@ const App: React.FC = () => {
     <React.Fragment>
       <CssBaseline />
       <Router>
-        <Sidebar />
-        <div style={{paddingLeft: 220}}>
+        {/* <Sidebar /> */}
+        <LeftMenu />
+        <div style={{paddingLeft: 256}}>
           <Switch>
             <Route exact path="/">
               <HomePage />
