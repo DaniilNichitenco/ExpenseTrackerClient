@@ -1,0 +1,91 @@
+.cardAvatar {
+    margin: auto;
+    height: fit-content;
+    font-family: "'Roboto', 'Helvetica', 'Arial', sans-serif";
+    text-decoration: "none";
+    width: fit-content;
+}
+
+.GridListTileAvatar{
+    /* height: 140;
+    width: 170; */
+    /* background-color: gainsboro; */
+}
+
+.tile {
+    /* border: 1px solid black; */
+}
+
+.boxAvatar {
+    padding-top: 30px;
+    padding-bottom: 15px;
+    border-radius: 15px 15px 0 0;
+    margin-bottom: 20px;
+    background-image: url(../../assets/images/avatarProfileBg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.link {
+    text-decoration: none;
+    width: fit-content;
+    height: fit-content;
+}
+
+.userStatus {
+    color: rgb(43, 43, 43);
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.linkTypography {
+    width: fit-content;
+    height: fit-content;
+}
+
+.name {
+    color: rgb(59, 166, 228);
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.email{
+    color: rgb(156, 175, 187);
+    font-size: 16px;
+    text-align: center;
+}
+
+.avatarHeader {
+    /* justify-self: center;
+    font-size: 150px;
+    align-self: center;
+    margin: auto;
+    background-color: red; */
+    background-color: teal;
+    margin: 0;
+    padding: 0;
+}
+
+.avatar {
+    background-image: url(../../assets//images//UserAvatar.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: auto;
+    width: 140px;
+    height: 140px;
+    padding: 0;
+    border: solid 1px white;
+    border-radius: 100px;
+}
+
+.contentDiv {
+    background-color: rgb(212, 212, 212);
+    margin:auto; 
+    padding:20;
+    width: fit-content;
+    border-radius: 10px;
+}

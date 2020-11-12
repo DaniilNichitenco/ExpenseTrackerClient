@@ -7,6 +7,7 @@ import { makeStyles, Typography } from '@material-ui/core';
 import SignUpForm from '../Forms/SignUpForm';
 import UserContext from '../../Context/UserContext';
 import userStatus from '../../userStatus';
+import AppContent from '../Content/AppContent';
 
 const useStyles = makeStyles((theme) => ({
     content: {
@@ -35,13 +36,18 @@ const SignUpPage: React.FC = () => {
     }
 
     return(
-        <React.Fragment>
+        <AppContent>
             <AppbarGeneric rightButtons={<><SignInButton /></>} 
             leftMenu={leftIcon()} title="Expense Tracker Web Application"/>
-            <div className={styles.content}>
-                <SignUpForm />
-            </div>
-        </React.Fragment>
+            <SignUpForm />
+        </AppContent>
+        // <React.Fragment>
+        //     <AppbarGeneric rightButtons={<><SignInButton /></>} 
+        //     leftMenu={leftIcon()} title="Expense Tracker Web Application"/>
+        //     <div className={styles.content}>
+        //         <SignUpForm />
+        //     </div>
+        // </React.Fragment>
     );
 }
 
