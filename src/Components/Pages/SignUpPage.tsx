@@ -9,23 +9,7 @@ import UserContext from '../../Context/UserContext';
 import userStatus from '../../userStatus';
 import AppContent from '../Content/AppContent';
 
-const useStyles = makeStyles((theme) => ({
-    content: {
-        backgroundColor:"rgba(140, 140, 140, 1)",
-        position:"relative",
-        paddingTop:100, 
-        paddingBottom:100, 
-        top:0,
-        bottom:0, 
-        left:0, 
-        right:0,
-        marginBottom:0
-    }
-}));
-
 const SignUpPage: React.FC = () => {
-
-    const styles = useStyles();
     const context = useContext(UserContext);
 
     const leftIcon = () => {
@@ -41,13 +25,6 @@ const SignUpPage: React.FC = () => {
             leftMenu={leftIcon()} title="Expense Tracker Web Application"/>
             <SignUpForm />
         </AppContent>
-        // <React.Fragment>
-        //     <AppbarGeneric rightButtons={<><SignInButton /></>} 
-        //     leftMenu={leftIcon()} title="Expense Tracker Web Application"/>
-        //     <div className={styles.content}>
-        //         <SignUpForm />
-        //     </div>
-        // </React.Fragment>
     );
 }
 

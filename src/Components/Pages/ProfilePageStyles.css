@@ -6,18 +6,13 @@
     width: fit-content;
 }
 
-.GridListTileAvatar{
-    /* height: 140;
-    width: 170; */
-    /* background-color: gainsboro; */
-}
 
 .tile {
-    /* border: 1px solid black; */
+    border: 1px solid black;
 }
 
 .boxAvatar {
-    padding-top: 30px;
+    padding-top: 28px;
     padding-bottom: 15px;
     border-radius: 15px 15px 0 0;
     margin-bottom: 20px;
@@ -75,8 +70,8 @@
     background-size: cover;
     background-repeat: no-repeat;
     margin: auto;
-    width: 140px;
-    height: 140px;
+    width: 155px;
+    height: 155px;
     padding: 0;
     border: solid 1px white;
     border-radius: 100px;

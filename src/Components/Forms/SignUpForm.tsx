@@ -89,7 +89,7 @@ const SignUpForm: React.FC = () => {
         resolver: yupResolver(validationSchema)
     });
     const { handleSubmit, errors } = methods;
-    const styles = useStyles();
+    const classes = useStyles();
 
     const onSubmit: SubmitHandler<ISignUpFormData> = (formValues) => {
         console.log(formValues);
@@ -97,15 +97,15 @@ const SignUpForm: React.FC = () => {
 
     return(
         <Container maxWidth="sm">
-            <div className={styles.paper}>
-                <Avatar className={styles.avatar}>
+            <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
                 <FormProvider {...methods}>
-                    <form className={styles.form} autoComplete="on" noValidate>
+                    <form className={classes.form} autoComplete="on" noValidate>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                             <InputForm 
@@ -186,7 +186,7 @@ const SignUpForm: React.FC = () => {
                             fullWidth
                             variant="contained"
                             color="primary"
-                            className={styles.submit}
+                            className={classes.submit}
                             type="submit"
                             onClick={handleSubmit(onSubmit)}
                         >

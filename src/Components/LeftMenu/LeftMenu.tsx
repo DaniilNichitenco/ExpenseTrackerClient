@@ -147,8 +147,6 @@ let theme = createMuiTheme({
 
 
   const LeftMenu: React.FC = () => {
-  const [, updateState] = React.useState();
-  const forceUpdate = () => updateState(undefined);
 
     return(
         <ThemeProvider theme={theme}>
