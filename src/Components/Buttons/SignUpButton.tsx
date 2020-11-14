@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { Box, Button } from '@material-ui/core';
 import UserContext from '../../Context/UserContext';
-import userStatus from '../../userStatus';
 import { Link } from 'react-router-dom';
 
 const SignUpButton: React.FC = () => {

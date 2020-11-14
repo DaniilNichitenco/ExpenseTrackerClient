@@ -1,20 +1,18 @@
-import { Card, CardHeader, CardMedia, Paper, Grid, GridList, GridListTile, makeStyles, Typography, Box, Divider, Button } from '@material-ui/core';
-import React from 'react';
+import { GridList, GridListTile, makeStyles, Typography, Box, Divider, Button } from '@material-ui/core';
+import React, { useContext } from 'react';
 import AppContent from '../Content/AppContent';
 import AppbarGeneric from '../Generics/AppbarGeneric';
 import './ProfilePageStyles.css';
-import avatarProfileBgImage from './avatarProfileBg.jpg';
 import { Link } from 'react-router-dom';
-import clsx from 'clsx';
 import SettingsIcon from '@material-ui/icons/Settings';
-import ProfilePageData from '../../Data/ProfilePageData';
+import UserContext from '../../Context/UserContext';
+import PursesContext from '../../Context/PursesContext';
 
 const useStyles = makeStyles((theme) => ({
     contentList: {
         justifyContent:"center",
         alignItems:"flex-start",
         overflowX: "hidden",
-        spacing: 10,
         height: "fit-content",
         padding: 20
     },
@@ -54,7 +52,10 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const ProfilePage: React.FC<ProfilePageData> = ({pursesData, userData}) => {
+const ProfilePage: React.FC = () => {
+
+    const userData = useContext(UserContext).userData;
+    const pursesData = useContext(PursesContext).pursesData;
 
     const classes = useStyles();
     if(!userData.textStatus || userData.textStatus.length == 0)

@@ -13,42 +13,12 @@ import LeftMenu from './Components/LeftMenu/LeftMenu';
 import ProfilePage from './Components/Pages/ProfilePage';
 import {
   createMuiTheme,
-  createStyles,
-  makeStyles,
-  ThemeProvider,
-  withStyles,
-  WithStyles
+  ThemeProvider
 } from '@material-ui/core/styles';
 import UserData from './Data/UserData';
 import PurseData from './Data/PurseData';
 import PursesData from './Data/PursesData';
-
-const userData: UserData = {
-  firstName: "Daniil",
-  lastName: "Nichitenco",
-  email: "daniilnikitenco@gmail.com",
-  username: "lagger179",
-  countPurses: 3,
-  coutOccations: 0,
-  countNotes: 0
-};
-
-const purse1: PurseData = {
-    currencyCode: "MDL",
-    bill: 1000
-};
-const purse2: PurseData = {
-  currencyCode: "USD",
-  bill: 2000
-};
-const purse3: PurseData = {
-  currencyCode: "EUR",
-  bill: 3000
-};
-
-const pursesData: PursesData = {
-  purses: [purse1, purse2, purse3]
-}
+import UserContext from './Context/UserContext';
 
 const App: React.FC = () => {
 
@@ -64,7 +34,7 @@ const App: React.FC = () => {
                 <HomePage />
               </Route>
               <Route exact path="/home/profile">
-                <ProfilePage pursesData={pursesData} userData={userData} />
+                <ProfilePage />
               </Route>
               <Route exact path="/registration">
                 <SignUpPage />
