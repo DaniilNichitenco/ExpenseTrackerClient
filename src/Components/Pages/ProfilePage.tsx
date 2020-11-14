@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import SettingsIcon from '@material-ui/icons/Settings';
 import UserContext from '../../Context/UserContext';
 import PursesContext from '../../Context/PursesContext';
+import ProfileTile from '../Tiles/ProfileTile';
 
 const useStyles = makeStyles((theme) => ({
     contentList: {
@@ -145,6 +146,9 @@ const ProfilePage: React.FC = () => {
                                         </React.Fragment>
                                     ))}
                                 </GridListTile>
+                                <ProfileTile>
+                                    fadsfsdj
+                                </ProfileTile>
                                 <GridListTile style={{height: '50px'}}>
                                     <Typography>
                                         ANOTHER INTORMATION

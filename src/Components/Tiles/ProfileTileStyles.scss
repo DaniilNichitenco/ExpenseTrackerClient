@@ -1,0 +1,70 @@
+.option-enter {
+    border-radius: 15px 15px 7px 7px;
+    height: fit-content;
+    width: fit-content;
+    border: 1px solid #BFBFBF;
+    background-color: white;
+    box-shadow: 10px 10px 5px #BFBFBF;
+    margin: 0px;
+    padding: 0px; 
+
+    &.option-enter-active {
+        border-radius: 15px 15px 7px 7px;
+        height: fit-content;
+        width: fit-content;
+        border: 1px solid #BFBFBF;
+        background-color: white;
+        box-shadow: 10px 10px 5px #ff0000;
+        margin: 0px;
+        padding: 0px; 
+        transition: box-shadow 1s ease;
+    }
+}
+
+.option-exit {
+    border-radius: 15px 15px 7px 7px;
+    height: fit-content;
+    width: fit-content;
+    border: 1px solid #BFBFBF;
+    background-color: white;
+    box-shadow: 10px 10px 5px #ff0000;
+    margin: 0px;
+    padding: 0px; 
+
+    &.option-exit-active {
+        border-radius: 15px 15px 7px 7px;
+        height: fit-content;
+        width: fit-content;
+        border: 1px solid #BFBFBF;
+        background-color: white;
+        box-shadow: 10px 10px 5px #BFBFBF;
+        margin: 0px;
+        padding: 0px; 
+        transition: box-shadow 1s ease;
+    }
+}
+
+.option {
+    border-radius: 15px 15px 7px 7px;
+    height: fit-content;
+    width: fit-content;
+    border: 1px solid #BFBFBF;
+    background-color: white;
+    box-shadow: 10px 10px 5px #BFBFBF;
+    margin: 0px;
+    padding: 0px; 
+    transition: box-shadow 2s ease;
+}
+
+
+
+/* 
+border-radius: 15px 15px 7px 7px;
+height: fit-content;
+width: fit-content;
+border: 1px solid #BFBFBF;
+background-color: white;
+box-shadow: 10px 10px 5px #aaaaaa;
+margin: 0px;
+padding: 0px; 
+*/
