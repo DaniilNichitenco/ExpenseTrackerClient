@@ -7,6 +7,7 @@ import avatarProfileBgImage from './avatarProfileBg.jpg';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import SettingsIcon from '@material-ui/icons/Settings';
+import ProfilePageData from '../../Data/ProfilePageData';
 
 const useStyles = makeStyles((theme) => ({
     contentList: {
@@ -53,9 +54,13 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const ProfilePage: React.FC = () => {
+const ProfilePage: React.FC<ProfilePageData> = ({pursesData, userData}) => {
 
     const classes = useStyles();
+    if(!userData.textStatus || userData.textStatus.length == 0)
+    {
+        userData.textStatus = "Less I hear the less you'll say you'll find that out anyway";
+    }
 
     return(
         <React.Fragment> 
@@ -75,54 +80,79 @@ const ProfilePage: React.FC = () => {
                                 <Box className="avatar" />
                             </Box>
                             <Box className="name">
-                                <Typography className={classes.nameText}>FirstName LastName</Typography>
+                                <Typography className={classes.nameText}>
+                                    {userData.firstName} {userData.lastName}
+                                </Typography>
                             </Box>
                             <Box className="userStatus">
                                 <Typography className={classes.userStatusText}>
-                                    <q>Less I hear the less you'll say you'll find that out anyway</q>
+                                    <q>{userData.textStatus}</q>
                                 </Typography>
                             </Box>
                             <Box className="email">
-                                <Typography>Email@gmail.com</Typography>
+                                <Typography>
+                                    {userData.email}
+                                </Typography>
                             </Box>
                             <Box className="email">
-                                <Typography>Username</Typography>
+                                <Typography>
+                                    {userData.username}
+                                </Typography>
                             </Box>
                             <Divider variant="middle" />
                             <GridList cols={3} className={classes.info}>
                                 <GridListTile style={{width: "fit-content",height: "fit-content"}}>
-                                    <Typography><b>Purses:</b><br/>count</Typography>
+                                    <Typography>
+                                        <b>Purses:</b><br/>{userData.countPurses}
+                                        </Typography>
                                 </GridListTile>
                                 <GridListTile style={{width: "fit-content",height: "fit-content"}}>
-                                    <Typography><b>Notes:</b><br/>count</Typography>
+                                    <Typography>
+                                        <b>Notes:</b><br/>{userData.countNotes}
+                                    </Typography>
                                 </GridListTile>
                                 <GridListTile style={{width: "fit-content",height: "fit-content"}}>
-                                    <Typography><b>Occations:</b><br/>count</Typography>
+                                    <Typography>
+                                        <b>Occations:</b><br/>{userData.coutOccations}
+                                    </Typography>
                                 </GridListTile>
                             </GridList>
                         </div>
                     </GridListTile>
-                    <GridListTile className="paperTile">
-                        <GridList cols={1} spacing={15} >
-                            <GridListTile style={{backgroundColor: 'green', height: "fit-content", display: 'flex', justifyContent: 'flex-end'}} className="tile">
-                                <Button variant="contained" 
-                                 color="secondary"
-                                 component={Link} to="/settings" 
-                                 startIcon={<SettingsIcon />}>Settings</Button>
-                            </GridListTile>
-                            <GridListTile style={{backgroundColor: 'green', height: '50px'}} className={classes.tile}>
-                                <Typography>
-                                    PURSES
-                                </Typography>
-                            </GridListTile>
-                            <GridListTile style={{backgroundColor: 'green', height: '50px'}} className={classes.tile}>
-                                <Typography>
-                                    ANOTHER INTORMATION
-                                </Typography>
-                            </GridListTile>
-                        </GridList>
+                    <GridListTile style={{width: "fit-content", height: "fit-content", padding: 10}}>
+                        <div className="paperTile">
+                            <GridList cols={1} spacing={15} style={{height:"fit-content"}} >
+                                <GridListTile style={{height: "fit-content", display: 'flex', justifyContent: 'flex-end', padding:17}} className="tile">
+                                    <Button variant="contained" 
+                                    color="primary"
+                                    component={Link} to="/settings" 
+                                    startIcon={<SettingsIcon />}>Settings</Button>
+                                </GridListTile>
+                                <GridListTile style={{height: 'fix-content'}}>
+                                    {pursesData.purses.map(({currencyCode, bill}) => (
+                                        <React.Fragment key={currencyCode}>
+                                            <GridListTile style={{marginBottom:10}}>   
+                                            <div className="purseTile">
+                                                {currencyCode}
+                                            </div>
+                                            <div style={{marginLeft:10, marginTop:8}}>
+                                                <Typography>
+                                                    Bill: {bill}
+                                                </Typography>
+                                            </div>
+                                            </GridListTile>
+                                        </React.Fragment>
+                                    ))}
+                                </GridListTile>
+                                <GridListTile style={{height: '50px'}}>
+                                    <Typography>
+                                        ANOTHER INTORMATION
+                                    </Typography>
+                                </GridListTile>
+                            </GridList>
+                        </div>
                     </GridListTile>
-                    <GridListTile style={{backgroundColor: 'green', height: '50px'}} className={classes.tile}>
+                    <GridListTile style={{height: '50px'}} className="paperTile">
 
                     </GridListTile>
                 </GridList>

@@ -29,11 +29,6 @@
     padding-right: 7px;
 }
 
-.linkTypography {
-    width: fit-content;
-    height: fit-content;
-}
-
 .name {
     color: rgb(51, 22, 155);
     text-align: center;
@@ -41,6 +36,21 @@
     font-size: 30px;
     font-weight: 900;
     max-width: 300px;
+}
+
+.purseTile {
+    margin: auto;
+    border: solid 2px black;
+    display: flex;
+    border-radius: 100%;
+    font-size: 20px;
+    font-weight: 700;
+    background-color: #2F13A3;
+    color: white;
+    height: 75px;
+    width: 75px;
+    align-items: center;
+    justify-content: center;
 }
 
 .email{
