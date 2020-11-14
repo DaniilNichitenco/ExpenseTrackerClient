@@ -43,7 +43,7 @@ const styles = (theme: Theme) =>
     firebase: {
       fontSize: 24,
       color: theme.palette.common.white,
-      marginTop: theme.spacing(8)
+      marginTop: theme.spacing(5)
     },
     itemActiveItem: {
       color: '#4fc3f7',
@@ -65,10 +65,8 @@ const styles = (theme: Theme) =>
 
 export interface NavigatorProps extends Omit<DrawerProps, 'classes'>, WithStyles<typeof styles> {}
 
-function Navigator(props: NavigatorProps) {
+const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
   const { classes, ...other } = props;
-  
-  const [currActive, setCurrActive] = useState("");
 
   const [categories, setCategories] = useState([
     {
@@ -106,8 +104,7 @@ function Navigator(props: NavigatorProps) {
         }
       });
     });
-    setCurrActive(id);
-
+    setCategories([...categories]);
   }
 
   return (

@@ -1,14 +1,11 @@
-.cardAvatar {
-    margin: auto;
+.paperTile {
+    border-radius: 15px 15px 7px 7px;
     height: fit-content;
-    font-family: "'Roboto', 'Helvetica', 'Arial', sans-serif";
-    text-decoration: "none";
-    width: fit-content;
-}
-
-
-.tile {
-    border: 1px solid black;
+    width: 300px;
+    border: 1px solid #BFBFBF;
+    background-color: white;
+    box-shadow: 10px 10px 5px #aaaaaa;
+    margin: 20px
 }
 
 .boxAvatar {
@@ -21,18 +18,15 @@
     background-size: cover;
 }
 
-.link {
-    text-decoration: none;
-    width: fit-content;
-    height: fit-content;
-}
-
 .userStatus {
-    color: rgb(43, 43, 43);
+    color: rgb(95, 93, 93);
     font-size: 16px;
     text-align: center;
     margin-bottom: 20px;
     margin-top: 20px;
+    max-width: 300px;
+    padding-left: 7px;
+    padding-right: 7px;
 }
 
 .linkTypography {
@@ -41,28 +35,19 @@
 }
 
 .name {
-    color: rgb(59, 166, 228);
+    color: rgb(51, 22, 155);
     text-align: center;
     margin-bottom: 15px;
     font-size: 30px;
     font-weight: 900;
+    max-width: 300px;
 }
 
 .email{
-    color: rgb(156, 175, 187);
+    color: rgb(23, 20, 170);
     font-size: 16px;
     text-align: center;
-}
-
-.avatarHeader {
-    /* justify-self: center;
-    font-size: 150px;
-    align-self: center;
-    margin: auto;
-    background-color: red; */
-    background-color: teal;
-    margin: 0;
-    padding: 0;
+    max-width: 300px;
 }
 
 .avatar {
@@ -78,9 +63,10 @@
 }
 
 .contentDiv {
-    background-color: rgb(212, 212, 212);
+    background-color: rgba(255, 255, 255, 1);
     margin:auto; 
     padding:20;
     width: fit-content;
     border-radius: 10px;
+    border: solid 5px rgb(43, 43, 43);
 }
