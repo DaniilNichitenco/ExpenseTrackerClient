@@ -1,12 +1,3 @@
-.paperTile {
-    border-radius: 15px 15px 7px 7px;
-    height: fit-content;
-    width: 300px;
-    border: 1px solid #BFBFBF;
-    background-color: white;
-    box-shadow: 10px 10px 5px #aaaaaa;
-    margin: 20px;
-}
 
 .boxAvatar {
     padding-top: 28px;
@@ -75,8 +66,7 @@
 .contentDiv {
     background-color: rgba(255, 255, 255, 1);
     margin:auto; 
-    padding:20;
-    width: fit-content;
+    width: 900px;
     border-radius: 10px;
     border: solid 5px rgb(43, 43, 43);
 }

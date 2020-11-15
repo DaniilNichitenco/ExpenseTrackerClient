@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import clsx from 'clsx';
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
@@ -16,6 +16,8 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Omit } from '@material-ui/types';
+import './NavigationBarStyles.css';
+import UserContext from '../../Context/UserContext';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -52,8 +54,8 @@ const styles = (theme: Theme) =>
       fontSize: 'inherit',
     },
     itemIcon: {
+      margin: "auto",
       minWidth: 'auto',
-      marginRight: theme.spacing(2),
     },
     divider: {
       marginTop: theme.spacing(2),
@@ -67,6 +69,8 @@ export interface NavigatorProps extends Omit<DrawerProps, 'classes'>, WithStyles
 
 const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
   const { classes, ...other } = props;
+
+  const userData = useContext(UserContext).userData;
 
   const [categories, setCategories] = useState([
     {
@@ -111,19 +115,12 @@ const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
     <Drawer className={classes.drawer} variant="permanent" {...other} open={true}>
       <List disablePadding>
         <ListItem className={clsx(classes.firebase, classes.item, classes.itemCategory)}>
-          Expense Tracker
+          Hello, {userData.firstName}!
         </ListItem>
         <ListItem className={clsx(classes.item, classes.itemCategory)}>
           <ListItemIcon className={classes.itemIcon}>
-            <AccountCircleIcon style={{fontSize:40}} />
+            <div className="avatar1"></div>
           </ListItemIcon>
-          <ListItemText
-            classes={{
-              primary: classes.itemPrimary,
-            }}
-          >
-            Hello, User!
-          </ListItemText>
         </ListItem>
         {categories.map(({ id, children }) => (
           <React.Fragment key={id}>

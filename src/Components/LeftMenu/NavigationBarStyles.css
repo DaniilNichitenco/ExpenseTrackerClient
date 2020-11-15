@@ -1,0 +1,11 @@
+.avatar1{
+    margin: 0;
+    padding: 0;
+    width: 130px;
+    height: 130px;
+    border: solid 2px rgb(7, 0, 70);
+    border-radius: 100px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url(../../assets/images/UserAvatar.jpg);
+}

@@ -77,8 +77,8 @@ const ProfilePage: React.FC = () => {
                 <Divider variant="middle" />
                 <GridList cols={2} className={classes.contentList} spacing={25}>
                     <GridListTile style={{width: "fit-content", height: "fit-content", padding: 10}}>
-                        <div className="paperTile">
-                            <Box className="boxAvatar">
+                        <ProfileTile>
+                        <Box className="boxAvatar">
                                 <Box className="avatar" />
                             </Box>
                             <Box className="name">
@@ -119,11 +119,11 @@ const ProfilePage: React.FC = () => {
                                     </Typography>
                                 </GridListTile>
                             </GridList>
-                        </div>
+                        </ProfileTile>
                     </GridListTile>
                     <GridListTile style={{width: "fit-content", height: "fit-content", padding: 10}}>
-                        <div className="paperTile">
-                            <GridList cols={1} spacing={15} style={{height:"fit-content"}} >
+                        <ProfileTile maxWidth={300}>
+                            <GridList cols={1} spacing={5} style={{height:"fit-content", width:"fit-content"}} >
                                 <GridListTile style={{height: "fit-content", display: 'flex', justifyContent: 'flex-end', padding:17}} className="tile">
                                     <Button variant="contained" 
                                     color="primary"
@@ -146,19 +146,13 @@ const ProfilePage: React.FC = () => {
                                         </React.Fragment>
                                     ))}
                                 </GridListTile>
-                                <ProfileTile>
-                                    fadsfsdj
-                                </ProfileTile>
                                 <GridListTile style={{height: '50px'}}>
                                     <Typography>
                                         ANOTHER INTORMATION
                                     </Typography>
                                 </GridListTile>
                             </GridList>
-                        </div>
-                    </GridListTile>
-                    <GridListTile style={{height: '50px'}} className="paperTile">
-
+                        </ProfileTile>
                     </GridListTile>
                 </GridList>
             </div>

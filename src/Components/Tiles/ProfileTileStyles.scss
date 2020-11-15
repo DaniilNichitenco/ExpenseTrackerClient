@@ -4,8 +4,9 @@
     width: fit-content;
     border: 1px solid #BFBFBF;
     background-color: white;
-    box-shadow: 10px 10px 5px #BFBFBF;
-    margin: 0px;
+    box-shadow: 2px 2px 1px #aaaaaa;
+    margin-bottom: 20px; margin-right:20px;
+    margin-left: 0;
     padding: 0px; 
 
     &.option-enter-active {
@@ -14,12 +15,38 @@
         width: fit-content;
         border: 1px solid #BFBFBF;
         background-color: white;
-        box-shadow: 10px 10px 5px #ff0000;
-        margin: 0px;
+        box-shadow: 10px 10px 5px #aaaaaa;
+        margin-bottom: 20px; margin-right:20px;
+        margin-left: 0;
         padding: 0px; 
-        transition: box-shadow 1s ease;
+        transition: 0.5s ease;
     }
 }
+
+.option-appear {
+    border-radius: 15px 15px 7px 7px;
+    height: fit-content;
+    width: fit-content;
+    border: 1px solid #BFBFBF;
+    background-color: white;
+    box-shadow: 10px 10px 5px #aaaaaa;
+    margin-bottom: 20px; margin-right:20px;
+    margin-left: 0;
+    padding: 0px; 
+}
+
+.option-enter-done {
+    border-radius: 15px 15px 7px 7px;
+    height: fit-content;
+    width: fit-content;
+    border: 1px solid #BFBFBF;
+    background-color: white;
+    box-shadow: 10px 10px 5px #aaaaaa;
+    margin-bottom: 20px; margin-right:20px;
+    margin-left: 0;
+    padding: 0px; 
+}
+
 
 .option-exit {
     border-radius: 15px 15px 7px 7px;
@@ -27,8 +54,9 @@
     width: fit-content;
     border: 1px solid #BFBFBF;
     background-color: white;
-    box-shadow: 10px 10px 5px #ff0000;
-    margin: 0px;
+    box-shadow: 10px 10px 5px #aaaaaa;
+    margin-bottom: 20px; margin-right:20px;
+    margin-left: 0;
     padding: 0px; 
 
     &.option-exit-active {
@@ -37,34 +65,22 @@
         width: fit-content;
         border: 1px solid #BFBFBF;
         background-color: white;
-        box-shadow: 10px 10px 5px #BFBFBF;
-        margin: 0px;
+        box-shadow: 2px 2px 1px #aaaaaa;
+        margin-bottom: 20px; margin-right:20px;
+        margin-left: 0;
         padding: 0px; 
-        transition: box-shadow 1s ease;
+        transition: 0.5s ease;
     }
 }
 
-.option {
+.option-exit-done {
     border-radius: 15px 15px 7px 7px;
     height: fit-content;
     width: fit-content;
     border: 1px solid #BFBFBF;
     background-color: white;
-    box-shadow: 10px 10px 5px #BFBFBF;
-    margin: 0px;
+    box-shadow: 2px 2px 1px #aaaaaa;
+    margin-bottom: 20px; margin-right:20px;
+    margin-left: 0;
     padding: 0px; 
-    transition: box-shadow 2s ease;
 }
-
-
-
-/* 
-border-radius: 15px 15px 7px 7px;
-height: fit-content;
-width: fit-content;
-border: 1px solid #BFBFBF;
-background-color: white;
-box-shadow: 10px 10px 5px #aaaaaa;
-margin: 0px;
-padding: 0px; 
-*/
