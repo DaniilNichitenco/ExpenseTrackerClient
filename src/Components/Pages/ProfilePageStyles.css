@@ -1,0 +1,72 @@
+
+.boxAvatar {
+    padding-top: 28px;
+    padding-bottom: 15px;
+    border-radius: 15px 15px 0 0;
+    margin-bottom: 20px;
+    background-image: url(../../assets/images/avatarProfileBg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.userStatus {
+    color: rgb(95, 93, 93);
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    max-width: 300px;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+.name {
+    color: rgb(51, 22, 155);
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 30px;
+    font-weight: 900;
+    max-width: 300px;
+}
+
+.purseTile {
+    margin: auto;
+    border: solid 2px black;
+    display: flex;
+    border-radius: 100%;
+    font-size: 20px;
+    font-weight: 700;
+    background-color: #2F13A3;
+    color: white;
+    height: 75px;
+    width: 75px;
+    align-items: center;
+    justify-content: center;
+}
+
+.email{
+    color: rgb(23, 20, 170);
+    font-size: 16px;
+    text-align: center;
+    max-width: 300px;
+}
+
+.avatar {
+    background-image: url(../../assets//images//UserAvatar.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: auto;
+    width: 155px;
+    height: 155px;
+    padding: 0;
+    border: solid 1px white;
+    border-radius: 100px;
+}
+
+.contentDiv {
+    background-color: rgba(255, 255, 255, 1);
+    margin:auto; 
+    width: 900px;
+    border-radius: 10px;
+    border: solid 5px rgb(43, 43, 43);
+}

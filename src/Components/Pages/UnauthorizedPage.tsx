@@ -1,5 +1,5 @@
 import React from 'react';
-import StartPost from './StartPost';
+import StartPost from '../StartPost';
 import AppbarGeneric from '../Generics/AppbarGeneric';
 import SignUpButton from '../Buttons/SignUpButton';
 import SignInButton from '../Buttons/SignInButton';

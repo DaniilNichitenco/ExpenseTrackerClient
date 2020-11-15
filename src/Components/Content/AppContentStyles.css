@@ -1,0 +1,14 @@
+.content {
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    position: relative;
+    background-image: url(../../assets//images/background.jpg);
+    background-repeat: repeat;
+    background-size: cover;
+    /* background-color: rgb(231, 231, 231); */
+    padding-top: 100px;
+    padding-bottom: 100px;
+    margin-bottom: 0;
+}

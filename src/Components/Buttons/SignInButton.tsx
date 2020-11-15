@@ -8,18 +8,7 @@ export interface BearerToken {
     accessToken: string;
 }
 
-const useStyles = makeStyles((theme: any) => ({
-    title: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignContent: 'center',
-        alignSelf: "center"
-    }
-}));
-
 const SignInButton:React.FC = () => {
-
-    const styles = useStyles();
 
     const [open, setOpen] = useState(false);
 

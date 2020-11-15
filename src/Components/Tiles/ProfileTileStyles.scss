@@ -1,0 +1,86 @@
+.option-enter {
+    border-radius: 15px 15px 7px 7px;
+    height: fit-content;
+    width: fit-content;
+    border: 1px solid #BFBFBF;
+    background-color: white;
+    box-shadow: 2px 2px 1px #aaaaaa;
+    margin-bottom: 20px; margin-right:20px;
+    margin-left: 0;
+    padding: 0px; 
+
+    &.option-enter-active {
+        border-radius: 15px 15px 7px 7px;
+        height: fit-content;
+        width: fit-content;
+        border: 1px solid #BFBFBF;
+        background-color: white;
+        box-shadow: 10px 10px 5px #aaaaaa;
+        margin-bottom: 20px; margin-right:20px;
+        margin-left: 0;
+        padding: 0px; 
+        transition: 0.5s ease;
+    }
+}
+
+.option-appear {
+    border-radius: 15px 15px 7px 7px;
+    height: fit-content;
+    width: fit-content;
+    border: 1px solid #BFBFBF;
+    background-color: white;
+    box-shadow: 10px 10px 5px #aaaaaa;
+    margin-bottom: 20px; margin-right:20px;
+    margin-left: 0;
+    padding: 0px; 
+}
+
+.option-enter-done {
+    border-radius: 15px 15px 7px 7px;
+    height: fit-content;
+    width: fit-content;
+    border: 1px solid #BFBFBF;
+    background-color: white;
+    box-shadow: 10px 10px 5px #aaaaaa;
+    margin-bottom: 20px; margin-right:20px;
+    margin-left: 0;
+    padding: 0px; 
+}
+
+
+.option-exit {
+    border-radius: 15px 15px 7px 7px;
+    height: fit-content;
+    width: fit-content;
+    border: 1px solid #BFBFBF;
+    background-color: white;
+    box-shadow: 10px 10px 5px #aaaaaa;
+    margin-bottom: 20px; margin-right:20px;
+    margin-left: 0;
+    padding: 0px; 
+
+    &.option-exit-active {
+        border-radius: 15px 15px 7px 7px;
+        height: fit-content;
+        width: fit-content;
+        border: 1px solid #BFBFBF;
+        background-color: white;
+        box-shadow: 2px 2px 1px #aaaaaa;
+        margin-bottom: 20px; margin-right:20px;
+        margin-left: 0;
+        padding: 0px; 
+        transition: 0.5s ease;
+    }
+}
+
+.option-exit-done {
+    border-radius: 15px 15px 7px 7px;
+    height: fit-content;
+    width: fit-content;
+    border: 1px solid #BFBFBF;
+    background-color: white;
+    box-shadow: 2px 2px 1px #aaaaaa;
+    margin-bottom: 20px; margin-right:20px;
+    margin-left: 0;
+    padding: 0px; 
+}

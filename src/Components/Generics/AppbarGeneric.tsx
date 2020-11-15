@@ -13,6 +13,10 @@ const useStyles = makeStyles((theme: any) =>({
     title: {
         flexGrow: 1
     },
+    appbar: {
+        zIndex:theme.zIndex.drawer + 1,
+        backgroundColor: "rgba(15, 15, 15, 1)"
+    }
 }));
 
 interface IAppbarGenericProps
@@ -24,18 +28,18 @@ interface IAppbarGenericProps
 
 
 const AppbarGeneric: React.FC<IAppbarGenericProps> = (props) => {
-    const styles = useStyles();
+    const classes = useStyles();
 
     return(
-        <AppBar style={{backgroundColor: "rgba(15, 15, 15, 1)"}} color="primary" position="fixed">
+        <AppBar className={classes.appbar} color="primary" position="fixed">
                 <Container fixed>
                     <Toolbar>
                         <Box>
-                            <IconButton edge="start" color="inherit" aria-label="menu" className={styles.menuButton}>
+                            <IconButton edge="start" color="inherit" aria-label="menu" className={classes.menuButton}>
                                 {props.leftMenu}
                             </IconButton>
                         </Box>
-                        <Typography variant="h6" className={styles.title}>{props.title}</Typography>
+                        <Typography variant="h6" className={classes.title}>{props.title}</Typography>
                         {props.rightButtons}
                      </Toolbar>
                  </Container>

@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const SignInForm: React.FC<ISignInFormProps> = (props) => {
 
-    const styles = useStyles();
+    const classes = useStyles();
     const methods = useForm({
         resolver: yupResolver(validationSchema)
     });
@@ -43,11 +43,11 @@ const SignInForm: React.FC<ISignInFormProps> = (props) => {
 
     return(
         <FormProvider {...methods}>
-            <DialogTitle id="form-dialog-title" className={styles.title}>
+            <DialogTitle id="form-dialog-title" className={classes.title}>
                 Sign In
             </DialogTitle>
             <DialogContent>
-            <DialogContentText className={styles.subtitle}>
+            <DialogContentText className={classes.subtitle}>
                 Please, fill fields to sign in
             </DialogContentText>
             <form>
@@ -66,12 +66,12 @@ const SignInForm: React.FC<ISignInFormProps> = (props) => {
                 required={true}
                 />
             </form>
-            <DialogActions className={styles.buttonContainer}>
+            <DialogActions className={classes.buttonContainer}>
                 <Button 
                     variant="contained" 
                     color="primary"
                     onClick={handleSubmit(onSubmit)}
-                    className={styles.button}
+                    className={classes.button}
                     >
                     Sign In
                 </Button>
@@ -79,7 +79,7 @@ const SignInForm: React.FC<ISignInFormProps> = (props) => {
                     variant="contained" 
                     color="primary"
                     onClick={props.handleClose}
-                    className={styles.button}
+                    className={classes.button}
                     >
                     Cancel
                 </Button>
