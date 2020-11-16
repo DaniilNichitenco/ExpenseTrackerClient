@@ -14,11 +14,10 @@ import PublicIcon from '@material-ui/icons/Public';
 import TimerIcon from '@material-ui/icons/Timer';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Omit } from '@material-ui/types';
 import './NavigationBarStyles.css';
 import UserContext from '../../Context/UserContext';
-import { useHistory } from 'react-router-dom';
+import { useHistory, NavLink, useLocation } from 'react-router-dom';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -72,13 +71,13 @@ const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
   const { classes, ...other } = props;
 
   const userData = useContext(UserContext).userData;
-  const history = useHistory();
+  const location = useLocation();
 
-  const [categories, setCategories] = useState([
+  const categories = [
     {
       id: 'Develop',
       children: [
-        { id: 'Registration', icon: <PeopleIcon />, to: "/registration", active: true },
+        { id: 'Registration', icon: <PeopleIcon />, to: "/registration" },
         { id: 'Profile', icon: <DnsRoundedIcon />, to: "/home/profile" },
         { id: 'Home', icon: <PermMediaOutlinedIcon />, to: "/home" },
         { id: 'Hosting', icon: <PublicIcon />, to: "" },
@@ -92,42 +91,8 @@ const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
         { id: 'Test Lab', icon: <PhonelinkSetupIcon />, to: "" },
       ],
     },
-  ]);
+  ];
 
-  useEffect(() => {
-    const pathname = window.location.pathname;
-    categories.forEach(parent => {
-      parent.children.forEach(child => {
-        if(child.to != pathname)
-          {
-            child.active = false;
-          }
-          else
-          {
-            child.active = true;
-          }
-      });
-    });
-
-    setCategories([...categories]);
-  }, []);
-
-  const tabToggle = (id: string) => {
-
-    categories.forEach(parent => {
-      parent.children.forEach(child => {
-        if(child.id != id)
-        {
-          child.active = false;
-        }
-        else
-        {
-          child.active = true;
-        }
-      });
-    });
-    setCategories([...categories]);
-  }
 
   return (
     <Drawer className={classes.drawer} variant="permanent" {...other} open={true}>
@@ -151,12 +116,15 @@ const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
                 {id}
               </ListItemText>
             </ListItem>
-            {children.map(({ id: childId, icon, active, to }) => (
+            {children.map(({ id: childId, icon, to }) => (
               <ListItem
                 key={childId}
                 button
-                className={clsx(classes.item, active && classes.itemActiveItem)}
-                onClick={() => {tabToggle(childId); history.push(to); console.log(window.location.pathname);}}
+                component={NavLink}
+                to={to}
+                className={classes.item}
+                activeClassName={location.pathname == to ? classes.itemActiveItem : classes.item}
+                
               >
                 <ListItemIcon className={classes.itemIcon}>{icon}</ListItemIcon>
                 <ListItemText
