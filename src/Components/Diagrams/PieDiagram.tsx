@@ -29,8 +29,7 @@ const state = {
   const PieDiagram:React.FC = () => {
 
     return(
-      <React.Fragment>
-        <div>
+      <div>
           <Pie data={state}
           options={{
             title:{
@@ -44,8 +43,7 @@ const state = {
             }
           }}
           />
-        </div>
-      </React.Fragment>
+      </div>
     );
   }
 

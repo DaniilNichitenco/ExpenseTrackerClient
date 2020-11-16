@@ -3,6 +3,7 @@ import AppbarGeneric from '../Generics/AppbarGeneric';
 import React from "react";
 import PieDiagram from '../Diagrams/PieDiagram';
 import DoughnutDiagram from '../Diagrams/DoughnutDiagram';
+import LineDiagram from '../Diagrams/LineDiagram';
   
 const HomePage: React.FC = () => {
     
@@ -12,6 +13,7 @@ const HomePage: React.FC = () => {
                 <AppbarGeneric />
                 <PieDiagram />
                 <DoughnutDiagram />
+                <LineDiagram />
             </AppContent>
         </React.Fragment>
     );

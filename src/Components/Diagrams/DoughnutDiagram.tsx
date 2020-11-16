@@ -1,5 +1,5 @@
 import { Doughnut } from 'react-chartjs-2';
-import React, { useEffect, useState } from 'react';  
+import React from 'react';  
 
 const state = {
   labels: ['January', 'February', 'March',
@@ -29,23 +29,21 @@ const state = {
 const DoughnutDiagram:React.FC = () => {
 
     return(
-        <React.Fragment>
-            <div>
-                <Doughnut data={state}
-                options={{
-                    title:{
+        <div>
+            <Doughnut data={state}
+            options={{
+                title:{
                     display:true,
                     text:'Average Rainfall per month',
                     fontSize:20
-                    },
-                    legend:{
+                },
+                legend:{
                     display:true,
                     position:'right'
-                    }
-                }}
-                />
-            </div>
-        </React.Fragment>
+                }
+            }}
+            />
+        </div>
     );
 }
 
