@@ -1,10 +1,7 @@
 import AppContent from '../Content/AppContent';
 import AppbarGeneric from '../Generics/AppbarGeneric';
 import React from "react";
-import PieDiagram from '../Diagrams/PieDiagram';
-import DoughnutDiagram from '../Diagrams/DoughnutDiagram';
-import LineDiagram from '../Diagrams/LineDiagram';
-import RadarDiagram from '../Diagrams/RadarDiagram';
+import PursesDoughnutDiagram from '../Diagrams/PursesDoughnutDiagram';
   
 const HomePage: React.FC = () => {
     
@@ -12,10 +9,9 @@ const HomePage: React.FC = () => {
         <React.Fragment>
             <AppContent>
                 <AppbarGeneric />
-                <PieDiagram />
-                <DoughnutDiagram />
-                <LineDiagram />
-                <RadarDiagram />
+                <div className="contentDiv">
+                    <PursesDoughnutDiagram />
+                </div>
             </AppContent>
         </React.Fragment>
     );
