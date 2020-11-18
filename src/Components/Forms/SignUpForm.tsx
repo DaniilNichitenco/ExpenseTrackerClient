@@ -37,7 +37,8 @@ const Copyright = () => {
   }
 
   const SignIn = () => {
-    const [open, setOpen] = useState(false);
+        let history = useHistory();
+        const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -47,10 +48,16 @@ const Copyright = () => {
         setOpen(false);
     }
 
-    const signIn = (formValues: ISignInFormData) => {
+    const signIn = async (formValues: ISignInFormData) => {
         console.log(formValues);
-        UserServices.SignIn(formValues);
+        let respData = await UserServices.SignIn(formValues);
+        if(!respData)
+        {
+            history.push("/");
+        }
+        
         handleClose();
+        history.push("/au/home");
     }
 
     return(
@@ -106,7 +113,7 @@ const SignUpForm: React.FC = () => {
             throw "Cannot sign up the user";
         }
         userContext.userData.userId = userId;
-        history.push("/home");
+        history.push("/au/home");
     }
 
     return(

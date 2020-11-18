@@ -28,26 +28,6 @@ const App: React.FC = () => {
       <React.Fragment>
         <CssBaseline />
         <MainRouter />
-        {/* <Router>
-          <LeftMenu />
-          <div style={{paddingLeft: 256, marginTop:0}}>
-            <Switch>
-              <Route exact path="/home">
-                <HomePage />
-              </Route>
-              <Route exact path="/home/profile">
-                <ProfilePage />
-              </Route>
-              <Route exact path="/registration">
-                <SignUpPage />
-              </Route>
-              <Route exact path="/">
-                <UnauthorizedPage />
-              </Route>
-              <Route render={() => <Redirect to="/" />} />
-            </Switch>
-          </div>
-        </Router> */}
       </React.Fragment>
     </ThemeProvider>
   );

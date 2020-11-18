@@ -21,7 +21,8 @@ const data: PursesData = {
 }
 
 const PursesContext = React.createContext({
-    pursesData: data
+    pursesData: data,
+    setPursesData: (pursesData: PursesData) => {}
 });
 
 export default PursesContext;

@@ -9,11 +9,13 @@ const data: UserData = {
     email: "daniilnikitenco@gmail.com",
     username: "lagger179",
     coutOccations: 0,
-    countNotes: 0
+    countNotes: 0,
+    textStatus: " "
 }
 
 const UserContext = React.createContext({
-    userData: data
+    userData: data,
+    setUserData: (userData: UserData) => {}
 });
 
 export default UserContext;
