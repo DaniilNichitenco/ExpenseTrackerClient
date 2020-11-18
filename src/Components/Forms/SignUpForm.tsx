@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Box, Grid, Link, Dialog, Button, Avatar, Container, Typography, Checkbox, FormControlLabel } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,6 +9,9 @@ import ISignUpFormData from './FormProps/ISignUpFormData';
 import InputForm from './InputForm';
 import SignInForm from './SignInForm';
 import ISignInFormData from './FormDatas/ISignInFormData';
+import UserServices from '../../Services/user.services/User.services';
+import UserContext from '../../Context/UserContext';
+import { useHistory } from 'react-router-dom';
 
 const validationSchema = yup.object().shape({
     firstName: yup.string().required("Enter your first name!"),
@@ -46,6 +49,7 @@ const Copyright = () => {
 
     const signIn = (formValues: ISignInFormData) => {
         console.log(formValues);
+        UserServices.SignIn(formValues);
         handleClose();
     }
 
@@ -88,11 +92,21 @@ const SignUpForm: React.FC = () => {
     const methods = useForm({
         resolver: yupResolver(validationSchema)
     });
+
+    const history = useHistory();
+    const userContext = useContext(UserContext);
     const { handleSubmit, errors } = methods;
     const classes = useStyles();
 
-    const onSubmit: SubmitHandler<ISignUpFormData> = (formValues) => {
+    const onSubmit: SubmitHandler<ISignUpFormData> = async (formValues) => {
         console.log(formValues);
+        let userId = await UserServices.SignUp(formValues);
+        if(!userId)
+        {
+            throw "Cannot sign up the user";
+        }
+        userContext.userData.userId = userId;
+        history.push("/home");
     }
 
     return(

@@ -27,7 +27,7 @@ const SignInButton:React.FC = () => {
 
     return (
         <Box mr={3}>
-            <Button color="inherit" variant="outlined" onClick={handleClickOpen}>
+            <Button color="inherit" variant="outlined" onClick={() => handleClickOpen()}>
                 Sign in
             </Button>
             <Dialog open={open} onClose={handleClose} arial-lablledby="form-dialog-title">

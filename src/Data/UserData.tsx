@@ -1,10 +1,10 @@
 interface UserData
 {
+    userId: number,
     firstName: string,
     lastName: string,
     username: string,
     email: string,
-    countPurses: number,
     coutOccations: number,
     countNotes: number,
     textStatus?: string

@@ -16,7 +16,8 @@ const purse3: PurseData = {
 };
 
 const data: PursesData = {
-  purses: [purse1, purse2, purse3]
+  purses: [purse1, purse2, purse3],
+  count: 3
 }
 
 const PursesContext = React.createContext({
