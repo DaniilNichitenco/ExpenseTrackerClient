@@ -1,5 +1,4 @@
 import React from 'react';
-import { number } from 'yup';
 import UserData from '../Data/UserData';
 
 const data: UserData = {

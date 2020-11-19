@@ -1,7 +1,6 @@
 import React from 'react';
 import PursesData from '../Data/PursesData';
 import PurseData from '../Data/PurseData';
-import { EuroSymbol } from '@material-ui/icons';
 
 const purse1: PurseData = {
     currencyCode: "MDL",
