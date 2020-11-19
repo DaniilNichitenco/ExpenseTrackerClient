@@ -21,7 +21,9 @@ import AuthorizedRouter from './AutorizedRouter';
     return(
         <Router>
             <UserContext.Provider value={{userData:userData, setUserData:setUserData}}>
-              <PursesContext.Provider value={{pursesData:pursesData, setPursesData:setPursesData}}>
+              <PursesContext.Provider value={{pursesData:pursesData, 
+                setPursesData:setPursesData, getCurrecyCodes:getCurrencyCodes,
+                getBills:getBills}}>
                 <Switch>
                   <Route path="/au" component={AuthorizedRouter} />
                   <Route exact path="/registration" component={SignUpPage} />
@@ -49,18 +51,29 @@ const uData: UserData = {
 
 const purse1: PurseData = {
   currencyCode: "MDL",
-  bill: 1000
+  bill: 0
 };
 const purse2: PurseData = {
 currencyCode: "USD",
-bill: 2000
+bill: 0
 };
 const purse3: PurseData = {
 currencyCode: "EUR",
-bill: 3000
+bill: 0
 };
 
 const pData: PursesData = {
 purses: [purse1, purse2, purse3],
 count: 3
+}
+
+const getCurrencyCodes = ():string[] => {
+  let currencyCodes: string[] = [];
+  pData.purses.forEach(p => currencyCodes.push(p.currencyCode));
+  return currencyCodes;
+}
+const getBills = ():number[] => {
+  let bills:number[] = [];
+  pData.purses.forEach(p => bills.push(p.bill));
+  return bills;
 }

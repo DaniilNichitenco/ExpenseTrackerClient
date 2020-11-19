@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import PursesContext from '../../Context/PursesContext';
 import DoughnutDiagram from './Generic/DoughnutDiagram';
 
-const state = {
-    labels: ['January', 'February', 'March',
-             'April', 'May'],
+const PursesDoughnutDiagram: React.FC = () => {
+  
+  const pursesContext = useContext(PursesContext);
+
+  const state = {
+    labels: pursesContext.getCurrecyCodes(),
     datasets: [
       {
         label: 'Rainfall',
@@ -21,15 +25,16 @@ const state = {
         '#003350',
         '#35014F'
         ],
-        data: [65, 59, 80, 81, 56]
+        data: pursesContext.getBills(),
       }
     ]
   };
 
-const PursesDoughnutDiagram: React.FC = () => {
+
+  const [diagram, setDiagram] = useState(state);
 
     return(
-        <DoughnutDiagram width={500} data={state} 
+        <DoughnutDiagram width={500} data={diagram} 
         title={{display:true, text:"Purses diagram", fontSize:20}}
         legend={{display:true, position:"top"}}
         cutoutPercentage={65}

@@ -1,6 +1,7 @@
 import React from 'react';
 import PursesData from '../Data/PursesData';
 import PurseData from '../Data/PurseData';
+import { EuroSymbol } from '@material-ui/icons';
 
 const purse1: PurseData = {
     currencyCode: "MDL",
@@ -22,7 +23,9 @@ const data: PursesData = {
 
 const PursesContext = React.createContext({
     pursesData: data,
-    setPursesData: (pursesData: PursesData) => {}
+    setPursesData: (pursesData: PursesData) => {},
+    getCurrecyCodes: ():string[] => { return ["MDL", "USD", "EUR"];},
+    getBills: ():number[] => {return [1000, 2000, 3000]}
 });
 
 export default PursesContext;
