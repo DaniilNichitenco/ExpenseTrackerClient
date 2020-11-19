@@ -105,7 +105,7 @@ const ProfilePage: React.FC = () => {
                             <GridList cols={3} className={classes.info}>
                                 <GridListTile style={{width: "fit-content",height: "fit-content"}}>
                                     <Typography>
-                                        <b>Purses:</b><br/>{userData.countPurses}
+                                        <b>Purses:</b><br/>{pursesData.count}
                                         </Typography>
                                 </GridListTile>
                                 <GridListTile style={{width: "fit-content",height: "fit-content"}}>
