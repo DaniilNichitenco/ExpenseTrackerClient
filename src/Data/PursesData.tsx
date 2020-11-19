@@ -2,7 +2,8 @@ import PurseData from "./PurseData";
 
 interface PursesData 
 {
-    purses: PurseData[]
+    purses: PurseData[],
+    count: number
 }
 
 export default PursesData;

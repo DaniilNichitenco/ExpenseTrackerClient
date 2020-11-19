@@ -5,6 +5,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import SignInButton from '../Buttons/SignInButton';
 import SignUpButton from '../Buttons/SignUpButton';
 import clsx from 'clsx';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: any) =>({
     menuButton: {
@@ -29,13 +30,15 @@ interface IAppbarGenericProps
 
 const AppbarGeneric: React.FC<IAppbarGenericProps> = (props) => {
     const classes = useStyles();
+    const history = useHistory();
 
     return(
         <AppBar className={classes.appbar} color="primary" position="fixed">
                 <Container fixed>
                     <Toolbar>
                         <Box>
-                            <IconButton edge="start" color="inherit" aria-label="menu" className={classes.menuButton}>
+                            <IconButton onClick={() => {history.push("/");}}
+                             edge="start" color="inherit" aria-label="menu" className={classes.menuButton}>
                                 {props.leftMenu}
                             </IconButton>
                         </Box>

@@ -3,18 +3,29 @@ import { Box, Button, Dialog} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import SignInForm from '../Forms/SignInForm';
 import ISignInFormData from '../Forms/FormDatas/ISignInFormData';
+import UserServices from '../../Services/user.services/User.services';
+import { useHistory } from 'react-router-dom';
 
 export interface BearerToken {
     accessToken: string;
 }
 
+
 const SignInButton:React.FC = () => {
 
     const [open, setOpen] = useState(false);
+    let history = useHistory();
 
-    const signIn = (formValues: ISignInFormData) => {
+    const signIn = async (formValues: ISignInFormData) => {
         console.log(formValues);
+        let respData = await UserServices.SignIn(formValues);
+        if(!respData)
+        {
+            history.push("/");
+        }
+        
         handleClose();
+        history.push("/au/home");
     }
 
     const handleClickOpen = () => {
@@ -27,7 +38,7 @@ const SignInButton:React.FC = () => {
 
     return (
         <Box mr={3}>
-            <Button color="inherit" variant="outlined" onClick={handleClickOpen}>
+            <Button color="inherit" variant="outlined" onClick={() => handleClickOpen()}>
                 Sign in
             </Button>
             <Dialog open={open} onClose={handleClose} arial-lablledby="form-dialog-title">

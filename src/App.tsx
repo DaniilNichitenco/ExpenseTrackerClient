@@ -19,6 +19,7 @@ import UserData from './Data/UserData';
 import PurseData from './Data/PurseData';
 import PursesData from './Data/PursesData';
 import UserContext from './Context/UserContext';
+import MainRouter from './Router/MainRouter';
 
 const App: React.FC = () => {
 
@@ -26,26 +27,7 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <React.Fragment>
         <CssBaseline />
-        <Router>
-          <LeftMenu />
-          <div style={{paddingLeft: 256, marginTop:0}}>
-            <Switch>
-              <Route exact path="/home">
-                <HomePage />
-              </Route>
-              <Route exact path="/home/profile">
-                <ProfilePage />
-              </Route>
-              <Route exact path="/registration">
-                <SignUpPage />
-              </Route>
-              <Route exact path="/">
-                <UnauthorizedPage />
-              </Route>
-              <Route render={() => <Redirect to="/" />} />
-            </Switch>
-          </div>
-        </Router>
+        <MainRouter />
       </React.Fragment>
     </ThemeProvider>
   );
