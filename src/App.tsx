@@ -5,7 +5,6 @@ import {
   BrowserRouter as Router,
   Switch, Route, Link, Redirect
 } from "react-router-dom";
-import Sidebar from './Components/Sidebar/Sidebar';
 import HomePage from './Components/Pages/HomePage';
 import SignUpPage from './Components/Pages/SignUpPage';
 import UnauthorizedPage from './Components/Pages/UnauthorizedPage';
