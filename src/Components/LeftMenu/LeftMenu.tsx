@@ -1,19 +1,7 @@
 import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import {
-  BrowserRouter as Router,
-  Switch, Route, Link
-} from "react-router-dom";
 import Navigator from './NavigationBar';
 
-import {
-  createMuiTheme,
-  createStyles,
-  makeStyles,
-  ThemeProvider,
-  withStyles,
-  WithStyles
-} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 
   

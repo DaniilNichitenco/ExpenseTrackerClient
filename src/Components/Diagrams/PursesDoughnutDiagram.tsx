@@ -10,7 +10,7 @@ const PursesDoughnutDiagram: React.FC = () => {
     labels: pursesContext.getCurrecyCodes(),
     datasets: [
       {
-        label: 'Rainfall',
+        label: 'Purses',
         backgroundColor: [
           '#B21F00',
           '#C9DE00',
@@ -26,6 +26,7 @@ const PursesDoughnutDiagram: React.FC = () => {
         '#35014F'
         ],
         data: pursesContext.getBills(),
+        borderColor: 'rgba(75,192,192,1)',
       }
     ]
   };

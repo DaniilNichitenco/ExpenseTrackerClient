@@ -75,16 +75,17 @@ const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
 
   const categories = [
     {
-      id: 'Develop',
+      id: 'Menu',
       children: [
         { id: 'Registration', icon: <PeopleIcon />, to: "/registration" },
         { id: 'Profile', icon: <DnsRoundedIcon />, to: "/au/profile" },
         { id: 'Home', icon: <PermMediaOutlinedIcon />, to: "/au/home" },
-        { id: 'Hosting', icon: <PublicIcon />, to: "" },
+        { id: 'Calendar', icon: <PublicIcon />, to: "/au/calendar" },
+        { id: 'Statistic', icon: <PublicIcon />, to: "/au/statistic" },
       ],
     },
     {
-      id: 'Quality',
+      id: 'Admin',
       children: [
         { id: 'Analytics', icon: <SettingsIcon />, to: "/" },
         { id: 'Performance', icon: <TimerIcon />, to: "/" },

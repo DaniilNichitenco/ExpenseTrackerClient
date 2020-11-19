@@ -51,15 +51,15 @@ const uData: UserData = {
 
 const purse1: PurseData = {
   currencyCode: "MDL",
-  bill: 0
+  bill: 1000
 };
 const purse2: PurseData = {
 currencyCode: "USD",
-bill: 0
+bill: 2000
 };
 const purse3: PurseData = {
 currencyCode: "EUR",
-bill: 0
+bill: 3000
 };
 
 const pData: PursesData = {
