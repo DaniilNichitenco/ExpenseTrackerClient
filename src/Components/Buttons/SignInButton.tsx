@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Button, Dialog} from '@material-ui/core';
-import {makeStyles} from '@material-ui/core/styles';
 import SignInForm from '../Forms/SignInForm/SignInForm';
-import ISignInFormData from '../Forms/FormDatas/ISignInFormData';
-import UserServices from '../../Services/user.services/User.service';
 import { useHistory } from 'react-router-dom';
 
 export interface BearerToken {
@@ -14,19 +11,6 @@ export interface BearerToken {
 const SignInButton:React.FC = () => {
 
     const [open, setOpen] = useState(false);
-    let history = useHistory();
-
-    const signIn = async (formValues: ISignInFormData) => {
-        console.log(formValues);
-        // let respData = await UserServices.SignIn(formValues);
-        // if(!respData)
-        // {
-        //     history.push("/");
-        // }
-        
-        handleClose();
-        history.push("/au/home");
-    }
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -42,7 +26,7 @@ const SignInButton:React.FC = () => {
                 Sign in
             </Button>
             <Dialog open={open} onClose={handleClose} arial-lablledby="form-dialog-title">
-                <SignInForm handleClose={handleClose} signIn={signIn} />
+                <SignInForm handleClose={handleClose} />
             </Dialog>
         </Box>
     );
