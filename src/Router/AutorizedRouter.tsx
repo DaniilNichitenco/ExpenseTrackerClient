@@ -9,7 +9,7 @@ import ProfilePage from '../Components/Pages/ProfilePage';
 import StatisticPage from '../Components/Pages/StatisticPage';
 import UserContext from '../Context/UserContext';
 import UserData from '../Data/UserData';
-import UserServices from '../Services/user.services/User.services';
+import UserServices from '../Services/user.services/User.service';
 
   const AuthorizedRouter:React.FC = () => {
 

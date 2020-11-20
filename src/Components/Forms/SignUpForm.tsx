@@ -9,7 +9,7 @@ import ISignUpFormData from './FormProps/ISignUpFormData';
 import InputForm from './InputForm';
 import SignInForm from './SignInForm';
 import ISignInFormData from './FormDatas/ISignInFormData';
-import UserServices from '../../Services/user.services/User.services';
+import UserServices from '../../Services/user.services/User.service';
 import UserContext from '../../Context/UserContext';
 import { useHistory } from 'react-router-dom';
 

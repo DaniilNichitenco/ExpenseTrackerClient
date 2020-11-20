@@ -3,7 +3,7 @@ import { Box, Button, Dialog} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import SignInForm from '../Forms/SignInForm';
 import ISignInFormData from '../Forms/FormDatas/ISignInFormData';
-import UserServices from '../../Services/user.services/User.services';
+import UserServices from '../../Services/user.services/User.service';
 import { useHistory } from 'react-router-dom';
 
 export interface BearerToken {
