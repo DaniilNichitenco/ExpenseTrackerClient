@@ -9,22 +9,22 @@ import ProfilePage from '../Components/Pages/ProfilePage';
 import StatisticPage from '../Components/Pages/StatisticPage';
 import UserContext from '../Context/UserContext';
 import UserData from '../Data/UserData';
-import UserServices from '../Services/user.services/User.services';
+import UserServices from '../Services/user.services/User.service';
 
   const AuthorizedRouter:React.FC = () => {
 
       let userContext = useContext(UserContext);
       useEffect(() => {
           
-          const fetchAPI = async () => {
-            let user:UserData = await UserServices.GetUserData(userContext.userData.userId) as UserData;
-            if(user != null)
-            {
-                userContext.setUserData(user);
-            }
-          };
+          // const fetchAPI = async () => {
+          //   let user:UserData = await UserServices.GetUserData(userContext.userData.userId) as UserData;
+          //   if(user != null)
+          //   {
+          //       userContext.setUserData(user);
+          //   }
+          // };
 
-          fetchAPI();
+          // fetchAPI();
       }, []);
 
     return(

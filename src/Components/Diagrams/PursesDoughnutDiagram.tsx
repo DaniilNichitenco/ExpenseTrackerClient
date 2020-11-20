@@ -27,7 +27,7 @@ const PursesDoughnutDiagram: React.FC = () => {
         ],
         data: pursesContext.getBills(),
         borderColor: 'rgba(75,192,192,1)',
-      }
+      },
     ]
   };
 
