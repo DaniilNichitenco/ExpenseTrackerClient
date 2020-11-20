@@ -89,7 +89,6 @@ const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
       children: [
         { id: 'Analytics', icon: <SettingsIcon />, to: "/" },
         { id: 'Performance', icon: <TimerIcon />, to: "/" },
-        { id: 'Test Lab', icon: <PhonelinkSetupIcon />, to: "/" },
       ],
     },
   ];
