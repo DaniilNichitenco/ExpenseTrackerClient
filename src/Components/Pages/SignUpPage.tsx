@@ -4,7 +4,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import CreditCardRoundedIcon from '@material-ui/icons/CreditCardRounded';
 import SignInButton from '../Buttons/SignInButton';
 import { makeStyles, Typography } from '@material-ui/core';
-import SignUpForm from '../Forms/SignUpForm';
+import SignUpForm from '../Forms/SignUpForm/SignUpForm';
 import AppContent from '../Content/AppContent';
 
 const SignUpPage: React.FC = () => {

@@ -1,15 +1,17 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { Grid, Button, DialogTitle, DialogContent, DialogContentText, DialogActions, makeStyles, Theme } from "@material-ui/core";
-import InputForm from './InputForm';
+import { Button, DialogTitle, DialogContent, DialogContentText, DialogActions, makeStyles, Theme } from "@material-ui/core";
+import InputForm from '../InputForm/InputForm';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import ISignInFormData from './FormDatas/ISignInFormData';
-import ISignInFormProps from './FormProps/ISignInFormProps';
+import ISignInFormProps from './ISignInFormProps';
+import UserForSignIn from "../../../Data/Models/User/UserForSignIn";
+import AuthService from "../../../Services/auth.services/auth-service";
+import { useHistory } from "react-router-dom";
 
 const validationSchema = yup.object().shape({
-    login: yup.string().required("Enter login!!!"),
-    password: yup.string().required("Enter password!!!")
+    login: yup.string().required("Enter login!"),
+    password: yup.string().required("Enter password!")
   });
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -33,13 +35,29 @@ const useStyles = makeStyles((theme: Theme) => ({
 const SignInForm: React.FC<ISignInFormProps> = (props) => {
 
     const classes = useStyles();
+    const history = useHistory();
     const methods = useForm({
         resolver: yupResolver(validationSchema)
     });
     const { handleSubmit, errors } = methods;
-    const onSubmit = (formValues: ISignInFormData) => {
-        props.signIn(formValues);
+    const onSubmit = async (formValues: UserForSignIn) => {
+        await signIn(formValues);
     };
+
+    const signIn = async (formValues: UserForSignIn) => {
+        
+        let response = await AuthService.SignIn(formValues);
+        
+        if(response.status == 200)
+        {
+            props.handleClose();
+            history.push("/");
+        }
+        else
+        {
+            history.push("/au/home");
+        }
+    }
 
     return(
         <FormProvider {...methods}>

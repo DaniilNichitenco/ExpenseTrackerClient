@@ -1,24 +1,26 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Box, Grid, Link, Dialog, Button, Avatar, Container, Typography, Checkbox, FormControlLabel } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import ISignUpFormData from './FormProps/ISignUpFormData';
-import InputForm from './InputForm';
-import SignInForm from './SignInForm';
-import ISignInFormData from './FormDatas/ISignInFormData';
-import UserServices from '../../Services/user.services/User.service';
-import UserContext from '../../Context/UserContext';
+import AuthService from '../../../Services/auth.services/auth-service';
+import InputForm from '../InputForm/InputForm';
+import SignInForm from '../SignInForm/SignInForm';
 import { useHistory } from 'react-router-dom';
+import UserForSignUp from '../../../Data/Models/User/UserForSignUp';
 
 const validationSchema = yup.object().shape({
-    firstName: yup.string().required("Enter your first name!"),
-    lastName: yup.string().required("Enter your last name!"),
-    username: yup.string().required("Enter username!"),
-    email: yup.string().required("Enter email address!"),
-    password: yup.string().required("Enter password!"),
+    firstName: yup.string().required("Enter your first name!").min(2, "First name is too short!")
+        .max(14, "Should be 14 chars maximum!"),
+    lastName: yup.string().required("Enter your last name!").min(2, "Last name is too short!")
+        .max(14, "Should be 14 chars maximum!"),
+    username: yup.string().required("Enter username!").min(5, "Username is too short!")
+        .max(9, "Should be 9 chars maximum!"),
+    email: yup.string().required("Enter email address!").email("Not valid email!"),
+    password: yup.string().required("Enter password!").min(8, "Should be 6 chars minimum!")
+        .max(12, "Should be 12 chars maximum!"),
     passwordConfirmation: yup.string()
         .oneOf([yup.ref("password"), ""], "Password must match!").required("Confirm password!")
 });
@@ -37,8 +39,8 @@ const Copyright = () => {
   }
 
   const SignIn = () => {
-        let history = useHistory();
-        const [open, setOpen] = useState(false);
+
+    const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -48,25 +50,13 @@ const Copyright = () => {
         setOpen(false);
     }
 
-    const signIn = async (formValues: ISignInFormData) => {
-        console.log(formValues);
-        let respData = await UserServices.SignIn(formValues);
-        if(!respData)
-        {
-            history.push("/");
-        }
-        
-        handleClose();
-        history.push("/au/home");
-    }
-
     return(
         <React.Fragment>
         <Button onClick={handleClickOpen} component="text">
             Already have an account? Sign in
         </Button>
         <Dialog open={open} onClose={handleClose} arial-lablledby="form-dialog-title">
-            <SignInForm handleClose={handleClose} signIn={signIn} />
+            <SignInForm handleClose={handleClose} />
         </Dialog>
         </React.Fragment>
     );
@@ -96,24 +86,28 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUpForm: React.FC = () => {
 
+    const [signUpError, setSignUpError] = useState<string>("");
+
     const methods = useForm({
         resolver: yupResolver(validationSchema)
     });
 
     const history = useHistory();
-    const userContext = useContext(UserContext);
     const { handleSubmit, errors } = methods;
     const classes = useStyles();
 
-    const onSubmit: SubmitHandler<ISignUpFormData> = async (formValues) => {
+    const onSubmit: SubmitHandler<UserForSignUp> = async (formValues) => {
         console.log(formValues);
-        let userId = await UserServices.SignUp(formValues);
-        if(!userId)
+        let response = await AuthService.SignUp(formValues);
+        if(response.status == 200)
         {
-            throw "Cannot sign up the user";
+            setSignUpError("");
+            history.push("/");
         }
-        userContext.userData.userId = userId;
-        history.push("/au/home");
+        else
+        {
+            setSignUpError(response.data);
+        }
     }
 
     return(
@@ -125,6 +119,7 @@ const SignUpForm: React.FC = () => {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
+                <p style={{color:"red", fontWeight:400, fontSize:16}}>{signUpError}</p>
                 <FormProvider {...methods}>
                     <form className={classes.form} autoComplete="on" noValidate>
                         <Grid container spacing={2}>

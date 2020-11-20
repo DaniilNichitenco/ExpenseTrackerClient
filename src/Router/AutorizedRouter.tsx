@@ -16,15 +16,15 @@ import UserServices from '../Services/user.services/User.service';
       let userContext = useContext(UserContext);
       useEffect(() => {
           
-          const fetchAPI = async () => {
-            let user:UserData = await UserServices.GetUserData(userContext.userData.userId) as UserData;
-            if(user != null)
-            {
-                userContext.setUserData(user);
-            }
-          };
+          // const fetchAPI = async () => {
+          //   let user:UserData = await UserServices.GetUserData(userContext.userData.userId) as UserData;
+          //   if(user != null)
+          //   {
+          //       userContext.setUserData(user);
+          //   }
+          // };
 
-          fetchAPI();
+          // fetchAPI();
       }, []);
 
     return(

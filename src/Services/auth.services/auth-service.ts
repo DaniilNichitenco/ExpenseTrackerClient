@@ -11,7 +11,11 @@ export const SignIn = (userForSignIn: UserForSignIn) => {
                 localStorage.setItem("user", JSON.stringify(response.data));
             }
 
-            return response.data;
+            return response;
+        })
+        .catch(error => {
+            console.log(error.response);
+            return error.response;
         })
 }
 
@@ -21,12 +25,17 @@ export const SignOut = () => {
 
 export const SignUp = (userForSignUp: UserForSignUp) => {
     
-    return API.post("/signup", userForSignUp)
+    return API.post("/account/signup", userForSignUp)
         .then(response => {
-            if(response.data.accessToken)
+            if(response.data.accessToken && response.status == 200)
             {
                 localStorage.setItem("user", JSON.stringify(response.data));
             }
+            return response;
+        })
+        .catch(error => {
+            console.log(error.response);
+            return error.response;
         })
 
 }
