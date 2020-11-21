@@ -3,7 +3,12 @@ import React, { useState } from 'react';
 import SignOutForm from '../Forms/SignOutForm/SignOutForm';
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 
-const SignOutButtom: React.FC = () => {
+interface SignOutButtomProps
+{
+    text?:string
+}
+
+const SignOutButtom: React.FC<SignOutButtomProps> = ({ text="Sign Out" }) => {
 
     const [open, setOpen] = useState(false);
 
@@ -21,7 +26,7 @@ const SignOutButtom: React.FC = () => {
             startIcon={<MeetingRoomIcon />}
             variant="contained" 
             onClick={() => handleClickOpen()}>
-                Sign Out
+                {text}
             </Button>
             <Dialog open={open} onClose={handleClose} arial-lablledby="form-dialog-title">
                 <SignOutForm handleClose={handleClose} />

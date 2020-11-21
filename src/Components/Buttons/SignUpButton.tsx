@@ -3,7 +3,12 @@ import { Box, Button } from '@material-ui/core';
 import UserContext from '../../Context/UserContext';
 import { Link } from 'react-router-dom';
 
-const SignUpButton: React.FC = () => {
+interface SignUpButtonProps
+{
+    text?: string
+}
+
+const SignUpButton: React.FC<SignUpButtonProps> = ({text="Sign Up"}) => {
 
     const context = useContext(UserContext);
 
@@ -14,7 +19,7 @@ const SignUpButton: React.FC = () => {
             to="/registration" 
             color="secondary" 
             variant="contained">
-                Sign up
+                {text}
             </Button>
         </Box>
     );

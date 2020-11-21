@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { Box, Button, Dialog} from '@material-ui/core';
 import SignInForm from '../Forms/SignInForm/SignInForm';
 
-const SignInButton:React.FC = () => {
+interface SignIpBottomProps
+{
+    text?: string
+}
+
+const SignInButton:React.FC<SignIpBottomProps> = ({text="Sign In"}) => {
 
     const [open, setOpen] = useState(false);
 
@@ -17,7 +22,7 @@ const SignInButton:React.FC = () => {
     return (
         <Box mr={3}>
             <Button color="inherit" variant="outlined" onClick={() => handleClickOpen()}>
-                Sign in
+                {text}
             </Button>
             <Dialog open={open} onClose={handleClose} arial-lablledby="form-dialog-title">
                 <SignInForm handleClose={handleClose} />
