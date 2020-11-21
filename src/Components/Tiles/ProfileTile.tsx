@@ -4,7 +4,12 @@ import './ProfileTileStyles.scss';
 
 interface ProfileTileProps
 {
-  maxWidth?: number
+  maxWidth?: number,
+  marginTop?: number,
+  marginLeft?: number,
+  marginBottom?: number,
+  marginRight?: number,
+  padding?: number
 }
 
   const ProfileTile:React.FC<ProfileTileProps> = (props) => {
@@ -17,7 +22,15 @@ interface ProfileTileProps
     onMouseLeave={() => setInProp(true)} 
     appear={true}
     classNames="option">
-        <div style={{maxWidth:props.maxWidth, position:"static"}}>
+        <div style={{
+          maxWidth:props.maxWidth,
+          marginLeft: props.marginLeft,
+          marginRight: props.marginRight,
+          marginTop: props.marginTop,
+          marginBottom: props.marginBottom,
+          position:"static",
+          padding: props.padding,
+          }}>
           {props.children}
         </div>
       </CSSTransition>
