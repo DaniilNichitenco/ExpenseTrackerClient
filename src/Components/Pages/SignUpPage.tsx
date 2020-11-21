@@ -18,8 +18,6 @@ const SignUpPage: React.FC = () => {
 
     return(
         <AppContent>
-            <AppbarGeneric rightButtons={<><SignInButton /></>} 
-            leftMenu={leftIcon()} title="Expense Tracker Web Application"/>
             <SignUpForm />
         </AppContent>
     );

@@ -66,8 +66,6 @@ const ProfilePage: React.FC = () => {
 
     return(
         <React.Fragment> 
-        <AppbarGeneric />
-            <AppContent>
             <div className="contentDiv">
                 <div className={classes.profileHeader}>
                     <Typography className={classes.profileHeaderText}>
@@ -156,7 +154,6 @@ const ProfilePage: React.FC = () => {
                     </GridListTile>
                 </GridList>
             </div>
-        </AppContent>
         </React.Fragment>
     );
 }

@@ -7,12 +7,9 @@ const HomePage: React.FC = () => {
     
     return(
         <React.Fragment>
-            <AppContent>
-                <AppbarGeneric />
-                <div className="contentDiv">
-                    <PursesDoughnutDiagram />
-                </div>
-            </AppContent>
+            <div className="contentDiv">
+                <PursesDoughnutDiagram />
+            </div>
         </React.Fragment>
     );
 }

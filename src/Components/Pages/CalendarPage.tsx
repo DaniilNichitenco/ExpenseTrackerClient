@@ -6,10 +6,7 @@ const CalendarPage:React.FC = () => {
 
     return(
         <React.Fragment>
-            <AppbarGeneric />
-            <AppContent>
-                
-            </AppContent>
+            
         </React.Fragment>
     );
 }

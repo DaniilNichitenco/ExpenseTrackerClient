@@ -1,16 +1,12 @@
 import { isReturnStatement } from 'typescript';
-import ISignInFormData from '../../Components/Forms/FormDatas/ISignInFormData';
-import ISignUpFormData from '../../Components/Forms/FormProps/ISignUpFormData';
 import User from '../../Data/Models/User/User';
 import UserForUpdate from '../../Data/Models/User/UserForUpdate';
-import UserData from '../../Data/UserData';
 import API from '../Api';
 
 export const GetCurrentUserData = async () => {
 
     return API.get("/People/personinfo")
         .then(response => {
-            const person = response.data;
             let user: User = response.data;
             
             return user;

@@ -7,12 +7,9 @@ const StatisticPage:React.FC = () => {
 
     return(
         <React.Fragment>
-            <AppbarGeneric />
-            <AppContent>
-                <Container className="contentDiv" maxWidth="md">
-                     2
-                </Container>
-            </AppContent>
+            <Container className="contentDiv" maxWidth="md">
+                 2
+            </Container>
         </React.Fragment>
     );
 }
