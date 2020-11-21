@@ -1,5 +1,6 @@
 import { Button, Container, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import React from 'react';
+import SignUpButton from './Buttons/SignUpButton';
 
 const useStyles = makeStyles((theme) => ({
     PostContainer: {
@@ -55,12 +56,7 @@ const StartPost: React.FC = () => {
                                 fdsa asdf  sfda dsfa afsd  fdsa
                                 fsda fdsa adfs  a sdf
                             </Typography>
-                            <Button 
-                            variant="contained"
-                            color="secondary"
-                            >
-                                Try it free
-                            </Button>
+                            <SignUpButton text="Try It Free" />
                         </div>
                     </Grid>
                 </Grid>

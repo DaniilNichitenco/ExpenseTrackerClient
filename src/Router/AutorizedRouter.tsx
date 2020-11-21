@@ -1,7 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import {
-    Route, Redirect
+    Route, Redirect, Switch
   } from "react-router-dom";
+import SignOutButtom from '../Components/Buttons/SignOutButtom';
+import AppContent from '../Components/Content/AppContent';
+import AppbarGeneric from '../Components/Generics/AppbarGeneric';
 import LeftMenu from '../Components/LeftMenu/LeftMenu';
 import CalendarPage from '../Components/Pages/CalendarPage';
 import HomePage from '../Components/Pages/HomePage';
@@ -31,11 +34,16 @@ import UserServices from '../Services/user.services/User.service';
         <React.Fragment>
             <LeftMenu />
             <div style={{paddingLeft: 256}}>
-                <Route exact path="/au/home" component={HomePage} />
-                <Route exact path="/au/profile" component={ProfilePage} />
-                <Route exact path="/au/statistic" component={StatisticPage} />
-                <Route exact path="/au/calendar" component={CalendarPage} />
-                <Route render={() => <Redirect to="/au/home" />} />
+                <AppbarGeneric rightButtons={<><SignOutButtom /></>} />
+                <AppContent>
+                  <Switch>
+                    <Route exact path="/au/home" component={HomePage} />
+                    <Route exact path="/au/profile" component={ProfilePage} />
+                    <Route exact path="/au/statistic" component={StatisticPage} />
+                    <Route exact path="/au/calendar" component={CalendarPage} />
+                    <Redirect to="/au/home" />
+                  </Switch>
+                </AppContent>
             </div>
         </React.Fragment>
     );

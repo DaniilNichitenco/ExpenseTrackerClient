@@ -97,12 +97,12 @@ const SignUpForm: React.FC = () => {
     const classes = useStyles();
 
     const onSubmit: SubmitHandler<UserForSignUp> = async (formValues) => {
-        console.log(formValues);
+
         let response = await AuthService.SignUp(formValues);
+
         if(response.status == 200)
         {
-            setSignUpError("");
-            history.push("/");
+            history.push("/au/home");
         }
         else
         {

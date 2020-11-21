@@ -11,6 +11,7 @@ import PurseData from '../Data/PurseData';
 import PursesData from '../Data/PursesData';
 import UserData from '../Data/UserData';
 import AuthorizedRouter from './AutorizedRouter';
+import UnauthorizedRouter from './UnauthorizedRouter';
 
 
   const MainRouter: React.FC = () => {
@@ -26,9 +27,7 @@ import AuthorizedRouter from './AutorizedRouter';
                 getBills:getBills}}>
                 <Switch>
                   <Route path="/au" component={AuthorizedRouter} />
-                  <Route exact path="/registration" component={SignUpPage} />
-                  <Route exact path="/" component={UnauthorizedPage} />
-                  <Route render={() => <Redirect to="/" />} />
+                  <Route component={UnauthorizedRouter} />
                 </Switch>
               </PursesContext.Provider>
             </UserContext.Provider>

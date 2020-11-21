@@ -1,5 +1,5 @@
-import React from "react";
-import { useForm, FormProvider } from "react-hook-form";
+import React, { useState } from "react";
+import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
 import { Button, DialogTitle, DialogContent, DialogContentText, DialogActions, makeStyles, Theme } from "@material-ui/core";
 import InputForm from '../InputForm/InputForm';
 import * as yup from "yup";
@@ -40,9 +40,9 @@ const SignInForm: React.FC<ISignInFormProps> = (props) => {
         resolver: yupResolver(validationSchema)
     });
     const { handleSubmit, errors } = methods;
-    const onSubmit = async (formValues: UserForSignIn) => {
-        await signIn(formValues);
-    };
+    const [signInError, setSignInError] = useState("");
+
+    const onSubmit: SubmitHandler<UserForSignIn> = async (formValues) => await signIn(formValues);
 
     const signIn = async (formValues: UserForSignIn) => {
         
@@ -51,11 +51,11 @@ const SignInForm: React.FC<ISignInFormProps> = (props) => {
         if(response.status == 200)
         {
             props.handleClose();
-            history.push("/");
+            history.push("/au/home");
         }
         else
         {
-            history.push("/au/home");
+            setSignInError(response.data);
         }
     }
 
@@ -67,6 +67,7 @@ const SignInForm: React.FC<ISignInFormProps> = (props) => {
             <DialogContent>
             <DialogContentText className={classes.subtitle}>
                 Please, fill fields to sign in
+            <p style={{color:"red", fontWeight:400, fontSize:16}}>{signInError}</p>
             </DialogContentText>
             <form>
                 <InputForm 
