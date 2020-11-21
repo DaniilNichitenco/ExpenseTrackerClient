@@ -8,6 +8,7 @@ import SignUpPage from '../Components/Pages/SignUpPage';
 import UnauthorizedPage from '../Components/Pages/UnauthorizedPage';
 import UserContext from '../Context/UserContext';
 import CreditCardRoundedIcon from '@material-ui/icons/CreditCardRounded';
+import SignUpButton from '../Components/Buttons/SignUpButton';
 
   const UnauthorizedRouter:React.FC = () => {
 
@@ -34,7 +35,7 @@ import CreditCardRoundedIcon from '@material-ui/icons/CreditCardRounded';
 
     return(
         <React.Fragment>
-            <AppbarGeneric rightButtons={<><SignInButton /></>} 
+            <AppbarGeneric rightButtons={<><SignInButton /><SignUpButton /></>} 
             leftMenu={leftIcon()} title="Expense Tracker Web Application"/>
             <Switch>
                 <Route exact path="/registration" component={SignUpPage} />

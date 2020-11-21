@@ -34,7 +34,7 @@ import UserServices from '../Services/user.services/User.service';
         <React.Fragment>
             <LeftMenu />
             <div style={{paddingLeft: 256}}>
-                <AppbarGeneric rightButtons={SignOutButtom} />
+                <AppbarGeneric rightButtons={<><SignOutButtom /></>} />
                 <AppContent>
                   <Switch>
                     <Route exact path="/au/home" component={HomePage} />

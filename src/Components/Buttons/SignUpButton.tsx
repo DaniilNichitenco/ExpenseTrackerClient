@@ -9,10 +9,10 @@ const SignUpButton: React.FC = () => {
 
     return(
         <Box>
-            <Button style={{backgroundColor: "rgba(48, 48, 48, 1)"}}
+            <Button
             component={Link}
             to="/registration" 
-            color="inherit" 
+            color="secondary" 
             variant="contained">
                 Sign up
             </Button>
