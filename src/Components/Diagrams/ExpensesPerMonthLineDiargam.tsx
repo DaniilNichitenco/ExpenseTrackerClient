@@ -5,7 +5,7 @@ import ExpensesLineDiagram from "./Generic/ExpensesLineDiargam";
 
 const randomColor = require('random-color');
 
-const getPurses = () => {
+const getExpenses = () => {
 
   let purses:Purse[] = [
     {
@@ -34,13 +34,13 @@ const getState = () => {
     return Math.random() * (max - min) + min;
   }
 
-  getPurses().forEach(p => {
+  getExpenses().forEach(e => {
 
     let color = randomColor(0.99, 0.99);
 
     datasets.push(
       {
-        label: p.currencyCode.toUpperCase(),
+        label: e.currencyCode.toUpperCase(),
         data: [
           getRandomNumber(), 
           getRandomNumber(), 
