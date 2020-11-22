@@ -1,20 +1,6 @@
-import { makeStyles } from '@material-ui/core';
-import React, { useLayoutEffect, useState } from 'react';
+import React from 'react';
+import useWindowHeight from '../../CustomHooks/WindowSizeHooks/useWindowHeight';
 import './AppContentStyles.css'
-
-const useWindowHeight = () => {
-    const [windowHeight, setWindowHeight] = useState(window.innerHeight); 
-
-    useLayoutEffect(() => {
-        const updateHeight = () => {
-            setWindowHeight(window.innerHeight);
-        }
-        window.addEventListener("resize", updateHeight);
-        updateHeight();
-        return () => window.removeEventListener("resize", updateHeight);
-    }, []);
-    return windowHeight;
-}
 
 const AppContent: React.FC = ({children}) => {
     const windowHeight = useWindowHeight();
