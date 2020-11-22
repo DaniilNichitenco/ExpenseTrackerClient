@@ -32,7 +32,15 @@ const useSessionStorage = <T extends unknown>(key: string, initialValue:T) => {
         }
     }
 
-    return [storedValue, setValue] as const;
+    const removeValue = () => {
+        const item = localStorage.getItem(key);
+        if(item != null)
+        {
+            localStorage.removeItem(key);
+        }
+    }
+
+    return [storedValue, setValue, removeValue] as const;
 }
 
 export default useSessionStorage;
