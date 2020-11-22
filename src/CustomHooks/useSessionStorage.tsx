@@ -32,7 +32,7 @@ const useSessionStorage = <T extends unknown>(key: string, initialValue:T) => {
         }
     }
 
-    return [storedValue, setValue] as [T, (value: T) => void];
+    return [storedValue, setValue] as const;
 }
 
 export default useSessionStorage;
