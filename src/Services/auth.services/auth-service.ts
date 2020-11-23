@@ -47,6 +47,7 @@ export const GetCurrentUser = () => {
     {
         return JSON.parse(user);
     }
+    return null;
 }
 
 export default 
