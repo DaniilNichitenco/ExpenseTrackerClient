@@ -1,35 +1,32 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
-    Route, Redirect, Switch
+    Route, Redirect, Switch, useHistory
   } from "react-router-dom";
 import SignInButton from '../Components/Buttons/SignInButton';
 import AppbarGeneric from '../Components/Generics/AppbarGeneric';
 import SignUpPage from '../Components/Pages/SignUpPage';
 import UnauthorizedPage from '../Components/Pages/UnauthorizedPage';
-import UserContext from '../Context/UserContext';
 import CreditCardRoundedIcon from '@material-ui/icons/CreditCardRounded';
 import SignUpButton from '../Components/Buttons/SignUpButton';
+import { GetCurrentUser } from '../Services/auth.services/auth-service';
 
   const UnauthorizedRouter:React.FC = () => {
 
-      let userContext = useContext(UserContext);
+      const history = useHistory();
       useEffect(() => {
           
-          // const fetchAPI = async () => {
-          //   let user:UserData = await UserServices.GetUserData(userContext.userData.userId) as UserData;
-          //   if(user != null)
-          //   {
-          //       userContext.setUserData(user);
-          //   }
-          // };
-
-          // fetchAPI();
+        const user = GetCurrentUser();
+        if(user)
+        {
+          history.push('/au/home');
+        }
+          
       }, []);
 
       const leftIcon = () => {
         
         return(
-            <CreditCardRoundedIcon onClick={() => {}} />
+            <CreditCardRoundedIcon onClick={() => {history.push('/');}} />
         );
     }
 

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import {
-    Route, Redirect, Switch
+    Route, Redirect, Switch, useHistory
   } from "react-router-dom";
 import SignOutButtom from '../Components/Buttons/SignOutButtom';
 import AppContent from '../Components/Content/AppContent';
@@ -10,24 +10,20 @@ import CalendarPage from '../Components/Pages/CalendarPage';
 import HomePage from '../Components/Pages/HomePage';
 import ProfilePage from '../Components/Pages/ProfilePage';
 import StatisticPage from '../Components/Pages/StatisticPage';
-import UserContext from '../Context/UserContext';
-import UserData from '../Data/UserData';
-import UserServices from '../Services/user.services/User.service';
+import { GetCurrentUser } from '../Services/auth.services/auth-service';
 
   const AuthorizedRouter:React.FC = () => {
 
-      let userContext = useContext(UserContext);
-      useEffect(() => {
-          
-          // const fetchAPI = async () => {
-          //   let user:UserData = await UserServices.GetUserData(userContext.userData.userId) as UserData;
-          //   if(user != null)
-          //   {
-          //       userContext.setUserData(user);
-          //   }
-          // };
+      const history = useHistory();
 
-          // fetchAPI();
+      useEffect(() => {
+
+        const user = GetCurrentUser();
+        if(user == null)
+        {
+          history.push('/');
+        }
+        
       }, []);
 
     return(
