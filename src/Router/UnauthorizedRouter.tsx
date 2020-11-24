@@ -8,34 +8,27 @@ import SignUpPage from '../Components/Pages/SignUpPage';
 import UnauthorizedPage from '../Components/Pages/UnauthorizedPage';
 import CreditCardRoundedIcon from '@material-ui/icons/CreditCardRounded';
 import SignUpButton from '../Components/Buttons/SignUpButton';
-import { GetCurrentUser } from '../Services/auth.services/auth-service';
-import useSessionStorageAsync from '../CustomHooks/StorageHooks/AsyncHooks/useSessionStorageAsync';
-import User from '../Data/Models/User/User';
-import { GetCurrentUserData } from '../Services/user.services/User.service';
+import useLocalStorage from '../CustomHooks/StorageHooks/useLocalStorage';
 
   const UnauthorizedRouter:React.FC = () => {
 
-      const history = useHistory();
-      // useEffect(() => {
-          
-      //  let user: User;
-      //  const fetch = async () => {
-      //    user = await GetCurrentUserData();
-      //  }
+    const [isAuthorized, setIsAuthorized] = useLocalStorage("authorized", false);
 
-      //  fetch();
-          
-      // }, []);
+    const history = useHistory();
+    useEffect(() => {
+       
+          if(isAuthorized)
+          {
+              history.push('/au/home');
+          }
+    }, []);
 
-      const leftIcon = () => {
+    const leftIcon = () => {
         
-        return(
-            <CreditCardRoundedIcon onClick={() => {history.push('/');}} />
+    return(
+        <CreditCardRoundedIcon onClick={() => {history.push('/');}} />
         );
     }
-
-    // const [userInfo, setUserInfo, removeUserInfo] = useSessionStorageAsync("UserInfo", 
-    //     GetCurrentUserData as () => Promise<User>);
 
     return(
         <React.Fragment>

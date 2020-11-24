@@ -1,5 +1,5 @@
 import { Box, Container } from '@material-ui/core';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ExpensesPerMonthLineDiagram from '../Diagrams/ExpensesPerMonthLineDiargam';
 import ProfileTile from '../Tiles/ProfileTile';
 
@@ -10,10 +10,6 @@ const StatisticPage:React.FC = () => {
             <Container className="contentDiv" maxWidth="md">
                  <ProfileTile marginTop={40}>
                     <ExpensesPerMonthLineDiagram 
-                    paddingTop={20} 
-                    paddingBottom={20}
-                    paddingLeft={40}
-                    paddingRight={40}
                     />
                  </ProfileTile>
             </Container>

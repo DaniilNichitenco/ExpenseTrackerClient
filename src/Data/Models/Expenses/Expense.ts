@@ -1,6 +1,8 @@
 export default interface Expense
 {
     id: number,
-    currencyCode: number,
-    expense: number
+    purseId: number,
+    title: string,
+    date: Date,
+    money: number
 }

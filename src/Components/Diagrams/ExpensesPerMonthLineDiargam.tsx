@@ -1,89 +1,12 @@
-import React from "react";
-import Purse from "../../Data/Models/Purses/Purse";
+import { CircularProgress } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import useSessionStorage from "../../CustomHooks/StorageHooks/useSessionStorage";
 import ExpensesLineDiagram from "./Generic/ExpensesLineDiargam";
+import ExpensesForYearDefault from '../../Data/Models/Expenses/default/ExpensesForYearDefault';
+import ExpenseService from "../../Services/expense.service/ExpenseService";
 
 
 const randomColor = require('random-color');
-
-const getExpenses = () => {
-
-  let purses:Purse[] = [
-    {
-      id:1,
-      bill: 1000,
-      currencyCode: 'usd',
-    },
-    {
-      id:2,
-      bill: 2000,
-      currencyCode: 'usd',
-    },
-    {
-      id:1,
-      bill: 3000,
-      currencyCode: 'usd',
-    }
-  ]
-  return purses;
-}
-
-const getState = () => {
-  
-  let datasets:any[] = [];
-  const getRandomNumber = (min = 0, max = 100) => {
-    return Math.random() * (max - min) + min;
-  }
-
-  getExpenses().forEach(e => {
-
-    let color = randomColor(0.99, 0.99);
-
-    datasets.push(
-      {
-        label: e.currencyCode.toUpperCase(),
-        data: [
-          getRandomNumber(), 
-          getRandomNumber(), 
-          getRandomNumber(), 
-          getRandomNumber(), 
-          getRandomNumber(), 
-          getRandomNumber(), 
-          getRandomNumber(), 
-          getRandomNumber(), 
-          getRandomNumber(), 
-          getRandomNumber(), 
-          getRandomNumber(), 
-          getRandomNumber(),
-        ],
-        lineTension: 0.1,
-        fill: false,
-        backgroundColor: color.rgbString(),
-        borderColor: color.rgbString(),
-        pointBorderColor: color.rgbString(),
-        pointBackgroundColor: '#fff',
-        pointBorderWidth: 2,
-        pointHoverRadius: 9,
-        pointHoverBackgroundColor: color.rgbString(),
-        pointHoverBorderColor: 'rgba(220,220,220,1)',
-        pointHoverBorderWidth: 2,
-        pointRadius: 4,
-        pointHitRadius: 10,
-          }
-    )
-  });
-
-  const state2= {
-    labels: [
-      'January', 'February', 'March',
-      'April', 'May', 'June',
-      'July', 'August', 'September', 'October',
-      'November', 'December'
-            ],
-    datasets: datasets
-  }
-
-  return state2;
-}
 
 interface ExpensesPerMonthLineDiagramProps
   {
@@ -97,13 +20,81 @@ interface ExpensesPerMonthLineDiagramProps
 
   const ExpensesPerMonthLineDiagram:React.FC<ExpensesPerMonthLineDiagramProps> = (props) => {
 
+    const [isLoading, setIsLoading] = useState(true);
+    const [expensesForYearData, setExpensesForYearData, 
+      removeExpensesForYearData] = useSessionStorage("expensesForYearData", ExpensesForYearDefault)
+
+    useEffect(() => {
+      if(expensesForYearData == ExpensesForYearDefault)
+      {
+        ExpenseService.GetExpensesForCurrentYear()
+          .then(response => {
+            setExpensesForYearData(response);
+            setIsLoading(false);
+          })
+          .catch(error => {
+            console.log(error);
+          })
+      }
+      setIsLoading(false);
+
+    }, []);
+
+    const getData = () => {
+      let datasets:any[] = [];
+      console.log(expensesForYearData);
+      for (const expense of expensesForYearData) {
+        let color = randomColor(0.99, 0.99);
+
+        let expenses: number[] = [];
+        expense.expenses.forEach(exp => {
+          expenses.push(exp.money);
+        });
+        
+
+        datasets.push(
+          {
+            label: expense.currencyCode.toUpperCase(),
+            data: expenses,
+            lineTension: 0.1,
+            fill: false,
+            backgroundColor: color.rgbString(),
+            borderColor: color.rgbString(),
+            pointBorderColor: color.rgbString(),
+            pointBackgroundColor: '#fff',
+            pointBorderWidth: 2,
+            pointHoverRadius: 9,
+            pointHoverBackgroundColor: color.rgbString(),
+            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBorderWidth: 2,
+            pointRadius: 4,
+            pointHitRadius: 10,
+            }
+        )
+      }
+
+      const data = {
+        labels: [
+          'January', 'February', 'March',
+          'April', 'May', 'June',
+          'July', 'August', 'September', 'October',
+          'November', 'December'
+                ],
+        datasets: datasets
+      }
+
+      return data;
+    }
+
+    if(isLoading)
+    {
+      return (<CircularProgress color="secondary" />);
+    }
+
     return(
         <ExpensesLineDiagram 
-        data={getState()}
-        paddingBottom={props.paddingBottom}
-        paddingLeft={props.paddingLeft}
-        paddingRight={props.paddingRight}
-        paddingTop={props.paddingTop}
+        data={getData()}
+        title="Expenses for current year"
         />
     );
   }
