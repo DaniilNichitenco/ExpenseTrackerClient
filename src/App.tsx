@@ -2,22 +2,9 @@ import React from 'react';
 import './App.css';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {
-  BrowserRouter as Router,
-  Switch, Route, Link, Redirect
-} from "react-router-dom";
-import HomePage from './Components/Pages/HomePage';
-import SignUpPage from './Components/Pages/SignUpPage';
-import UnauthorizedPage from './Components/Pages/UnauthorizedPage';
-import LeftMenu from './Components/LeftMenu/LeftMenu';
-import ProfilePage from './Components/Pages/ProfilePage';
-import {
   createMuiTheme,
   ThemeProvider
 } from '@material-ui/core/styles';
-import UserData from './Data/UserData';
-import PurseData from './Data/PurseData';
-import PursesData from './Data/PursesData';
-import UserContext from './Context/UserContext';
 import MainRouter from './Router/MainRouter';
 
 const App: React.FC = () => {

@@ -1,8 +1,6 @@
 import { Box, Container } from '@material-ui/core';
 import React from 'react';
-import AppContent from '../Content/AppContent';
-import ExpensesLineDiagram from '../Diagrams/ExpensesLineDiargam';
-import AppbarGeneric from '../Generics/AppbarGeneric';
+import ExpensesPerMonthLineDiagram from '../Diagrams/ExpensesPerMonthLineDiargam';
 import ProfileTile from '../Tiles/ProfileTile';
 
 const StatisticPage:React.FC = () => {
@@ -11,7 +9,7 @@ const StatisticPage:React.FC = () => {
         <React.Fragment>
             <Container className="contentDiv" maxWidth="md">
                  <ProfileTile marginTop={40}>
-                    <ExpensesLineDiagram 
+                    <ExpensesPerMonthLineDiagram 
                     paddingTop={20} 
                     paddingBottom={20}
                     paddingLeft={40}

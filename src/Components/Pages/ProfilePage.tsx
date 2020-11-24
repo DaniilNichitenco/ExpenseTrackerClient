@@ -1,13 +1,16 @@
 import { GridList, GridListTile, makeStyles, Typography, Box, Divider, Button } from '@material-ui/core';
 import React, { useContext } from 'react';
-import AppContent from '../Content/AppContent';
-import AppbarGeneric from '../Generics/AppbarGeneric';
+import { GetCurrentUserData } from '../../Services/user.services/User.service';
 import './ProfilePageStyles.css';
 import { Link } from 'react-router-dom';
 import SettingsIcon from '@material-ui/icons/Settings';
 import UserContext from '../../Context/UserContext';
 import PursesContext from '../../Context/PursesContext';
 import ProfileTile from '../Tiles/ProfileTile';
+import useSessionStorageAsync from '../../CustomHooks/StorageHooks/AsyncHooks/useSessionStorageAsync';
+import User from '../../Data/Models/User/User';
+import DefaultUser from '../../Data/Models/User/default/DefaultUser';
+import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 
 const useStyles = makeStyles((theme) => ({
     contentList: {
@@ -55,14 +58,17 @@ const useStyles = makeStyles((theme) => ({
 
 const ProfilePage: React.FC = () => {
 
-    const userData = useContext(UserContext).userData;
+    const [userData, setUserData, removeUserData] = useSessionStorage<User>("UserInfo", 
+    DefaultUser);
+
+    // const userData = useContext(UserContext).userData;
     const pursesData = useContext(PursesContext).pursesData;
 
     const classes = useStyles();
-    if(!userData.textStatus || userData.textStatus.length == 0)
-    {
-        userData.textStatus = "Less I hear the less you'll say you'll find that out anyway";
-    }
+    // if(!userData.textStatus || userData.textStatus.length == 0)
+    // {
+    //     userData.textStatus = "Less I hear the less you'll say you'll find that out anyway";
+    // }
 
     return(
         <React.Fragment> 
@@ -86,7 +92,7 @@ const ProfilePage: React.FC = () => {
                             </Box>
                             <Box className="userStatus">
                                 <Typography className={classes.userStatusText}>
-                                    <q>{userData.textStatus}</q>
+                                    <q>Less I hear the less you'll say you'll find that out anyway</q>
                                 </Typography>
                             </Box>
                             <Box className="email">
@@ -96,7 +102,7 @@ const ProfilePage: React.FC = () => {
                             </Box>
                             <Box className="email">
                                 <Typography>
-                                    {userData.username}
+                                    {userData.userName}
                                 </Typography>
                             </Box>
                             <Divider variant="middle" />
@@ -108,12 +114,12 @@ const ProfilePage: React.FC = () => {
                                 </GridListTile>
                                 <GridListTile style={{width: "fit-content",height: "fit-content"}}>
                                     <Typography>
-                                        <b>Notes:</b><br/>{userData.countNotes}
+                                        <b>Notes:</b><br/>0
                                     </Typography>
                                 </GridListTile>
                                 <GridListTile style={{width: "fit-content",height: "fit-content"}}>
                                     <Typography>
-                                        <b>Occations:</b><br/>{userData.coutOccations}
+                                        <b>Occations:</b><br/>0
                                     </Typography>
                                 </GridListTile>
                             </GridList>

@@ -1,11 +1,11 @@
-import { Line } from 'react-chartjs-2';
-import React from 'react';
-import Purse from '../../Data/Models/Purses/Purse';
-//Math.random() * (max - min) + min;
+import React from "react";
+import Purse from "../../Data/Models/Purses/Purse";
+import ExpensesLineDiagram from "./Generic/ExpensesLineDiargam";
+
 
 const randomColor = require('random-color');
 
-const getPurses = () => {
+const getExpenses = () => {
 
   let purses:Purse[] = [
     {
@@ -34,13 +34,13 @@ const getState = () => {
     return Math.random() * (max - min) + min;
   }
 
-  getPurses().forEach(p => {
+  getExpenses().forEach(e => {
 
     let color = randomColor(0.99, 0.99);
 
     datasets.push(
       {
-        label: p.currencyCode.toUpperCase(),
+        label: e.currencyCode.toUpperCase(),
         data: [
           getRandomNumber(), 
           getRandomNumber(), 
@@ -85,7 +85,7 @@ const getState = () => {
   return state2;
 }
 
-  interface ExpensesLineDiagramProps
+interface ExpensesPerMonthLineDiagramProps
   {
     paddingLeft?: number,
     paddingRight?: number,
@@ -95,32 +95,17 @@ const getState = () => {
   }
   
 
-  const ExpensesLineDiagram:React.FC<ExpensesLineDiagramProps> = (props) => {
+  const ExpensesPerMonthLineDiagram:React.FC<ExpensesPerMonthLineDiagramProps> = (props) => {
 
     return(
-        <div style={{
-          paddingLeft: props.paddingLeft,
-          paddingRight: props.paddingRight,
-          paddingTop: props.paddingTop,
-          paddingBottom: props.paddingBottom,
-          width: props.width,
-        }}>
-            <Line data={getState()}
-            width={400}
-            options={{
-                title:{
-                    display:true,
-                    text:'Average Rainfall per month',
-                    fontSize:20
-                },
-                legend:{
-                    display:true,
-                    position:'right'
-                }
-            }}
-            />
-        </div>
+        <ExpensesLineDiagram 
+        data={getState()}
+        paddingBottom={props.paddingBottom}
+        paddingLeft={props.paddingLeft}
+        paddingRight={props.paddingRight}
+        paddingTop={props.paddingTop}
+        />
     );
   }
 
-  export default ExpensesLineDiagram;
+  export default ExpensesPerMonthLineDiagram;

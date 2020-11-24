@@ -17,7 +17,12 @@ import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
 import { Omit } from '@material-ui/types';
 import './NavigationBarStyles.css';
 import UserContext from '../../Context/UserContext';
-import { useHistory, NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
+import useSessionStorageAsync from '../../CustomHooks/StorageHooks/AsyncHooks/useSessionStorageAsync';
+import { GetCurrentUserData } from '../../Services/user.services/User.service';
+import User from '../../Data/Models/User/User';
+import DefaultUser from '../../Data/Models/User/default/DefaultUser';
+import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -70,7 +75,10 @@ export interface NavigatorProps extends Omit<DrawerProps, 'classes'>, WithStyles
 const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
   const { classes, ...other } = props;
 
-  const userData = useContext(UserContext).userData;
+  const [userData, setuserData, removeuserData] = useSessionStorage("userData", DefaultUser);
+
+
+  // const userData = useContext(UserContext).userData;
   const location = useLocation();
 
   const categories = [

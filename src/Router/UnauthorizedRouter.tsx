@@ -1,37 +1,41 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
-    Route, Redirect, Switch
+    Route, Redirect, Switch, useHistory
   } from "react-router-dom";
 import SignInButton from '../Components/Buttons/SignInButton';
 import AppbarGeneric from '../Components/Generics/AppbarGeneric';
 import SignUpPage from '../Components/Pages/SignUpPage';
 import UnauthorizedPage from '../Components/Pages/UnauthorizedPage';
-import UserContext from '../Context/UserContext';
 import CreditCardRoundedIcon from '@material-ui/icons/CreditCardRounded';
 import SignUpButton from '../Components/Buttons/SignUpButton';
+import { GetCurrentUser } from '../Services/auth.services/auth-service';
+import useSessionStorageAsync from '../CustomHooks/StorageHooks/AsyncHooks/useSessionStorageAsync';
+import User from '../Data/Models/User/User';
+import { GetCurrentUserData } from '../Services/user.services/User.service';
 
   const UnauthorizedRouter:React.FC = () => {
 
-      let userContext = useContext(UserContext);
-      useEffect(() => {
+      const history = useHistory();
+      // useEffect(() => {
           
-          // const fetchAPI = async () => {
-          //   let user:UserData = await UserServices.GetUserData(userContext.userData.userId) as UserData;
-          //   if(user != null)
-          //   {
-          //       userContext.setUserData(user);
-          //   }
-          // };
+      //  let user: User;
+      //  const fetch = async () => {
+      //    user = await GetCurrentUserData();
+      //  }
 
-          // fetchAPI();
-      }, []);
+      //  fetch();
+          
+      // }, []);
 
       const leftIcon = () => {
         
         return(
-            <CreditCardRoundedIcon onClick={() => {}} />
+            <CreditCardRoundedIcon onClick={() => {history.push('/');}} />
         );
     }
+
+    // const [userInfo, setUserInfo, removeUserInfo] = useSessionStorageAsync("UserInfo", 
+    //     GetCurrentUserData as () => Promise<User>);
 
     return(
         <React.Fragment>
