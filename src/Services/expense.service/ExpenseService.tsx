@@ -1,4 +1,5 @@
 import Expense from '../../Data/Models/Expenses/Expense';
+import ExpenseForSum from '../../Data/Models/Expenses/ExpenseForSum';
 import ExpensesForYear from '../../Data/Models/Expenses/ExpensesForYear';
 import API from '../Api';
 
@@ -69,8 +70,56 @@ export const UpdateExpense = async (id: number) => {
         })
 }
 
+export const GetExpensesSumForYear = async () => {
+
+    return API.get("/expenses/sum/year")
+        .then(response => {
+            console.log(response);
+            const sums: ExpenseForSum[] = response.data.sums;
+
+            return sums;
+        })
+        .catch(error => {
+            console.log(error);
+            return error.response;
+        });
+}
+
+export const GetExpensesSumForMonth = async () => {
+
+    return API.get("/expenses/sum/month")
+        .then(response => {
+            console.log(response);
+            const sums: ExpenseForSum[] = response.data.sums;
+
+            return sums;
+        })
+        .catch(error => {
+            console.log(error);
+            return error.response;
+        });
+}
+
+export const GetExpensesSumForToday = async () => {
+
+    return API.get("/expenses/sum/today")
+        .then(response => {
+            console.log(response);
+            const sums: ExpenseForSum[] = response.data.sums;
+
+            return sums;
+        })
+        .catch(error => {
+            console.log(error);
+            return error.response;
+        });
+}
+
 export default {
     GetExpensesForCurrentYear,
     GetAllExpenses,
-    DeleteExpense
+    DeleteExpense,
+    GetExpensesSumForToday,
+    GetExpensesSumForMonth,
+    GetExpensesSumForYear
 }
