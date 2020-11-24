@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     BrowserRouter as Router,
     Switch, Route, Redirect
@@ -7,17 +7,26 @@ import SignUpPage from '../Components/Pages/SignUpPage';
 import UnauthorizedPage from '../Components/Pages/UnauthorizedPage';
 import PursesContext from '../Context/PursesContext';
 import UserContext from '../Context/UserContext';
+import useSessionStorageAsync from '../CustomHooks/StorageHooks/AsyncHooks/useSessionStorageAsync';
+import User from '../Data/Models/User/User';
 import PurseData from '../Data/PurseData';
 import PursesData from '../Data/PursesData';
 import UserData from '../Data/UserData';
 import AuthorizedRouter from './AutorizedRouter';
 import UnauthorizedRouter from './UnauthorizedRouter';
+import { GetCurrentUserData } from '../Services/user.services/User.service';
 
 
   const MainRouter: React.FC = () => {
 
+    // useEffect(() => {
+    //   console.log("userInfo:" + userInfo);
+    // }, []);
+
     const [userData, setUserData] = useState(uData);
     const [pursesData, setPursesData] = useState(pData);
+    // const [userInfo, setUserInfo, removeUserInfo] = useSessionStorageAsync("userInfo", 
+    // GetCurrentUserData as () => Promise<User>);
 
     return(
         <Router>

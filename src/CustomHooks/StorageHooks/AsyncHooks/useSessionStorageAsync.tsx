@@ -3,18 +3,33 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 const useSessionStorageAsync = <T extends unknown>(key: string, fn: () => Promise<T>) => {
 
     useEffect(() => {
+        console.log(key);
         const item = sessionStorage.getItem(key);
-        if(item)
+        console.log(item);
+
+        const fetch = async () => {
+            // fn().then(result => {
+            //     setValue(result);
+            //     console.log(result);
+            // })
+            //     .catch(error => {
+            //         console.log("Error happens in useSessionStorageAsync hook, block 'useEffect'");
+            //         console.log(error);
+            //     });
+            const item = await fn();
+            console.log("fetch:" + item);
+            setValue(item);
+        }
+
+        if(item != null && item != "undefined")
         {
+            console.log("parse");
             setValue(JSON.parse(item) as T);
         }
         else
         {
-            fn().then(result => setValue(result))
-                .catch(error => {
-                    console.log("Error happens in useSessionStorageAsync hook, block 'useEffect'");
-                    console.log(error);
-                });
+            console.log("fetch");
+            fetch().then();
         }
     }, [])
 

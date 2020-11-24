@@ -8,11 +8,22 @@ export const GetCurrentUserData = async () => {
     return API.get("/user/current")
         .then(response => {
             let user: User = response.data;
-            
-            return user;
+            console.log("GetCurrUser:" + response);
+            let result = {
+                data: user,
+                status: response.status
+            };
+
+            return result;
         })
         .catch(error => {
             console.log(error);
+            let result = {
+                data: error.response.data,
+                status: error.response.status
+            };
+
+            return result;
         });
 
 }
