@@ -1,8 +1,6 @@
 import { useState } from "react";
 
 const useSessionStorage = <T extends unknown>(key: string, initialValue:T) => {
-    
-
 
     const [storedValue, setStoredValue] = useState<T>(() => {
         try

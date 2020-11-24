@@ -43,7 +43,10 @@ export const GetPersonPurses = async (Id: number) => {
 
 export const UpdatePurse = async (pursesForUpdate: PursesForUpdate) => {
 
-    return await API.put('/Purses', pursesForUpdate)
+    return API.put('/Purses', pursesForUpdate)
+        .then(response => {
+            return response;
+        })
         .catch(error => {
             console.log(error);
         })

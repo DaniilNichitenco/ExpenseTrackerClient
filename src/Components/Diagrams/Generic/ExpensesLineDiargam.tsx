@@ -9,10 +9,12 @@ import Purse from '../../../Data/Models/Purses/Purse';
     paddingBottom?: number,
     paddingTop?: number,
     width?: number,
+    height?: number
     data: {
       labels: string[],
       datasets: any[]
-    }
+    },
+    title: string
   }
   
 
@@ -20,18 +22,14 @@ import Purse from '../../../Data/Models/Purses/Purse';
 
     return(
         <div style={{
-          paddingLeft: props.paddingLeft,
-          paddingRight: props.paddingRight,
-          paddingTop: props.paddingTop,
-          paddingBottom: props.paddingBottom,
-          width: props.width,
         }}>
             <Line data={props.data}
-            width={400}
+            height={300}
+            width={600}
             options={{
                 title:{
                     display:true,
-                    text:'Average Rainfall per month',
+                    text:props.title,
                     fontSize:20
                 },
                 legend:{
