@@ -1,5 +1,7 @@
-export default interface ExpenseForSum
+export interface ExpenseForSum
 {
     currencyCode: string,
     sum: number
 }
+
+export default ExpenseForSum;

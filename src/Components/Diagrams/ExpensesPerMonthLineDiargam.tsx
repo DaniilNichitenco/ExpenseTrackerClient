@@ -28,15 +28,21 @@ interface ExpensesPerMonthLineDiagramProps
       if(expensesForYearData == ExpensesForYearDefault)
       {
         ExpenseService.GetExpensesForCurrentYear()
-          .then(response => {
-            setExpensesForYearData(response);
-            setIsLoading(false);
+          .then(result => {
+            if(result.response.status == 200)
+            {
+              setExpensesForYearData(result.data);
+              setIsLoading(false);
+            }
           })
           .catch(error => {
             console.log(error);
           })
       }
-      setIsLoading(false);
+      else
+      {
+        setIsLoading(false);
+      }
 
     }, []);
 

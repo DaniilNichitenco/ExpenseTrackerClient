@@ -11,6 +11,7 @@ import useSessionStorageAsync from '../../CustomHooks/StorageHooks/AsyncHooks/us
 import User from '../../Data/Models/User/User';
 import DefaultUser from '../../Data/Models/User/default/DefaultUser';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
+import PurseExpenseTable from '../Tables/PurseExpenseTable';
 
 const useStyles = makeStyles((theme) => ({
     contentList: {
@@ -60,15 +61,8 @@ const ProfilePage: React.FC = () => {
 
     const [userData, setUserData, removeUserData] = useSessionStorage<User>("UserInfo", 
     DefaultUser);
-
-    // const userData = useContext(UserContext).userData;
     const pursesData = useContext(PursesContext).pursesData;
-
     const classes = useStyles();
-    // if(!userData.textStatus || userData.textStatus.length == 0)
-    // {
-    //     userData.textStatus = "Less I hear the less you'll say you'll find that out anyway";
-    // }
 
     return(
         <React.Fragment> 
@@ -156,6 +150,11 @@ const ProfilePage: React.FC = () => {
                                     </Typography>
                                 </GridListTile>
                             </GridList>
+                        </ProfileTile>
+                    </GridListTile>
+                    <GridListTile style={{width: "fit-content", height: "fit-content", padding: 10}}>
+                        <ProfileTile>
+                            <PurseExpenseTable />
                         </ProfileTile>
                     </GridListTile>
                 </GridList>
