@@ -1,6 +1,6 @@
 
 .boxAvatar {
-    padding-top: 28px;
+    /* padding-top: 7px; */
     padding-bottom: 15px;
     border-radius: 15px 15px 0 0;
     margin-bottom: 20px;
@@ -19,6 +19,14 @@
     padding-left: 7px;
     padding-right: 7px;
 }
+
+/* .buttonSetting {
+    align-self: flex-end;
+    align-content: flex-end;
+    align-items: flex-end;
+    justify-content: flex-end;
+    display: flexbox;
+} */
 
 .name {
     color: rgb(51, 22, 155);
@@ -66,7 +74,7 @@
 .contentDiv {
     background-color: rgba(255, 255, 255, 1);
     margin:auto; 
-    width: 900px;
+    /* width: 900px; */
     border-radius: 10px;
     border: solid 1px rgb(21, 35, 80);
 }

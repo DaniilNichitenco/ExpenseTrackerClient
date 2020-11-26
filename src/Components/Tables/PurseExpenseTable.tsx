@@ -15,6 +15,7 @@ import { CircularProgress } from '@material-ui/core';
 import { ExpensesForSumDefault } from '../../Data/Models/Expenses/default/ExpenseForSumDefault';
 import ExpenseForSum from '../../Data/Models/Expenses/ExpenseForSum';
 import ExpenseService from '../../Services/expense.service/ExpenseService';
+import clsx from 'clsx';
 
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
@@ -43,7 +44,10 @@ const useStyles = makeStyles({
     minWidth: 700,
   },
   rowHeader: {
-      fontWeight: 600,
+      fontWeight: 800,
+  },
+  textTable: {
+    fontSize: 18
   }
 });
 
@@ -223,21 +227,21 @@ const PurseExpenseTable:React.FC = () => {
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell align="center">Purse</StyledTableCell>
-            <StyledTableCell align="center">Daily expenses/plan</StyledTableCell>
-            <StyledTableCell align="center">Monthly expenses/plan</StyledTableCell>
-            <StyledTableCell align="center">Yearly expenses/plan</StyledTableCell>
+            <StyledTableCell align="center" className={classes.textTable}>Purse</StyledTableCell>
+            <StyledTableCell align="center" className={classes.textTable}>Daily expenses/plan</StyledTableCell>
+            <StyledTableCell align="center" className={classes.textTable}>Monthly expenses/plan</StyledTableCell>
+            <StyledTableCell align="center" className={classes.textTable}>Yearly expenses/plan</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {pursesData.map((purse) => (
-            <StyledTableRow key={purse.id}>
-              <StyledTableCell component="th" scope="row" align="center" className={classes.rowHeader}>
+            <StyledTableRow key={purse.id} className={classes.textTable}>
+              <StyledTableCell component="th" scope="row" align="center" className={clsx(classes.rowHeader, classes.textTable)}>
                 {purse.currencyCode.toUpperCase()}
               </StyledTableCell>
-              <StyledTableCell align="center"><TableDailyData currencyCode={purse.currencyCode}/>/{purse.bill/30}</StyledTableCell>
-              <StyledTableCell align="center"><TableMonthlyData currencyCode={purse.currencyCode}/>/{purse.bill}</StyledTableCell>
-              <StyledTableCell align="center"><TableYearlyData currencyCode={purse.currencyCode}/>/{purse.bill*12}</StyledTableCell>
+              <StyledTableCell align="center" className={classes.textTable}><TableDailyData currencyCode={purse.currencyCode}/>/{(purse.bill/30).toFixed(3)}</StyledTableCell>
+              <StyledTableCell align="center" className={classes.textTable}><TableMonthlyData currencyCode={purse.currencyCode}/>/{purse.bill}</StyledTableCell>
+              <StyledTableCell align="center" className={classes.textTable}><TableYearlyData currencyCode={purse.currencyCode}/>/{purse.bill*12}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

@@ -1,22 +1,21 @@
-import { GridList, GridListTile, makeStyles, Typography, Box, Divider, Button } from '@material-ui/core';
-import React, { useContext } from 'react';
-import { GetCurrentUserData } from '../../Services/user.services/User.service';
+import { GridList, Grid, GridListTile, makeStyles, Typography, Box, Divider, Button } from '@material-ui/core';
+import React, { useContext, useEffect, useState } from 'react';
 import './ProfilePageStyles.css';
-import { Link } from 'react-router-dom';
-import SettingsIcon from '@material-ui/icons/Settings';
-import UserContext from '../../Context/UserContext';
-import PursesContext from '../../Context/PursesContext';
-import ProfileTile from '../Tiles/ProfileTile';
-import useSessionStorageAsync from '../../CustomHooks/StorageHooks/AsyncHooks/useSessionStorageAsync';
+import FlyingGridTile from '../Tiles/FlyingGridTile';
+import { CircularProgress } from '@material-ui/core';
 import User from '../../Data/Models/User/User';
 import DefaultUser from '../../Data/Models/User/default/DefaultUser';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import PurseExpenseTable from '../Tables/PurseExpenseTable';
+import Purse from '../../Data/Models/Purses/Purse';
+import { PursesDefault } from '../../Data/Models/Purses/default/PurseDefault';
+import PursesService from '../../Services/purse.services/Purse.service';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const useStyles = makeStyles((theme) => ({
     contentList: {
         justifyContent:"center",
-        alignItems:"flex-start",
+        // alignItems:"flex-start",
         overflowX: "hidden",
         height: "fit-content",
         padding: 20
@@ -54,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: 15,
         fontSize: 23,
         fontWeight: 'bolder'
+    },
+    buttonSetting: {
+        margin: 5
     }
 }));
 
@@ -61,12 +63,35 @@ const ProfilePage: React.FC = () => {
 
     const [userData, setUserData, removeUserData] = useSessionStorage<User>("UserInfo", 
     DefaultUser);
-    const pursesData = useContext(PursesContext).pursesData;
+    // const pursesData = useContext(PursesContext).pursesData;
     const classes = useStyles();
+    const [isLoading, setIsLoading] = useState(true);
+    const [pursesData, setPursesData, removePursesData] = useSessionStorage<Purse[]>("pursesData", PursesDefault);
+
+    useEffect(() => {
+        if(pursesData == PursesDefault)
+    {
+        PursesService.GetCurrentUserPurses()
+            .then(result => {
+                if(result.response.status == 200)
+                {
+                    setPursesData(result.data);
+                    setIsLoading(false);
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+    else
+    {
+        setIsLoading(false);
+    }
+    }, []);
 
     return(
         <React.Fragment> 
-            <div className="contentDiv">
+            <Grid className="contentDiv" xs={10} xl={9}>
                 <div className={classes.profileHeader}>
                     <Typography className={classes.profileHeaderText}>
                         User profile
@@ -74,9 +99,18 @@ const ProfilePage: React.FC = () => {
                 </div>
                 <Divider variant="middle" />
                 <GridList cols={2} className={classes.contentList} spacing={25}>
-                    <GridListTile style={{width: "fit-content", height: "fit-content", padding: 10}}>
-                        <ProfileTile>
+                <FlyingGridTile xl={9} xs={10}>
                         <Box className="boxAvatar">
+                                <Grid container direction="row-reverse">
+                                    <Button
+                                        className={classes.buttonSetting}
+                                        variant="contained"
+                                        color="secondary"
+                                        startIcon={<SettingsIcon />}
+                                    >
+                                        Edit profile
+                                    </Button>
+                                </Grid>
                                 <Box className="avatar" />
                             </Box>
                             <Box className="name">
@@ -85,9 +119,6 @@ const ProfilePage: React.FC = () => {
                                 </Typography>
                             </Box>
                             <Box className="userStatus">
-                                <Typography className={classes.userStatusText}>
-                                    <q>Less I hear the less you'll say you'll find that out anyway</q>
-                                </Typography>
                             </Box>
                             <Box className="email">
                                 <Typography>
@@ -103,7 +134,10 @@ const ProfilePage: React.FC = () => {
                             <GridList cols={3} className={classes.info}>
                                 <GridListTile style={{width: "fit-content",height: "fit-content"}}>
                                     <Typography>
-                                        <b>Purses:</b><br/>{pursesData.count}
+                                        {
+                                            isLoading ? (<CircularProgress color="secondary" />) :
+                                                <><b>Purses:</b><br/>{pursesData.length}</>
+                                        }    
                                         </Typography>
                                 </GridListTile>
                                 <GridListTile style={{width: "fit-content",height: "fit-content"}}>
@@ -117,48 +151,14 @@ const ProfilePage: React.FC = () => {
                                     </Typography>
                                 </GridListTile>
                             </GridList>
-                        </ProfileTile>
-                    </GridListTile>
+                        </FlyingGridTile>
                     <GridListTile style={{width: "fit-content", height: "fit-content", padding: 10}}>
-                        <ProfileTile maxWidth={300}>
-                            <GridList cols={1} spacing={5} style={{height:"fit-content", width:"fit-content"}} >
-                                <GridListTile style={{height: "fit-content", display: 'flex', justifyContent: 'flex-end', padding:17}} className="tile">
-                                    <Button variant="contained" 
-                                    color="primary"
-                                    component={Link} to="/settings" 
-                                    startIcon={<SettingsIcon />}>Settings</Button>
-                                </GridListTile>
-                                <GridListTile style={{height: 'fix-content'}}>
-                                    {pursesData.purses.map(({currencyCode, bill}) => (
-                                        <React.Fragment key={currencyCode}>
-                                            <GridListTile style={{marginBottom:10}}>   
-                                            <div className="purseTile">
-                                                {currencyCode}
-                                            </div>
-                                            <div style={{marginLeft:10, marginTop:8}}>
-                                                <Typography>
-                                                    Bill: {bill}
-                                                </Typography>
-                                            </div>
-                                            </GridListTile>
-                                        </React.Fragment>
-                                    ))}
-                                </GridListTile>
-                                <GridListTile style={{height: '50px'}}>
-                                    <Typography>
-                                        ANOTHER INTORMATION
-                                    </Typography>
-                                </GridListTile>
-                            </GridList>
-                        </ProfileTile>
-                    </GridListTile>
-                    <GridListTile style={{width: "fit-content", height: "fit-content", padding: 10}}>
-                        <ProfileTile>
+                        <FlyingGridTile>
                             <PurseExpenseTable />
-                        </ProfileTile>
+                        </FlyingGridTile>
                     </GridListTile>
                 </GridList>
-            </div>
+            </Grid>
         </React.Fragment>
     );
 }
