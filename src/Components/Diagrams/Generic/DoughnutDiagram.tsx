@@ -28,7 +28,6 @@ interface DoughnutDiagramProps
 const DoughnutDiagram:React.FC<DoughnutDiagramProps> = (props: DoughnutDiagramProps) => {
 
     return(
-        <div>
             <Doughnut data={props.data} width={props.width}
             options={{
               responsive: true,
@@ -45,7 +44,6 @@ const DoughnutDiagram:React.FC<DoughnutDiagramProps> = (props: DoughnutDiagramPr
                 cutoutPercentage: props.cutoutPercentage
             }}
             />
-        </div>
     );
 }
 

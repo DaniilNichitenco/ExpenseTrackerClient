@@ -13,14 +13,9 @@ import PermMediaOutlinedIcon from '@material-ui/icons/PhotoSizeSelectActual';
 import PublicIcon from '@material-ui/icons/Public';
 import TimerIcon from '@material-ui/icons/Timer';
 import SettingsIcon from '@material-ui/icons/Settings';
-import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
 import { Omit } from '@material-ui/types';
 import './NavigationBarStyles.css';
-import UserContext from '../../Context/UserContext';
 import { NavLink, useLocation } from 'react-router-dom';
-import useSessionStorageAsync from '../../CustomHooks/StorageHooks/AsyncHooks/useSessionStorageAsync';
-import { GetCurrentUserData } from '../../Services/user.services/User.service';
-import User from '../../Data/Models/User/User';
 import DefaultUser from '../../Data/Models/User/default/DefaultUser';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 

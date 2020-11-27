@@ -24,10 +24,17 @@ export const GetAllExpenses = async () => {
                 expenses.push(expense);
             });
 
-            return expenses;
+            return {
+                response: response,
+                data: expenses
+            };
         })
         .catch(error => {
             console.log(error);
+            return {
+                response: error.response,
+                data: error.response.data
+            };
         });
 }
 
@@ -38,11 +45,17 @@ export const GetExpensesForCurrentYear = async () => {
             let expenses:ExpensesForYear[] = response.data.expenses;
             console.log(expenses);
             
-            return expenses;
+            return {
+                response: response,
+                data: expenses
+            };
         })
         .catch(error => {
             console.log(error);
-            return error.response;
+            return {
+                response: error.response,
+                data: error.response.data
+            };
         });
 }
 
@@ -51,9 +64,13 @@ export const DeleteExpense = async (id: number) => {
     API.delete("/expenses/" + id)
         .then(response => {
             console.log(response);
+
+            return {response: response};
         })
         .catch(error => {
             console.log(error);
+            
+            return {response: error.response};
         })
 }
 
@@ -62,11 +79,11 @@ export const UpdateExpense = async (id: number) => {
     return API.put("/expenses")
         .then(response => {
             console.log(response);
-            return response;
+            return {response: response};
         })
         .catch(error => {
             console.log(error);
-            return error.response;
+            return {response: error.response};
         })
 }
 
@@ -77,11 +94,17 @@ export const GetExpensesSumForYear = async () => {
             console.log(response);
             const sums: ExpenseForSum[] = response.data.sums;
 
-            return sums;
+            return {
+                response: response,
+                data: sums
+            };
         })
         .catch(error => {
             console.log(error);
-            return error.response;
+            return {
+                response: error.response,
+                data: error.response.data
+            };
         });
 }
 
@@ -92,11 +115,17 @@ export const GetExpensesSumForMonth = async () => {
             console.log(response);
             const sums: ExpenseForSum[] = response.data.sums;
 
-            return sums;
+            return {
+                response: response,
+                data: sums
+            };
         })
         .catch(error => {
             console.log(error);
-            return error.response;
+            return {
+                response: error.response,
+                data: error.response.data
+            };
         });
 }
 
@@ -107,11 +136,17 @@ export const GetExpensesSumForToday = async () => {
             console.log(response);
             const sums: ExpenseForSum[] = response.data.sums;
 
-            return sums;
+            return {
+                response: response,
+                data: sums
+            };
         })
         .catch(error => {
             console.log(error);
-            return error.response;
+            return {
+                response: error.response,
+                data: error.response.data
+            };
         });
 }
 

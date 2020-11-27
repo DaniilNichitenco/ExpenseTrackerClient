@@ -1,17 +1,17 @@
 import { Box, Container } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import ExpensesPerMonthLineDiagram from '../Diagrams/ExpensesPerMonthLineDiargam';
-import ProfileTile from '../Tiles/ProfileTile';
+import FlyingGridTile from '../Tiles/FlyingGridTile';
 
 const StatisticPage:React.FC = () => {
 
     return(
         <React.Fragment>
             <Container className="contentDiv" maxWidth="md">
-                 <ProfileTile marginTop={40}>
+                 <FlyingGridTile marginTop={40}>
                     <ExpensesPerMonthLineDiagram 
                     />
-                 </ProfileTile>
+                 </FlyingGridTile>
             </Container>
         </React.Fragment>
     );
