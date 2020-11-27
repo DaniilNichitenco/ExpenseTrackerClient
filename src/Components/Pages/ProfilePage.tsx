@@ -1,4 +1,4 @@
-import { GridList, Grid, GridListTile, makeStyles, Typography, Box, Divider, Button } from '@material-ui/core';
+import { GridList, Grid, GridListTile, makeStyles, Typography, Box, Divider, Button, Paper } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react';
 import './ProfilePageStyles.css';
 import FlyingGridTile from '../Tiles/FlyingGridTile';
@@ -11,6 +11,7 @@ import Purse from '../../Data/Models/Purses/Purse';
 import { PursesDefault } from '../../Data/Models/Purses/default/PurseDefault';
 import PursesService from '../../Services/purse.services/Purse.service';
 import SettingsIcon from '@material-ui/icons/Settings';
+import EditProfileButton from '../Buttons/EditProfileButton';
 
 const useStyles = makeStyles((theme) => ({
     contentList: {
@@ -61,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ProfilePage: React.FC = () => {
 
-    const [userData, setUserData, removeUserData] = useSessionStorage<User>("UserInfo", 
+    const [userData, setUserData, removeUserData] = useSessionStorage<User>("userData", 
     DefaultUser);
     // const pursesData = useContext(PursesContext).pursesData;
     const classes = useStyles();
@@ -99,64 +100,57 @@ const ProfilePage: React.FC = () => {
                 </div>
                 <Divider variant="middle" />
                 <GridList cols={2} className={classes.contentList} spacing={25}>
-                <FlyingGridTile xl={9} xs={10}>
-                        <Box className="boxAvatar">
-                                <Grid container direction="row-reverse">
-                                    <Button
-                                        className={classes.buttonSetting}
-                                        variant="contained"
-                                        color="secondary"
-                                        startIcon={<SettingsIcon />}
-                                    >
-                                        Edit profile
-                                    </Button>
-                                </Grid>
-                                <Box className="avatar" />
-                            </Box>
-                            <Box className="name">
+                    <FlyingGridTile xl={5} xs={5} paddingBottom={16}>
+                        <Grid spacing={3} style={{height:"fit-content",
+                            justifyContent: "center",}} container>
+                            <Grid item xs={12} className="boxAvatar">
+                                    <Grid xs={12} container direction="row-reverse">
+                                        <EditProfileButton
+                                        style={{margin: 5}} />
+                                    </Grid>
+                                    <Box className="avatar" />
+                            </Grid>
+                            <Grid item xs={12} className="name">
                                 <Typography className={classes.nameText}>
                                     {userData.firstName} {userData.lastName}
                                 </Typography>
-                            </Box>
-                            <Box className="userStatus">
-                            </Box>
-                            <Box className="email">
+                            </Grid>
+                            <Grid item xs={12} className="email">
                                 <Typography>
-                                    {userData.email}
+                                    <b>Email:</b> {userData.email}
                                 </Typography>
-                            </Box>
-                            <Box className="email">
+                            </Grid>
+                            <Grid item xs={12} className="email">
                                 <Typography>
-                                    {userData.userName}
+                                    <b>UserName:</b> {userData.userName}
                                 </Typography>
-                            </Box>
+                            </Grid>
                             <Divider variant="middle" />
-                            <GridList cols={3} className={classes.info}>
-                                <GridListTile style={{width: "fit-content",height: "fit-content"}}>
+                            <Grid container item xs={12} className={classes.info}>
+                                <Grid item style={{width: "fit-content",height: "fit-content"}}>
                                     <Typography>
                                         {
                                             isLoading ? (<CircularProgress color="secondary" />) :
                                                 <><b>Purses:</b><br/>{pursesData.length}</>
                                         }    
                                         </Typography>
-                                </GridListTile>
-                                <GridListTile style={{width: "fit-content",height: "fit-content"}}>
+                                </Grid>
+                                <Grid item style={{width: "fit-content",height: "fit-content"}}>
                                     <Typography>
                                         <b>Notes:</b><br/>0
                                     </Typography>
-                                </GridListTile>
-                                <GridListTile style={{width: "fit-content",height: "fit-content"}}>
+                                </Grid>
+                                <Grid item style={{width: "fit-content",height: "fit-content"}}>
                                     <Typography>
                                         <b>Occations:</b><br/>0
                                     </Typography>
-                                </GridListTile>
-                            </GridList>
-                        </FlyingGridTile>
-                    <GridListTile style={{width: "fit-content", height: "fit-content", padding: 10}}>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </FlyingGridTile>
                         <FlyingGridTile>
                             <PurseExpenseTable />
                         </FlyingGridTile>
-                    </GridListTile>
                 </GridList>
             </Grid>
         </React.Fragment>

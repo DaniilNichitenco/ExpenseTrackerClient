@@ -2,6 +2,8 @@
 .boxAvatar {
     /* padding-top: 7px; */
     padding-bottom: 15px;
+    padding-right: 0px;
+    margin-right: 0px;
     border-radius: 15px 15px 0 0;
     margin-bottom: 20px;
     background-image: url(../../assets/images/avatarProfileBg.jpg);
@@ -19,14 +21,6 @@
     padding-left: 7px;
     padding-right: 7px;
 }
-
-/* .buttonSetting {
-    align-self: flex-end;
-    align-content: flex-end;
-    align-items: flex-end;
-    justify-content: flex-end;
-    display: flexbox;
-} */
 
 .name {
     color: rgb(51, 22, 155);
