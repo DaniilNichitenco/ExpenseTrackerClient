@@ -1,15 +1,162 @@
-import AppContent from '../Content/AppContent';
-import AppbarGeneric from '../Generics/AppbarGeneric';
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { CircularProgress } from '@material-ui/core';
 import PursesDoughnutDiagram from '../Diagrams/PursesDoughnutDiagram';
+import { Grid, makeStyles, Paper, Tab, Tabs, Typography, Box } from '@material-ui/core';
+import { PursesDefault } from '../../Data/Models/Purses/default/PurseDefault';
+import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
+import Purse from '../../Data/Models/Purses/Purse';
+import PursesService from '../../Services/purse.services/Purse.service';
+import { ExpensesForSumDefault } from "../../Data/Models/Expenses/default/ExpenseForSumDefault";
+import { ExpenseForSum } from "../../Data/Models/Expenses/ExpenseForSum";
+import ExpenseService from "../../Services/expense.service/ExpenseService";
+
+interface TabPanelProps {
+    index: number,
+    value: number,
+  }
+  
+  const TabPanel: React.FC<TabPanelProps> = (props) => {
+    const { children, value, index, ...other } = props;
+  
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box p={0} m={4}>
+              {children}
+          </Box>
+        )}
+      </div>
+    );
+  }  
+
+const useStyles = makeStyles({
+    root: {
+      flexGrow: 1,
+      widht: "fit-content"
+    },
+  });
   
 const HomePage: React.FC = () => {
+
+    const classes = useStyles();
+    const [isLoadingPurses, setIsLoadingPurses] = useState(true);
+    const [isLoadingExpenses, setIsLoadingExpenses] = useState(true);
+    const [pursesData, setPursesData, removePursesData] = useSessionStorage<Purse[]>("pursesData", PursesDefault);
+    const [dailyExpenseSum, setDailyExpenseSum, 
+        removeDailyExpenseSum] = useSessionStorage<ExpenseForSum[]>("dailyExpenseSum", ExpensesForSumDefault);
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+        setValue(newValue);
+    };
+
+
+    useEffect(() => {
+    
+        if(pursesData == PursesDefault)
+        {
+            PursesService.GetCurrentUserPurses()
+                .then(result => {
+                    if(result.response.status == 200)
+                    {
+                        setPursesData(result.data);
+                        setIsLoadingPurses(false);
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        }
+        else
+        {
+            setIsLoadingPurses(false);
+        }
+
+        if(dailyExpenseSum == ExpensesForSumDefault)
+            {
+                ExpenseService.GetExpensesSumForToday()
+                    .then(result => {
+
+                        if(result.response.status == 200)
+                        {
+                            console.log(result.data);
+                            setDailyExpenseSum(result.data);
+                            setIsLoadingExpenses(false);
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+            else
+            {
+                setIsLoadingExpenses(false);
+            }
+        
+      }, []);
+
+      if(isLoadingPurses || isLoadingExpenses)
+      {
+        return(<CircularProgress color="secondary" />);
+      }
     
     return(
         <React.Fragment>
-            <div className="contentDiv">
-                <PursesDoughnutDiagram />
-            </div>
+            <Grid container
+             justify="center" className="contentDiv" xs={10} xl={9}
+             >
+                <Grid container item justify="center" xs={10} className={classes.root}>
+                    <Grid
+                        component={Tabs}
+                        item
+                        xs={6}
+                        // style={{width:300}}
+                        value={value}
+                        onChange={handleChange}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        centered
+                    >
+                        {pursesData.map((purse) => (
+                            <Grid component={Tab} item key={purse.id} 
+                            label={<Typography variant="h5">{purse.currencyCode}</Typography>}/>
+                        ))}
+                    </Grid>
+                </Grid>
+                <Grid container item justify="center" xs={12}>
+                    {pursesData.map((purse, index) => {
+                        let expense = dailyExpenseSum.find(e => e.currencyCode == purse.currencyCode);
+                        let sum:number = 0;
+                        if(expense != undefined)
+                        {
+                            sum = expense.sum;
+                        }
+
+                        let rest: number = purse.bill / 30 - sum;
+                        if(rest < 0)
+                        {
+                            rest = 0;
+                        }
+
+                        return(
+                        <Grid item xs={12} component={TabPanel} value={value} index={index}>
+                            <PursesDoughnutDiagram title={"Daily expenses, purse " + purse.currencyCode}
+                            labels={["Remaining money", "Daily expenses" ]}
+                            data={[rest, sum]}                        
+                             />
+                        </Grid>
+                        )})}
+                </Grid>
+                {/* <Grid item xs={12}>
+                    <PursesDoughnutDiagram />
+                </Grid> */}
+            </Grid>
         </React.Fragment>
     );
 }

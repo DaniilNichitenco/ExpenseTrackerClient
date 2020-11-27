@@ -100,7 +100,7 @@ const ProfilePage: React.FC = () => {
                 </div>
                 <Divider variant="middle" />
                 <GridList cols={2} className={classes.contentList} spacing={25}>
-                    <FlyingGridTile xl={5} xs={5} paddingBottom={16}>
+                    <FlyingGridTile xl={9} xs={10} paddingBottom={16}>
                         <Grid spacing={3} style={{height:"fit-content",
                             justifyContent: "center",}} container>
                             <Grid item xs={12} className="boxAvatar">
@@ -126,7 +126,7 @@ const ProfilePage: React.FC = () => {
                                 </Typography>
                             </Grid>
                             <Divider variant="middle" />
-                            <Grid container item xs={12} className={classes.info}>
+                            <Grid style={{marginLeft:15, marginRight:15}} container item xs={12} className={classes.info}>
                                 <Grid item style={{width: "fit-content",height: "fit-content"}}>
                                     <Typography>
                                         {

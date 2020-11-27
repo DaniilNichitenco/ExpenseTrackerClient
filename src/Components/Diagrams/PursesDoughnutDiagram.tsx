@@ -2,31 +2,43 @@ import React, { useContext, useState } from 'react';
 import PursesContext from '../../Context/PursesContext';
 import DoughnutDiagram from './Generic/DoughnutDiagram';
 
-const PursesDoughnutDiagram: React.FC = () => {
+interface PursesDoughnutDiagramProps
+{
+  labels: string[],
+  data: number[],
+  title?: string
+}
+
+const PursesDoughnutDiagram: React.FC<PursesDoughnutDiagramProps> = (props) => {
   
   const pursesContext = useContext(PursesContext);
+  let title: string = "Purses diagram";
+  if(props.title != undefined)
+  {
+    title = props.title;
+  }
 
   const state = {
-    labels: pursesContext.getCurrecyCodes(),
+    labels: props.labels,
     datasets: [
       {
         label: 'Purses',
         backgroundColor: [
-          '#B21F00',
-          '#C9DE00',
+          '#1C9E14',
+          '#CC0909',
           '#2FDE00',
           '#00A6B4',
           '#6800B4'
         ],
         hoverBackgroundColor: [
-        '#501800',
-        '#4B5000',
+        '#1CC917',
+        '#F40808',
         '#175000',
         '#003350',
         '#35014F'
         ],
-        data: pursesContext.getBills(),
-        borderColor: 'rgba(75,192,192,1)',
+        data: props.data,
+        borderColor: '#1E1818'
       },
     ]
   };
@@ -36,7 +48,7 @@ const PursesDoughnutDiagram: React.FC = () => {
 
     return(
         <DoughnutDiagram width={500} data={diagram} 
-        title={{display:true, text:"Purses diagram", fontSize:20}}
+        title={{display:true, text:title, fontSize:20}}
         legend={{display:true, position:"top"}}
         cutoutPercentage={65}
         />
