@@ -16,6 +16,7 @@ import { ExpensesForSumDefault } from '../../Data/Models/Expenses/default/Expens
 import ExpenseForSum from '../../Data/Models/Expenses/ExpenseForSum';
 import ExpenseService from '../../Services/expense.service/ExpenseService';
 import clsx from 'clsx';
+import CountDays from '../../Date/CountDays';
 
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
@@ -239,9 +240,15 @@ const PurseExpenseTable:React.FC = () => {
               <StyledTableCell component="th" scope="row" align="center" className={clsx(classes.rowHeader, classes.textTable)}>
                 {purse.currencyCode.toUpperCase()}
               </StyledTableCell>
-              <StyledTableCell align="center" className={classes.textTable}><TableDailyData currencyCode={purse.currencyCode}/>/{(purse.bill/30).toFixed(3)}</StyledTableCell>
-              <StyledTableCell align="center" className={classes.textTable}><TableMonthlyData currencyCode={purse.currencyCode}/>/{purse.bill}</StyledTableCell>
-              <StyledTableCell align="center" className={classes.textTable}><TableYearlyData currencyCode={purse.currencyCode}/>/{purse.bill*12}</StyledTableCell>
+              <StyledTableCell align="center" className={classes.textTable}>
+                <TableDailyData currencyCode={purse.currencyCode}/>/{(purse.bill/CountDays()).toFixed(2)}
+              </StyledTableCell>
+              <StyledTableCell align="center" className={classes.textTable}>
+                <TableMonthlyData currencyCode={purse.currencyCode}/>/{(purse.bill).toFixed(2)}
+              </StyledTableCell>
+              <StyledTableCell align="center" className={classes.textTable}>
+                <TableYearlyData currencyCode={purse.currencyCode}/>/{(purse.bill*12).toFixed(2)}
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
