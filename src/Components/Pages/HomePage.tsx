@@ -114,11 +114,12 @@ const HomePage: React.FC = () => {
              justify="center" className="contentDiv" xs={10} xl={9}
              style={{paddingTop:25, paddingBottom:25}}
              >
-                <Grid container item justify="center" xs={10} className={classes.root}>
+                <Grid item xs={11} justify="center">
+                    <Paper elevation={12} style={{paddingTop: 10}}>
+                    <Grid container justify="center" xs={12} className={classes.root}>
                     <Grid
                         component={Tabs}
                         item
-                        xs={6}
                         // style={{width:300}}
                         value={value}
                         onChange={handleChange}
@@ -128,7 +129,7 @@ const HomePage: React.FC = () => {
                     >
                         {pursesData.map((purse) => (
                             <Grid component={Tab} item key={purse.id} 
-                            label={<Typography variant="h5">{purse.currencyCode}</Typography>}/>
+                            label={<Typography variant="h5">{purse.currencyCode.toUpperCase()}</Typography>}/>
                         ))}
                     </Grid>
                 </Grid>
@@ -149,13 +150,17 @@ const HomePage: React.FC = () => {
                         }
 
                         return(
-                        <Grid item xs={12} component={TabPanel} value={value} index={index}>
-                            <PursesDoughnutDiagram title={"Daily expenses, purse " + purse.currencyCode}
-                            labels={["Remaining money", "Daily expenses" ]}
-                            data={[Number((rest).toFixed(2)), Number((sum).toFixed(2))]}                        
-                             />
+                        <Grid item xs={12}
+                         component={TabPanel} value={value} index={index}>
+                            <PursesDoughnutDiagram 
+                                title={"Daily expenses, purse " + purse.currencyCode.toUpperCase()}
+                                labels={["Remaining money", "Daily expenses" ]}
+                                data={[Number((rest).toFixed(2)), Number((sum).toFixed(2))]}                        
+                            />
                         </Grid>
                         )})}
+                </Grid>
+                    </Paper>
                 </Grid>
                 <ExpensesList />
             </Grid>

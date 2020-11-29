@@ -1,72 +1,59 @@
-import { Grid, GridList, Button, Box, Paper, Typography } from '@material-ui/core';
-import React from 'react';
-
-interface Expense
-{
-    id: number,
-    title: string,
-    money: number,
-    topic: string
-}
-
-const topic = [
-    "1", '2', '3', '4'
-]
-
-
-const expenses: Expense[] = [
-    {
-        id:1,
-        title:"dsa",
-        money:200,
-        topic:"2"
-    },
-    {
-        id:2,
-        title:"dsa2",
-        money:300,
-        topic:"2"
-    },
-    {
-        id:3,
-        title:"dsaa",
-        money:200,
-        topic:"2"
-    },
-    {
-        id:4,
-        title:"dsad",
-        money:100,
-        topic:"3"
-    },
-    {
-        id:5,
-        title:"adsa",
-        money:100,
-        topic:"3"
-    },
-    {
-        id:6,
-        title:"dsa",
-        money:200,
-        topic:"4"
-    },
-];
+import { Grid, GridList, Button, Box, Paper, Typography, CircularProgress } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
+import Expense from '../../Data/Models/Expenses/Expense';
+import Topic from '../../Data/Models/Topics/Topic';
+import TopicWithExpenses from '../../Data/Models/Topics/TopicWithExpenses';
+import TopicService from '../../Services/topic.services/TopicService';
 
 export const ExpensesList: React.FC = () => {
+
+    const [isLoading, setIsLoading] = useState(true);
+    // const [topics, setTopics, removeTopics] = useSessionStorage<Topic[]>("topics", []);
+    // const [expenses, setExpenses, removeExpenses] = useSessionStorage<Expense[]>("expenses", []);
+    const [topicsWithExpenses, setTopicsWithExpenses, 
+        removeTopicsWithExpenses] = useSessionStorage<TopicWithExpenses[]>("topicsWithExpenses", []);
+
+    useEffect(() => {
+
+        if(topicsWithExpenses.length == 0)
+        {
+            TopicService.GetTopicsWithExpenses(10)
+            .then(result => {
+                if(result.response.status == 200)
+                {
+                    setTopicsWithExpenses(result.data);
+                    setIsLoading(false);
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
+        else
+        {
+            setIsLoading(false);
+        }
+
+    }, []);
+
+    if(isLoading)
+    {
+        return(<CircularProgress color="secondary" />);
+    }
 
     return(
         <GridList cellHeight={"auto"}
         cols={2} style={{width:"100%", paddingBottom:40, marginTop:20}}
         >
-            {topic.map((topic) => {
-                const expensesTopic = expenses.filter(e => e.topic == topic).slice(0, 6);
+            {topicsWithExpenses.map((topic) => {
+                const expensesTopic = topic.expenses.slice(0, 10);
 
                 return(
-                        <Grid item container key={topic}
+                        <Grid item container key={topic.id}
                         justify="center" style={{ marginBottom: 10}}
                         >
-                            <Grid item xs={7}>
+                            <Grid item xs={8} xl={7}>
                                 <Button style={{width:"100%", padding:0}}>
                                 <Paper elevation={20} style={{marginBottom:10, width:"100%"}}
                                 >
@@ -75,7 +62,7 @@ export const ExpensesList: React.FC = () => {
                                     borderRadius:"10px 10px 0 0"
                                 }} 
                                     justifyContent="center">
-                                        <Typography>{topic}</Typography>
+                                        <Typography>{topic.name}</Typography>
                                     </Box>
                                     {
                                         expensesTopic.length == 0 &&
@@ -89,10 +76,10 @@ export const ExpensesList: React.FC = () => {
                                     {expensesTopic.map((expense) => {
                                         return(
                                         <Box display="flex" justifyContent="center"
-                                        flexWrap="wrap"
+                                        flexWrap="wrap" key={expense.id}
                                         >
                                             <Typography>
-                                                {expense.title}
+                                                {expense.title} - {expense.money}
                                             </Typography>
                                         </Box>
                                         );
