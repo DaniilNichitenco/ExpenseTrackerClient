@@ -9,6 +9,8 @@ import PursesService from '../../Services/purse.services/Purse.service';
 import { ExpensesForSumDefault } from "../../Data/Models/Expenses/default/ExpenseForSumDefault";
 import { ExpenseForSum } from "../../Data/Models/Expenses/ExpenseForSum";
 import ExpenseService from "../../Services/expense.service/ExpenseService";
+import { CountDays } from "../../Date/CountDays";
+import ExpensesList from "../ExpensesList/ExpensesList";
 
 interface TabPanelProps {
     index: number,
@@ -110,12 +112,14 @@ const HomePage: React.FC = () => {
         <React.Fragment>
             <Grid container
              justify="center" className="contentDiv" xs={10} xl={9}
+             style={{paddingTop:25, paddingBottom:25}}
              >
-                <Grid container item justify="center" xs={10} className={classes.root}>
+                <Grid item xs={11} justify="center">
+                    <Paper elevation={12} style={{paddingTop: 10}}>
+                    <Grid container justify="center" xs={12} className={classes.root}>
                     <Grid
                         component={Tabs}
                         item
-                        xs={6}
                         // style={{width:300}}
                         value={value}
                         onChange={handleChange}
@@ -125,7 +129,7 @@ const HomePage: React.FC = () => {
                     >
                         {pursesData.map((purse) => (
                             <Grid component={Tab} item key={purse.id} 
-                            label={<Typography variant="h5">{purse.currencyCode}</Typography>}/>
+                            label={<Typography variant="h5">{purse.currencyCode.toUpperCase()}</Typography>}/>
                         ))}
                     </Grid>
                 </Grid>
@@ -133,29 +137,32 @@ const HomePage: React.FC = () => {
                     {pursesData.map((purse, index) => {
                         let expense = dailyExpenseSum.find(e => e.currencyCode == purse.currencyCode);
                         let sum:number = 0;
+                        let countDays: number = CountDays(); 
                         if(expense != undefined)
                         {
                             sum = expense.sum;
                         }
 
-                        let rest: number = purse.bill / 30 - sum;
+                        let rest: number = purse.bill / countDays - sum;
                         if(rest < 0)
                         {
                             rest = 0;
                         }
 
                         return(
-                        <Grid item xs={12} component={TabPanel} value={value} index={index}>
-                            <PursesDoughnutDiagram title={"Daily expenses, purse " + purse.currencyCode}
-                            labels={["Remaining money", "Daily expenses" ]}
-                            data={[rest, sum]}                        
-                             />
+                        <Grid item xs={12}
+                         component={TabPanel} value={value} index={index}>
+                            <PursesDoughnutDiagram 
+                                title={"Daily expenses, purse " + purse.currencyCode.toUpperCase()}
+                                labels={["Remaining money", "Daily expenses" ]}
+                                data={[Number((rest).toFixed(2)), Number((sum).toFixed(2))]}                        
+                            />
                         </Grid>
                         )})}
                 </Grid>
-                {/* <Grid item xs={12}>
-                    <PursesDoughnutDiagram />
-                </Grid> */}
+                    </Paper>
+                </Grid>
+                <ExpensesList />
             </Grid>
         </React.Fragment>
     );

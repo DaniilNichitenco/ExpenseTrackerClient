@@ -1,7 +1,7 @@
 export interface ExpenseForSum
 {
-    currencyCode: string,
-    sum: number
+    currencyCode: string;
+    sum: number;
 }
 
 export default ExpenseForSum;

@@ -1,5 +1,5 @@
 export default interface ExpensePerMonth
 {
-    month: number,
-    money: number
+    month: number;
+    money: number;
 }
