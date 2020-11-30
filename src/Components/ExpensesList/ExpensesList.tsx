@@ -1,10 +1,9 @@
-import { Grid, GridList, Button, Box, Paper, Typography, CircularProgress } from '@material-ui/core';
+import { Grid, GridList, Button, Box, Paper, Typography, CircularProgress, Dialog, DialogTitle, DialogContent } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
-import Expense from '../../Data/Models/Expenses/Expense';
-import Topic from '../../Data/Models/Topics/Topic';
 import TopicWithExpenses from '../../Data/Models/Topics/TopicWithExpenses';
 import TopicService from '../../Services/topic.services/TopicService';
+import { TopicPaper } from './TopicPaper';
 
 export const ExpensesList: React.FC = () => {
 
@@ -47,50 +46,51 @@ export const ExpensesList: React.FC = () => {
         cols={2} style={{width:"100%", paddingBottom:40, marginTop:20}}
         >
             {topicsWithExpenses.map((topic) => {
-                const expensesTopic = topic.expenses.slice(0, 10);
 
-                return(
-                        <Grid item container key={topic.id}
-                        justify="center" style={{ marginBottom: 10}}
-                        >
-                            <Grid item xs={8} xl={7}>
-                                <Button style={{width:"100%", padding:0}}>
-                                <Paper elevation={20} style={{marginBottom:10, width:"100%"}}
-                                >
-                                    <Box display="flex" p={1}
-                                    style={{backgroundColor: "black", color:"white",
-                                    borderRadius:"10px 10px 0 0"
-                                }} 
-                                    justifyContent="center">
-                                        <Typography>{topic.name}</Typography>
-                                    </Box>
-                                    {
-                                        expensesTopic.length == 0 &&
-                                        <Box display="flex" justifyContent="center"
-                                        flexWrap="wrap">
-                                            <Typography variant="h5">
-                                                There are not any expenses
-                                            </Typography>
-                                        </Box>
-                                    }
-                                    {expensesTopic.map((expense) => {
-                                        return(
-                                        <Box display="flex" justifyContent="center"
-                                        flexWrap="wrap" key={expense.id}
-                                        >
-                                            <Typography>
-                                                {expense.title} - {expense.money}
-                                            </Typography>
-                                        </Box>
-                                        );
-                                    })}
-                                </Paper>
-                                </Button>
-                            </Grid>
-                        </Grid>
-            );})}
+                return(<TopicPaper topic={topic} />);
+                })}
         </GridList>
     );
 }
+
+
+{/* <Grid item container key={topic.id}
+justify="center" style={{ marginBottom: 10}}
+>
+    <Grid item xs={8} xl={7}>
+        <Button style={{width:"100%", padding:0}}>
+        <Paper elevation={20} style={{marginBottom:10, width:"100%"}}
+        >
+            <Box display="flex" p={1}
+            style={{backgroundColor: "black", color:"white",
+            borderRadius:"10px 10px 0 0"
+        }} 
+            justifyContent="center">
+                <Typography>{topic.name}</Typography>
+            </Box>
+            {
+                expensesTopic.length == 0 &&
+                <Box display="flex" justifyContent="center"
+                flexWrap="wrap">
+                    <Typography variant="h5">
+                        There are not any expenses
+                    </Typography>
+                </Box>
+            }
+            {expensesTopic.map((expense) => {
+                return(
+                <Box display="flex" justifyContent="center"
+                flexWrap="wrap" key={expense.id}
+                >
+                    <Typography>
+                        {expense.title} - {expense.money}
+                    </Typography>
+                </Box>
+                );
+            })}
+        </Paper>
+        </Button>
+    </Grid>
+</Grid> */}
 
 export default ExpensesList;
