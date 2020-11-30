@@ -1,5 +1,5 @@
 import { Box, Button, CircularProgress, Dialog, DialogContent,
-    DialogActions, DialogTitle, Grid, makeStyles, Paper, Typography, DialogProps, DialogContentText, useMediaQuery, useTheme, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
+    DialogActions, DialogTitle, Grid, makeStyles, Paper, Typography, DialogProps, DialogContentText, useMediaQuery, useTheme, Accordion, AccordionSummary, AccordionDetails, Container } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import Expense from '../../Data/Models/Expenses/Expense';
 import Topic from '../../Data/Models/Topics/Topic';
@@ -56,8 +56,11 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
             <DialogContent dividers={true}>
                 <DialogContentText id="scroll-dialog-description"
                 >
-                    {isLoading ? <CircularProgress color="secondary" /> : 
-                        expenses.map((expense) => {
+                    {isLoading ? 
+                        <Grid container xs={12} justify="center">
+                            <CircularProgress color="secondary" />
+                        </Grid>
+                        : expenses.map((expense) => {
 
                         let currencyCode: string = "";
                         let purse = pursesData.find(p => p.id == expense.purseId);
@@ -128,10 +131,7 @@ export const TopicPaper: React.FC<TopicPaperProps> = (props) => {
     const expensesTopic = props.topic.expenses.slice(0, 10);
 
     return(
-        <Grid item container key={props.topic.id}
-                        justify="center" style={{ marginBottom: 10}}
-                        >
-                            <Grid item xs={8} xl={7}>
+        <Grid item xs={8} xl={7}>
                                 <Button style={{width:"100%", padding:0}} onClick={handleOpenOuter}>
                                 <Paper elevation={20} style={{marginBottom:10, width:"100%"}}
                                 >
@@ -177,7 +177,6 @@ export const TopicPaper: React.FC<TopicPaperProps> = (props) => {
                         />
                     </Dialog>
                 </Grid>
-            </Grid>
     );
 }
 

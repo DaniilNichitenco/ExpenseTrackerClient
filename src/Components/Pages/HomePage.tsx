@@ -105,7 +105,11 @@ const HomePage: React.FC = () => {
 
       if(isLoadingPurses || isLoadingExpenses)
       {
-        return(<CircularProgress color="secondary" />);
+        return(
+        <Grid container xs={12} justify="center">
+            <CircularProgress color="secondary" />
+        </Grid>
+        );
       }
     
     return(

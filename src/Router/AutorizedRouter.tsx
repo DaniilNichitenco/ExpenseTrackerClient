@@ -1,4 +1,4 @@
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress, Grid } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react';
 import {
     Route, Redirect, Switch, useHistory
@@ -66,7 +66,11 @@ import DefaultUser from '../Data/Models/User/default/DefaultUser';
 
     if(isLoading)
     {
-      return (<CircularProgress color="secondary" />);
+      return (
+        <Grid container xs={12} justify="center">
+          <CircularProgress color="secondary" />
+        </Grid>
+      );
     }
 
     return(

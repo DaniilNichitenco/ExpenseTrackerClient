@@ -38,7 +38,10 @@ export const ExpensesList: React.FC = () => {
 
     if(isLoading)
     {
-        return(<CircularProgress color="secondary" />);
+        return(
+        <Grid container xs={12} justify="center">
+            <CircularProgress color="secondary" />
+        </Grid>);
     }
 
     return(
@@ -47,7 +50,11 @@ export const ExpensesList: React.FC = () => {
         >
             {topicsWithExpenses.map((topic) => {
 
-                return(<TopicPaper topic={topic} />);
+                return(
+                    <Grid item container key={topic.id} justify="center" style={{ marginBottom: 10}}>
+                        <TopicPaper topic={topic} />
+                    </Grid>
+                );
                 })}
         </GridList>
     );
