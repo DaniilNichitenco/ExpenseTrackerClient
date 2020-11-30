@@ -1,6 +1,7 @@
 import Expense from '../../Data/Models/Expenses/Expense';
 import ExpenseForSum from '../../Data/Models/Expenses/ExpenseForSum';
 import ExpensesForYear from '../../Data/Models/Expenses/ExpensesForYear';
+import Topic from '../../Data/Models/Topics/Topic';
 import API from '../Api';
 
 export const GetAllExpenses = async () => {
@@ -150,11 +151,85 @@ export const GetExpensesSumForToday = async () => {
         });
 }
 
+export const GetUserExpenses = async () => {
+
+    return API.get("/expenses")
+        .then(response => {
+            let expenses: Expense[] = [];
+            let data:any[] = response.data;
+
+            data.forEach(element => {
+                let dateString = element.date;
+                let date = dateString.substring(0, 10);
+                let expense:Expense = {
+                    id: element.id,
+                    purseId: element.purseId,
+                    title: element.title,
+                    money: element.money,
+                    date: new Date(date),
+                };
+                
+                expenses.push(expense);
+            });
+            
+            return {
+                response: response,
+                data: expenses
+            };
+        })
+        .catch(error => {
+            console.log(error);
+
+            return {
+                response:error.response,
+                data: error.response.data
+            };
+        })
+}
+
+export const GetUserExpensesByTopic = async (topic: Topic) => {
+
+    return API.get("/expenses/topic/" + topic.id)
+        .then(response => {
+            let expenses: Expense[] = [];
+            let data:any[] = response.data;
+
+            data.forEach(element => {
+                let dateString = element.date;
+                let date = dateString.substring(0, 10);
+                let expense:Expense = {
+                    id: element.id,
+                    purseId: element.purseId,
+                    title: element.title,
+                    money: element.money,
+                    date: new Date(date),
+                };
+                
+                expenses.push(expense);
+            });
+            
+            return {
+                response: response,
+                data: expenses
+            };
+        })
+        .catch(error => {
+            console.log(error);
+
+            return {
+                response:error.response,
+                data: error.response.data
+            };
+        })
+}
+
 export default {
     GetExpensesForCurrentYear,
     GetAllExpenses,
     DeleteExpense,
     GetExpensesSumForToday,
     GetExpensesSumForMonth,
-    GetExpensesSumForYear
+    GetExpensesSumForYear,
+    GetUserExpensesByTopic,
+    GetUserExpenses
 }
