@@ -8,6 +8,7 @@ import PagedRequest from '../pagedRequests/PagedRequest';
 import RequestFilters from '../pagedRequests/RequestFilters';
 import jwt_decode from 'jwt-decode';
 import PagedResult from '../pagedRequests/PagedResult';
+import LogicalOperators from '../pagedRequests/LogicalOperators';
 
 export const GetAllExpenses = async () => {
     
@@ -228,14 +229,13 @@ export const GetUserExpensesByTopic = async (topic: Topic) => {
         })
 }
 
-export const GetPagedUserExpenses = async (request: PagedRequest) => {
+export const GetPagedUserExpenses = async (request: PagedRequest, topic?: Topic) => {
 
-    const token = GetCurrentUser();
+    const token = GetCurrentUser().accessToken;
     const userId: string = (jwt_decode(token) as any).UserId;
 
-
     const filters: RequestFilters = {
-        logicalOperators: "and",
+        logicalOperators: LogicalOperators.and,
         filters: [
             {
                 path: "OwnerId",
@@ -243,7 +243,25 @@ export const GetPagedUserExpenses = async (request: PagedRequest) => {
             }
         ]
     }
+
+    if(topic != undefined)
+    {
+        filters.filters.push(
+            {
+                path: "TopicId",
+                value: topic.id.toString()
+            }
+        );
+    }
+
     request.requestFilters = filters;
+    if(request.columnNameForSorting == undefined)
+    {
+        request.columnNameForSorting = "Date";
+        request.sortDirection = "DESC";
+    }
+    console.log("request: " + JSON.stringify(request));
+    
     return API.post("Expenses/PaginatedSearch", request)
         .then(response => {
             let result: PagedResult<Expense> = response.data;
@@ -259,7 +277,6 @@ export const GetPagedUserExpenses = async (request: PagedRequest) => {
                     money: e.money,
                     date: new Date(date),
                 };
-                
                 expenses.push(expense);
             });
 
@@ -288,5 +305,6 @@ export default {
     GetExpensesSumForMonth,
     GetExpensesSumForYear,
     GetUserExpensesByTopic,
-    GetUserExpenses
+    GetUserExpenses,
+    GetPagedUserExpenses
 }

@@ -1,5 +1,7 @@
-import { Box, Button, CircularProgress, Dialog, DialogContent,
-    DialogActions, DialogTitle, Grid, makeStyles, Paper, Typography, DialogProps, DialogContentText, useMediaQuery, useTheme, Accordion, AccordionSummary, AccordionDetails, Container } from '@material-ui/core';
+import { Box, Button, List, CircularProgress, Dialog, DialogContent,
+    DialogActions, DialogTitle, Grid, makeStyles, Paper, 
+    Typography, DialogProps, DialogContentText, useMediaQuery, 
+    useTheme, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import Expense from '../../Data/Models/Expenses/Expense';
 import Topic from '../../Data/Models/Topics/Topic';
@@ -9,6 +11,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import Purse from '../../Data/Models/Purses/Purse';
 import { GetMonthName } from '../../Date/MonthName';
+import useInfiniteScroll from 'react-infinite-scroll-hook';
+import PagedRequest from '../../Services/pagedRequests/PagedRequest';
 
 const useStyles = makeStyles((theme) =>
 ({
@@ -16,6 +20,10 @@ const useStyles = makeStyles((theme) =>
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
   },
+  dialogPaper: {
+      maxHeight: "600px",
+      minHeight: "400px"
+  }
 }),
 );
 
@@ -28,37 +36,77 @@ interface TopicExpensesListProps
 
 const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
 
-    const [isLoading, setIsLoading] = useState(true);
+    const pageSize: number = 20;
+    
+    const [pageIndex, setPageIndex] = useState<number>(0);
+    const [hasData, setHasData] = useState<boolean>(true);
+    const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
     const [expenses, setExpenses] = useState<Expense[]>([]);
+    const [hasNextPage, setHasNextPage] = useState<boolean>(true);
     const [pursesData, setPursesData, removePursesData] = useSessionStorage<Purse[]>("pursesData", []);
 
     const classes = useStyles();
 
     useEffect(() => {
-        ExpenseService.GetUserExpensesByTopic(props.topic)
+        if (isLoadingData)
+        {
+            handleLoadMore();
+        }
+        console.log("useEffect state:" + isLoadingData + expenses);
+      }, [isLoadingData]);
+      
+
+    const handleLoadMore = () => {
+        if(hasNextPage)
+        {
+            setIsLoadingData(true);
+            const request: PagedRequest = {
+            pageIndex: pageIndex,
+            pageSize: pageSize
+        };
+
+        ExpenseService.GetPagedUserExpenses(request, props.topic)
             .then(result => {
                 if(result.response.status == 200)
                 {
-                    setExpenses(result.data);
-                    setIsLoading(false);
+                    if(result.data.total == 0)
+                    {
+                        setHasData(false);
+                    }
+                    setExpenses([...expenses, ...result.data.items]);
+                    setHasNextPage(result.data.items.length == pageSize);
+                    setIsLoadingData(false);
+                    setPageIndex(pageIndex + 1);
                 }
             })
             .catch(error => {
                 console.log(error);
             });
-    },[]);
+        }
+    }
+
+    const infiniteRef = useInfiniteScroll({
+        loading:isLoadingData,
+        hasNextPage,
+        onLoadMore: handleLoadMore,
+        scrollContainer: "parent"
+      });
 
     return(
         <React.Fragment>
             <DialogTitle id="scroll-dialog-title">
-                {props.topic.name}
+                <Grid container justify="center" xs={12}>
+                    <Typography variant="h6">{props.topic.name}</Typography>
+                </Grid>
             </DialogTitle>
             <DialogContent dividers={true}>
-                <DialogContentText id="scroll-dialog-description"
+                <DialogContentText id="scroll-dialog-description" ref={infiniteRef}
                 >
-                    {isLoading ? 
+                    {!hasData ?
                         <Grid container xs={12} justify="center">
-                            <CircularProgress color="secondary" />
+                            <Typography variant="h6">
+                                You do not have any {props.topic.name} expeses
+                            </Typography>
                         </Grid>
                         : expenses.map((expense) => {
 
@@ -82,9 +130,9 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
                                 <AccordionDetails>
                                 <Typography>
                                     {expense.title}<br/>
-                                    Date: {expense.date.getFullYear()}/
+                                    Date: {expense.date.getDate()}/
                                     {GetMonthName(expense.date.getMonth())}/
-                                    {expense.date.getDate()}
+                                    {expense.date.getFullYear()}
                                     <br/>
                                     Sum: {expense.money} {currencyCode}
                                 </Typography>
@@ -93,6 +141,17 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
 
                         );
                     })}
+                    {isLoadingData && 
+                        <Grid container xs={12} justify="center">
+                            <Grid container item xs={12} justify="center">
+                                <CircularProgress color="secondary" />
+                            </Grid>
+                            <Grid container item xs={12} justify="center">
+                                <Typography variant="h6">
+                                    Loading expenses...
+                                </Typography>
+                            </Grid>
+                        </Grid>}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -117,22 +176,21 @@ interface TopicPaperProps
 
 export const TopicPaper: React.FC<TopicPaperProps> = (props) => {
 
-    const [isOpenOuter, setIsOpenOuter] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
     const theme = useTheme();
+    const classes = useStyles();
     
-    const handleOpenOuter = () => {
-        setIsOpenOuter(true);
+    const handleOpen = () => {
+        setIsOpen(true);
       };
 
-    const handleCloseOuter = () => {
-        setIsOpenOuter(false);
+    const handleClose = () => {
+        setIsOpen(false);
     }
-
-    const expensesTopic = props.topic.expenses.slice(0, 10);
 
     return(
         <Grid item xs={8} xl={7}>
-                                <Button style={{width:"100%", padding:0}} onClick={handleOpenOuter}>
+                                <Button style={{width:"100%", padding:0}} onClick={handleOpen}>
                                 <Paper elevation={20} style={{marginBottom:10, width:"100%"}}
                                 >
                                     <Box display="flex" p={1}
@@ -143,7 +201,7 @@ export const TopicPaper: React.FC<TopicPaperProps> = (props) => {
                                         <Typography>{props.topic.name}</Typography>
                                     </Box>
                                     {
-                                        expensesTopic.length == 0 &&
+                                        props.topic.expenses.length == 0 &&
                                         <Box display="flex" justifyContent="center"
                                         flexWrap="wrap">
                                             <Typography variant="h5">
@@ -151,7 +209,7 @@ export const TopicPaper: React.FC<TopicPaperProps> = (props) => {
                                             </Typography>
                                         </Box>
                                     }
-                                    {expensesTopic.map((expense) => {
+                                    {props.topic.expenses.map((expense) => {
                                     return(
                                     <Box display="flex" justifyContent="center"
                                     flexWrap="wrap" key={expense.id}
@@ -164,16 +222,17 @@ export const TopicPaper: React.FC<TopicPaperProps> = (props) => {
                                 })}
                         </Paper>
                     </Button>
-                    <Dialog open={isOpenOuter}
+                    <Dialog open={isOpen}
                     scroll="paper" aria-labelledby="scroll-dialog-title"
                     aria-describedby="scroll-dialog-description"
                     fullWidth={useMediaQuery(theme.breakpoints.down('lg'))}
+                    classes={{paper: classes.dialogPaper}}
                     >
                         <TopicExpensesList topic={{
                             id: props.topic.id,
                             name: props.topic.name
                         }} 
-                        handleClose={handleCloseOuter}
+                        handleClose={handleClose}
                         />
                     </Dialog>
                 </Grid>
