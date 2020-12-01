@@ -3,6 +3,11 @@ import ExpenseForSum from '../../Data/Models/Expenses/ExpenseForSum';
 import ExpensesForYear from '../../Data/Models/Expenses/ExpensesForYear';
 import Topic from '../../Data/Models/Topics/Topic';
 import API from '../Api';
+import { GetCurrentUser } from '../auth.services/auth-service';
+import PagedRequest from '../pagedRequests/PagedRequest';
+import RequestFilters from '../pagedRequests/RequestFilters';
+import jwt_decode from 'jwt-decode';
+import PagedResult from '../pagedRequests/PagedResult';
 
 export const GetAllExpenses = async () => {
     
@@ -221,6 +226,58 @@ export const GetUserExpensesByTopic = async (topic: Topic) => {
                 data: error.response.data
             };
         })
+}
+
+export const GetPagedUserExpenses = async (request: PagedRequest) => {
+
+    const token = GetCurrentUser();
+    const userId: string = (jwt_decode(token) as any).UserId;
+
+
+    const filters: RequestFilters = {
+        logicalOperators: "and",
+        filters: [
+            {
+                path: "OwnerId",
+                value: userId
+            }
+        ]
+    }
+    request.requestFilters = filters;
+    return API.post("Expenses/PaginatedSearch", request)
+        .then(response => {
+            let result: PagedResult<Expense> = response.data;
+            let expenses: Expense[] = [];
+
+            result.items.forEach(e => {
+                let dateString = e.date.toString();
+                let date = dateString.substring(0, 10);
+                let expense:Expense = {
+                    id: e.id,
+                    purseId: e.purseId,
+                    title: e.title,
+                    money: e.money,
+                    date: new Date(date),
+                };
+                
+                expenses.push(expense);
+            });
+
+            result.items = expenses;
+
+            return {
+                response: response,
+                data: result
+            };
+        })
+        .catch(error => {
+            console.log(error);
+
+            return {
+                response:error.response,
+                data: error.response.data
+            };
+        });
 }
 
 export default {
