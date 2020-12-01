@@ -11,6 +11,7 @@ import { ExpenseForSum } from "../../Data/Models/Expenses/ExpenseForSum";
 import ExpenseService from "../../Services/expense.service/ExpenseService";
 import { CountDays } from "../../Date/CountDays";
 import ExpensesList from "../ExpensesList/ExpensesList";
+import { GetCurrentUser } from "../../Services/auth.services/auth-service";
 
 interface TabPanelProps {
     index: number,
@@ -58,9 +59,8 @@ const HomePage: React.FC = () => {
         setValue(newValue);
     };
 
-
     useEffect(() => {
-    
+        
         if(pursesData == PursesDefault)
         {
             PursesService.GetCurrentUserPurses()
@@ -105,7 +105,11 @@ const HomePage: React.FC = () => {
 
       if(isLoadingPurses || isLoadingExpenses)
       {
-        return(<CircularProgress color="secondary" />);
+        return(
+        <Grid container xs={12} justify="center">
+            <CircularProgress color="secondary" />
+        </Grid>
+        );
       }
     
     return(

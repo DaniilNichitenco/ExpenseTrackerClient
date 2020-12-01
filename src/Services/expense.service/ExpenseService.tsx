@@ -3,6 +3,12 @@ import ExpenseForSum from '../../Data/Models/Expenses/ExpenseForSum';
 import ExpensesForYear from '../../Data/Models/Expenses/ExpensesForYear';
 import Topic from '../../Data/Models/Topics/Topic';
 import API from '../Api';
+import { GetCurrentUser } from '../auth.services/auth-service';
+import PagedRequest from '../pagedRequests/PagedRequest';
+import RequestFilters from '../pagedRequests/RequestFilters';
+import jwt_decode from 'jwt-decode';
+import PagedResult from '../pagedRequests/PagedResult';
+import LogicalOperators from '../pagedRequests/LogicalOperators';
 
 export const GetAllExpenses = async () => {
     
@@ -223,6 +229,74 @@ export const GetUserExpensesByTopic = async (topic: Topic) => {
         })
 }
 
+export const GetPagedUserExpenses = async (request: PagedRequest, topic?: Topic) => {
+
+    const token = GetCurrentUser().accessToken;
+    const userId: string = (jwt_decode(token) as any).UserId;
+
+    const filters: RequestFilters = {
+        logicalOperators: LogicalOperators.and,
+        filters: [
+            {
+                path: "OwnerId",
+                value: userId
+            }
+        ]
+    }
+
+    if(topic != undefined)
+    {
+        filters.filters.push(
+            {
+                path: "TopicId",
+                value: topic.id.toString()
+            }
+        );
+    }
+
+    request.requestFilters = filters;
+    if(request.columnNameForSorting == undefined)
+    {
+        request.columnNameForSorting = "Date";
+        request.sortDirection = "DESC";
+    }
+    console.log("request: " + JSON.stringify(request));
+    
+    return API.post("Expenses/PaginatedSearch", request)
+        .then(response => {
+            let result: PagedResult<Expense> = response.data;
+            let expenses: Expense[] = [];
+
+            result.items.forEach(e => {
+                let dateString = e.date.toString();
+                let date = dateString.substring(0, 10);
+                let expense:Expense = {
+                    id: e.id,
+                    purseId: e.purseId,
+                    title: e.title,
+                    money: e.money,
+                    date: new Date(date),
+                };
+                expenses.push(expense);
+            });
+
+            result.items = expenses;
+
+            return {
+                response: response,
+                data: result
+            };
+        })
+        .catch(error => {
+            console.log(error);
+
+            return {
+                response:error.response,
+                data: error.response.data
+            };
+        });
+}
+
 export default {
     GetExpensesForCurrentYear,
     GetAllExpenses,
@@ -231,5 +305,6 @@ export default {
     GetExpensesSumForMonth,
     GetExpensesSumForYear,
     GetUserExpensesByTopic,
-    GetUserExpenses
+    GetUserExpenses,
+    GetPagedUserExpenses
 }

@@ -55,7 +55,7 @@ const SignInForm: React.FC<ISignInFormProps> = (props) => {
         }
         else
         {
-            setSignInError(response.data);
+            setSignInError(JSON.stringify(response.data));
         }
     }
 

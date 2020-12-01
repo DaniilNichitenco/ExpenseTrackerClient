@@ -11,7 +11,7 @@ import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage'
 import Purse from '../../Data/Models/Purses/Purse';
 import { PursesDefault } from '../../Data/Models/Purses/default/PurseDefault';
 import PursesService from '../../Services/purse.services/Purse.service';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress, Grid } from '@material-ui/core';
 import { ExpensesForSumDefault } from '../../Data/Models/Expenses/default/ExpenseForSumDefault';
 import ExpenseForSum from '../../Data/Models/Expenses/ExpenseForSum';
 import ExpenseService from '../../Services/expense.service/ExpenseService';
@@ -89,7 +89,11 @@ const TableDailyData: React.FC<TableDataProps> = ({currencyCode}) => {
 
     if(isLoading)
     {
-        return(<CircularProgress color="secondary" />);
+        return(
+        <Grid container xs={12} justify="center">
+          <CircularProgress color="secondary" />
+        </Grid>
+          );
     }
 
     let sum = dailyExpenseSum.find(e => e.currencyCode == currencyCode);
@@ -133,7 +137,11 @@ const TableMonthlyData: React.FC<TableDataProps> = ({currencyCode}) => {
 
     if(isLoading)
     {
-        return(<CircularProgress color="secondary" />);
+        return(
+          <Grid container xs={12} justify="center">
+            <CircularProgress color="secondary" />
+          </Grid>
+          );
     }
 
     let sum = monlyExpenseSum.find(e => e.currencyCode == currencyCode);
@@ -177,7 +185,11 @@ const TableYearlyData: React.FC<TableDataProps> = ({currencyCode}) => {
 
     if(isLoading)
     {
-        return(<CircularProgress color="secondary" />);
+        return(
+          <Grid container xs={12} justify="center">
+            <CircularProgress color="secondary" />
+          </Grid>
+          );
     }
 
     let sum = yearlyExpenseSum.find(e => e.currencyCode == currencyCode);
@@ -220,7 +232,11 @@ const PurseExpenseTable:React.FC = () => {
 
   if(isLoading)
   {
-    return (<CircularProgress color="secondary" />); 
+    return (
+      <Grid container xs={12} justify="center">
+        <CircularProgress color="secondary" />
+      </Grid>
+      ); 
   }
 
   return (
