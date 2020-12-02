@@ -17,3 +17,5 @@ export const useNonInitialEffect = (effect: EffectCallback, deps?: DependencyLis
 		}
 	}, deps);
 };
+
+export default useNonInitialEffect;

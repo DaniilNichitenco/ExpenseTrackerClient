@@ -1,10 +1,12 @@
 import React from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
-import { TextField } from '@material-ui/core';
+import { MenuItem, TextField } from '@material-ui/core';
 import IInputFormData from './IInputFormProps';
 
 const InputForm: React.FC<IInputFormData> = ({name, label, errorObj, autoFocus = false, 
-    required = false, type="text", variant = "standard", autoComplete}) => {
+    required = false, type="text", variant = "standard", autoComplete, defaultValue = "",
+    disabled = false, select = {select:false, items: []}
+    }) => {
 
     const { control } = useFormContext();
     let isError: boolean = false;
@@ -13,6 +15,38 @@ const InputForm: React.FC<IInputFormData> = ({name, label, errorObj, autoFocus =
     {
         isError = true;
         errorMessage = errorObj[name].message;
+    }
+
+    if(select.select)
+    {
+        return(
+            <Controller
+                autoComplete={autoComplete}
+                as={TextField}
+                select
+                type={type}
+                margin="dense"
+                autoFocus={autoFocus}
+                name={name}
+                control={control}
+                label={label}
+                fullWidth
+                error={isError}
+                InputLabelProps={{
+                    required: required
+                }}
+                helperText={errorMessage}
+                variant={variant}
+                disabled={disabled}
+            >
+                {select.items.map((option) => {
+                    return(
+                    <MenuItem key={option.id} value={option.id}>
+                        {option.label}
+                    </MenuItem>
+                );})}
+            </Controller>
+        )
     }
 
     return(
@@ -24,15 +58,16 @@ const InputForm: React.FC<IInputFormData> = ({name, label, errorObj, autoFocus =
             autoFocus={autoFocus}
             name={name}
             control={control}
-            defaultValue=""
+            defaultValue={defaultValue}
             label={label}
-            fullWidth={true}
+            fullWidth
             error={isError}
             InputLabelProps={{
                 required: required
             }}
             helperText={errorMessage}
             variant={variant}
+            disabled={disabled}
         />
     )
 }

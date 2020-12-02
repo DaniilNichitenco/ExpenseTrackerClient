@@ -7,7 +7,6 @@ import SignUpPage from '../Components/Pages/SignUpPage';
 import UnauthorizedPage from '../Components/Pages/UnauthorizedPage';
 import PursesContext from '../Context/PursesContext';
 import UserContext from '../Context/UserContext';
-import useSessionStorageAsync from '../CustomHooks/StorageHooks/AsyncHooks/useSessionStorageAsync';
 import User from '../Data/Models/User/User';
 import PurseData from '../Data/PurseData';
 import PursesData from '../Data/PursesData';

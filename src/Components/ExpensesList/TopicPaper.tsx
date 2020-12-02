@@ -6,13 +6,15 @@ import React, { useEffect, useState } from 'react';
 import Expense from '../../Data/Models/Expenses/Expense';
 import Topic from '../../Data/Models/Topics/Topic';
 import TopicWithExpenses from '../../Data/Models/Topics/TopicWithExpenses';
-import ExpenseService from '../../Services/expense.service/ExpenseService';
+import ExpenseService, { DeleteExpense } from '../../Services/expense.service/ExpenseService';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import Purse from '../../Data/Models/Purses/Purse';
 import { GetMonthName } from '../../Date/MonthName';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import PagedRequest from '../../Services/pagedRequests/PagedRequest';
+import useNonInitialEffect from '../../CustomHooks/CustomUseEffectHooks/useNonInitialEffect';
+import CreateExpenseForm from '../Forms/ExpenseForm/CreateExpenseForm';
 
 const useStyles = makeStyles((theme) =>
 ({
@@ -22,7 +24,7 @@ const useStyles = makeStyles((theme) =>
   },
   dialogPaper: {
       maxHeight: "600px",
-      minHeight: "400px"
+      minHeight: "600px"
   }
 }),
 );
@@ -45,16 +47,31 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
     const [hasNextPage, setHasNextPage] = useState<boolean>(true);
     const [pursesData, setPursesData, removePursesData] = useSessionStorage<Purse[]>("pursesData", []);
 
+    const [dialog, setDialog] = useState<{
+        isOpen: boolean, 
+        action: "update" | "create" | "delete",
+        itemId: number
+    }>({isOpen: false, action: "update", itemId: 0});
+
     const classes = useStyles();
+
+    useNonInitialEffect(() => {
+        if(!dialog.isOpen) //if we close nested dialog, we rerender whole component
+        {
+            setPageIndex(0);
+            setHasData(true);
+            setIsLoadingData(true);
+            setHasNextPage(true);
+            setExpenses([...[]]);
+        }
+    }, [dialog]);
 
     useEffect(() => {
         if (isLoadingData)
         {
             handleLoadMore();
         }
-        console.log("useEffect state:" + isLoadingData + expenses);
       }, [isLoadingData]);
-      
 
     const handleLoadMore = () => {
         if(hasNextPage)
@@ -92,9 +109,195 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
         scrollContainer: "parent"
       });
 
+      const handleClose = () => {
+          setDialog({...dialog, isOpen: false});
+      }
+      
+      const handleOpen = (action: "update" | "create" | "delete", itemId?: number) => {
+        if(itemId == undefined)
+        {
+            setDialog({...dialog, isOpen: true, action: action});
+        }
+        else
+        {
+            setDialog({...dialog, isOpen: true, action: action, itemId: itemId})
+        }
+      }
+
+      const GetExpense = async (expenseId: number) => {
+        return ExpenseService.GetExpense(expenseId)
+            .then(result => {
+                if(result.response.status == 200)
+                {
+                    return{
+                        expense: result.data,
+                        successed: true,
+                        description: "Successed"
+                    }
+                }
+                if(result.response.status == 404)
+                {
+                    return{
+                        successed: false,
+                        description: "Expense has already deleted"
+                    };
+                }
+                return{
+                    successed: false,
+                    description: "You do not have access to this expense"
+                };
+            })
+            .catch(error => {
+                console.log(error);
+
+                return{
+                    successed: false,
+                    description: "Something went wrong"
+                };
+            })
+      }
+
+    if(dialog.isOpen)
+    {
+        if(dialog.action == "create")
+        {
+            return(<CreateExpenseForm topic={props.topic} handleClose={handleClose} />);
+        }
+
+        setDialog({...dialog, isOpen: false});
+
+        // let result: {
+        //     expense?: Expense;
+        //     successed: boolean;
+        //     description: string;
+        // } = {
+        //     successed: false,
+        //     description: ""
+        // }
+
+        // GetExpense(dialog.itemId).then(response => {
+        //     result = response;
+        // });
+
+        // if(!result.successed || result.expense == undefined)
+        // {
+        //     return(
+        //         <React.Fragment>
+        //             <DialogTitle id="scroll-dialog-title">
+        //                 <Grid container justify="center" xs={12}>
+        //                     <Typography variant="h6">Error!</Typography>
+        //                 </Grid>
+        //             </DialogTitle>
+        //             <DialogContent dividers={true}>
+        //                 <DialogContentText>
+        //                     <Typography>
+        //                         {result.description}
+        //                     </Typography>
+        //                 </DialogContentText>
+        //             </DialogContent>
+        //             <DialogActions>
+        //                 <Button 
+        //                     variant="contained" 
+        //                     color="primary"
+        //                     onClick={handleClose}
+        //                     >
+        //                     <Typography>
+        //                         Close
+        //                     </Typography>
+        //                 </Button>
+        //             </DialogActions>
+        //         </React.Fragment>
+        //     );
+        // }
+
+        // if(dialog.action == "delete")
+        // {
+        //     return(
+        //         <React.Fragment>
+        //             <DialogTitle id="scroll-dialog-title">
+        //                 <Grid container justify="center" xs={12}>
+        //                     <Typography variant="h6">{result.expense.title}</Typography>
+        //                 </Grid>
+        //             </DialogTitle>
+        //             <DialogContent dividers={true}>
+        //                 <DialogContentText>
+        //                     <Typography>
+        //                         Are you sure you want to delete this expense?
+        //                     </Typography>
+        //                 </DialogContentText>
+        //             </DialogContent>
+        //             <DialogActions>
+        //                 <Button 
+        //                     variant="contained" 
+        //                     color="primary"
+        //                     onClick={() => {DeleteExpense(dialog.itemId).then(result => {
+        //                         console.log(JSON.stringify(result));
+        //                         handleClose();
+        //                         }
+        //                         );}}
+        //                     >
+        //                     <Typography>
+        //                         Delete
+        //                     </Typography>
+        //                 </Button>
+        //                 <Button 
+        //                     variant="contained" 
+        //                     color="primary"
+        //                     onClick={handleClose}
+        //                     >
+        //                     <Typography>
+        //                         Cancel
+        //                     </Typography>
+        //                 </Button>
+        //             </DialogActions>
+        //         </React.Fragment>
+        //     );
+        // }
+
+        // return(
+        //     <React.Fragment>
+        //         <DialogTitle id="scroll-dialog-title">
+        //             <Grid container justify="center" xs={12}>
+        //                 <Typography variant="h6">{props.topic.name}</Typography>
+        //             </Grid>
+        //         </DialogTitle>
+        //         <DialogContent dividers={true}>
+        //             <DialogContentText>
+
+        //             </DialogContentText>
+        //         </DialogContent>
+        //         <DialogActions>
+        //             <Button 
+        //                 variant="contained" 
+        //                 color="primary"
+        //                 onClick={handleClose}
+        //                 >
+        //                 <Typography>
+        //                     Cancel
+        //                 </Typography>
+        //             </Button>
+        //             <Button 
+        //                 variant="contained" 
+        //                 color="primary"
+        //                 onClick={handleClose}
+        //                 >
+        //                 <Typography>
+        //                     Cancel
+        //                 </Typography>
+        //             </Button>
+        //         </DialogActions>
+        //     </React.Fragment>
+        // );
+    }
+
     return(
         <React.Fragment>
             <DialogTitle id="scroll-dialog-title">
+                <Grid container>
+                    <Button color="inherit" variant="outlined" onClick={() => handleOpen("create")}>
+                        Create
+                    </Button>
+                </Grid>
                 <Grid container justify="center" xs={12}>
                     <Typography variant="h6">{props.topic.name}</Typography>
                 </Grid>

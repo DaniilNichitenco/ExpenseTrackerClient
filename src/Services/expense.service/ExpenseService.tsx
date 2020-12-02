@@ -297,6 +297,28 @@ export const GetPagedUserExpenses = async (request: PagedRequest, topic?: Topic)
         });
 }
 
+export const GetExpense = async (id: number) => {
+    return API.get("Expenses/" + id)
+        .then(response => {
+            const expense: Expense = response.data;
+            let dateString = response.data.date.toString().substring(0, 10);
+            expense.date = new Date(dateString);
+
+            return {
+                response: response,
+                data: expense
+            };
+        })
+        .catch(error => {
+            console.log(error);
+
+            return {
+                response:error.response,
+                data: error.response.data
+            };
+        });
+}
+
 export default {
     GetExpensesForCurrentYear,
     GetAllExpenses,
@@ -306,5 +328,6 @@ export default {
     GetExpensesSumForYear,
     GetUserExpensesByTopic,
     GetUserExpenses,
-    GetPagedUserExpenses
+    GetPagedUserExpenses,
+    GetExpense
 }
