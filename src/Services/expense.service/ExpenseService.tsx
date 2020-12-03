@@ -73,12 +73,18 @@ export const DeleteExpense = async (id: number) => {
         .then(response => {
             console.log(response);
 
-            return {response: response};
+            return {
+                response: response,
+                data: response.data
+            };
         })
         .catch(error => {
             console.log(error);
             
-            return {response: error.response};
+            return {
+                response: error.response,
+                data: error.response.data
+            };
         })
 }
 

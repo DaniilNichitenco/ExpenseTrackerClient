@@ -1,8 +1,9 @@
-export default interface ExpenseForCreate
+export default interface ExpenseForUpdate
 {
+    id: number;
     purseId: number;
     title: string;
-    date?: Date;
+    date: Date;
     money: number;
     topicId: number;
 }

@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import Expense from '../../Data/Models/Expenses/Expense';
 import Topic from '../../Data/Models/Topics/Topic';
 import TopicWithExpenses from '../../Data/Models/Topics/TopicWithExpenses';
-import ExpenseService, { DeleteExpense } from '../../Services/expense.service/ExpenseService';
+import { GetPagedUserExpenses, DeleteExpense } from '../../Services/expense.service/ExpenseService';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import Purse from '../../Data/Models/Purses/Purse';
@@ -61,8 +61,10 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
     const classes = useStyles();
 
     useNonInitialEffect(() => {
+        console.log(dialog);
         if(!dialog.isOpen) //if we close nested dialog, we rerender whole component
         {
+            console.log("rerender");
             setPageIndex(0);
             setHasData(true);
             setIsLoadingData(true);
@@ -87,10 +89,11 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
             pageSize: pageSize
         };
 
-        ExpenseService.GetPagedUserExpenses(request, props.topic)
+        GetPagedUserExpenses(request, props.topic)
             .then(result => {
                 if(result.response.status == 200)
                 {
+                    console.log(result.data);
                     if(result.data.total == 0)
                     {
                         setHasData(false);
@@ -129,40 +132,15 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
         }
       }
 
-      const GetExpense = async (expenseId: number) => {
-        return ExpenseService.GetExpense(expenseId)
-            .then(result => {
-                if(result.response.status == 200)
-                {
-                    return{
-                        expense: result.data,
-                        successed: true,
-                        description: "Successed"
-                    }
-                }
-                if(result.response.status == 404)
-                {
-                    return{
-                        successed: false,
-                        description: "Expense has already deleted"
-                    };
-                }
-                return{
-                    successed: false,
-                    description: "You do not have access to this expense"
-                };
-            })
-            .catch(error => {
-                console.log(error);
+      const Delete = async (expenseId: number) => {
+        DeleteExpense(expenseId).then(res => {
+            console.log(res);
 
-                return{
-                    successed: false,
-                    description: "Something went wrong"
-                };
-            })
+            handleClose();
+        })
       }
 
-    if(dialog.isOpen)
+    if(dialog.isOpen && dialog.action!="delete")
     {
         if(dialog.action == "create")
         {
@@ -173,7 +151,6 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
             return(<EditExpenseForm topic={props.topic} 
                 expenseId={dialog.itemId} handleClose={handleClose} />);
         }
-
     }
 
     return(
@@ -229,7 +206,7 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
                                         </Typography>
                                     </Grid>
                                     <Grid item style={{padding:10}} container xs={12} direction="row-reverse">
-                                        <Button variant="contained" 
+                                        <Button variant="contained" onClick={() => handleOpen("delete", expense.id)}
                                         color="secondary" className={classes.buttons}>
                                             <Typography>
                                                 Delete
@@ -272,7 +249,41 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
                         Close
                     </Typography>
                 </Button>
-            </DialogActions>     
+            </DialogActions>
+            <Dialog open={dialog.isOpen && dialog.action=="delete"}>
+                <DialogTitle>
+                    <Typography>
+                        Delete expense
+                    </Typography>
+                </DialogTitle>
+                <DialogContent dividers={true}>
+                        <DialogContentText>
+                            <Typography>
+                                Are you sure you want to delete this expense?
+                            </Typography>
+                        </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                <Button 
+                    variant="contained" 
+                    color="secondary"
+                    onClick={async () => {await Delete(dialog.itemId);}}
+                    >
+                    <Typography>
+                        Delete
+                    </Typography>
+                </Button>
+                <Button 
+                    variant="contained" 
+                    color="primary"
+                    onClick={handleClose}
+                    >
+                    <Typography>
+                        Close
+                    </Typography>
+                </Button>
+            </DialogActions>
+            </Dialog>
         </React.Fragment>
     );
 }

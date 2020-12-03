@@ -14,11 +14,12 @@ import ExpenseForCreate from "../../../Data/Models/Expenses/ExpenseForCreate";
 import "./datepickerStyles.css";
 import Expense from "../../../Data/Models/Expenses/Expense";
 import { GetExpense, UpdateExpense } from "../../../Services/expense.service/ExpenseService";
+import ExpenseForUpdate from "../../../Data/Models/Expenses/ExpenseForUpdate";
 
 const validationSchema = yup.object().shape({
     title: yup.string().required("Enter title!")
         .min(3, "Title is too short!").max(15,  "Should be 15 chars maximum"),
-    purse: yup.string().required("Chose purse!"),
+    purseId: yup.number().required("Chose purse!"),
     money: yup.number().required("Enter money!")
         .min(1, "Minimum value is 1!").max(9999999999, "Maximum value is 9999999999!")
   });
@@ -116,9 +117,10 @@ export const EditExpenseForm: React.FC<EditExpenseFormProps> = (props) => {
       }
     
 
-    const onSubmit = (formValues: Expense) => {
+    const onSubmit = (formValues: ExpenseForUpdate) => {
         formValues.date = new Date(currentDate);
         formValues.id = props.expenseId;
+        formValues.topicId = props.topic.id;
          
         UpdateExpense(formValues).then(res => {
             console.log(res);
@@ -215,8 +217,8 @@ export const EditExpenseForm: React.FC<EditExpenseFormProps> = (props) => {
                                         <Grid item xs={5}>
                                             <InputForm 
                                             errorObj={errors}
-                                            name="purse" 
-                                            type="text"
+                                            name="purseId" 
+                                            type="number"
                                             label="Purse"
                                             required
                                             defaultValue={result.expense.purseId.toString()}
