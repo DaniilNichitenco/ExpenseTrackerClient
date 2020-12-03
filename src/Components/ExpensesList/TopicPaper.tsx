@@ -15,6 +15,7 @@ import useInfiniteScroll from 'react-infinite-scroll-hook';
 import PagedRequest from '../../Services/pagedRequests/PagedRequest';
 import useNonInitialEffect from '../../CustomHooks/CustomUseEffectHooks/useNonInitialEffect';
 import CreateExpenseForm from '../Forms/ExpenseForm/CreateExpenseForm';
+import EditExpenseForm from '../Forms/ExpenseForm/EditExpenseForm';
 
 const useStyles = makeStyles((theme) =>
 ({
@@ -25,6 +26,9 @@ const useStyles = makeStyles((theme) =>
   dialogPaper: {
       maxHeight: "600px",
       minHeight: "600px"
+  },
+  buttons:{
+      width: 100
   }
 }),
 );
@@ -46,6 +50,7 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
     const [expenses, setExpenses] = useState<Expense[]>([]);
     const [hasNextPage, setHasNextPage] = useState<boolean>(true);
     const [pursesData, setPursesData, removePursesData] = useSessionStorage<Purse[]>("pursesData", []);
+    
 
     const [dialog, setDialog] = useState<{
         isOpen: boolean, 
@@ -163,138 +168,19 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
         {
             return(<CreateExpenseForm topic={props.topic} handleClose={handleClose} />);
         }
+        if(dialog.action == "update")
+        {
+            return(<EditExpenseForm topic={props.topic} 
+                expenseId={dialog.itemId} handleClose={handleClose} />);
+        }
 
-        setDialog({...dialog, isOpen: false});
-
-        // let result: {
-        //     expense?: Expense;
-        //     successed: boolean;
-        //     description: string;
-        // } = {
-        //     successed: false,
-        //     description: ""
-        // }
-
-        // GetExpense(dialog.itemId).then(response => {
-        //     result = response;
-        // });
-
-        // if(!result.successed || result.expense == undefined)
-        // {
-        //     return(
-        //         <React.Fragment>
-        //             <DialogTitle id="scroll-dialog-title">
-        //                 <Grid container justify="center" xs={12}>
-        //                     <Typography variant="h6">Error!</Typography>
-        //                 </Grid>
-        //             </DialogTitle>
-        //             <DialogContent dividers={true}>
-        //                 <DialogContentText>
-        //                     <Typography>
-        //                         {result.description}
-        //                     </Typography>
-        //                 </DialogContentText>
-        //             </DialogContent>
-        //             <DialogActions>
-        //                 <Button 
-        //                     variant="contained" 
-        //                     color="primary"
-        //                     onClick={handleClose}
-        //                     >
-        //                     <Typography>
-        //                         Close
-        //                     </Typography>
-        //                 </Button>
-        //             </DialogActions>
-        //         </React.Fragment>
-        //     );
-        // }
-
-        // if(dialog.action == "delete")
-        // {
-        //     return(
-        //         <React.Fragment>
-        //             <DialogTitle id="scroll-dialog-title">
-        //                 <Grid container justify="center" xs={12}>
-        //                     <Typography variant="h6">{result.expense.title}</Typography>
-        //                 </Grid>
-        //             </DialogTitle>
-        //             <DialogContent dividers={true}>
-        //                 <DialogContentText>
-        //                     <Typography>
-        //                         Are you sure you want to delete this expense?
-        //                     </Typography>
-        //                 </DialogContentText>
-        //             </DialogContent>
-        //             <DialogActions>
-        //                 <Button 
-        //                     variant="contained" 
-        //                     color="primary"
-        //                     onClick={() => {DeleteExpense(dialog.itemId).then(result => {
-        //                         console.log(JSON.stringify(result));
-        //                         handleClose();
-        //                         }
-        //                         );}}
-        //                     >
-        //                     <Typography>
-        //                         Delete
-        //                     </Typography>
-        //                 </Button>
-        //                 <Button 
-        //                     variant="contained" 
-        //                     color="primary"
-        //                     onClick={handleClose}
-        //                     >
-        //                     <Typography>
-        //                         Cancel
-        //                     </Typography>
-        //                 </Button>
-        //             </DialogActions>
-        //         </React.Fragment>
-        //     );
-        // }
-
-        // return(
-        //     <React.Fragment>
-        //         <DialogTitle id="scroll-dialog-title">
-        //             <Grid container justify="center" xs={12}>
-        //                 <Typography variant="h6">{props.topic.name}</Typography>
-        //             </Grid>
-        //         </DialogTitle>
-        //         <DialogContent dividers={true}>
-        //             <DialogContentText>
-
-        //             </DialogContentText>
-        //         </DialogContent>
-        //         <DialogActions>
-        //             <Button 
-        //                 variant="contained" 
-        //                 color="primary"
-        //                 onClick={handleClose}
-        //                 >
-        //                 <Typography>
-        //                     Cancel
-        //                 </Typography>
-        //             </Button>
-        //             <Button 
-        //                 variant="contained" 
-        //                 color="primary"
-        //                 onClick={handleClose}
-        //                 >
-        //                 <Typography>
-        //                     Cancel
-        //                 </Typography>
-        //             </Button>
-        //         </DialogActions>
-        //     </React.Fragment>
-        // );
     }
 
     return(
         <React.Fragment>
             <DialogTitle id="scroll-dialog-title">
-                <Grid container>
-                    <Button color="inherit" variant="outlined" onClick={() => handleOpen("create")}>
+                <Grid container direction="row-reverse">
+                    <Button color="secondary" variant="outlined" onClick={() => handleOpen("create")}>
                         Create
                     </Button>
                 </Grid>
@@ -331,14 +217,33 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
                                 <Typography className={classes.heading}>{expense.title}</Typography>
                                 </AccordionSummary>
                                 <AccordionDetails>
-                                <Typography>
-                                    {expense.title}<br/>
-                                    Date: {expense.date.getDate()}/
-                                    {GetMonthName(expense.date.getMonth())}/
-                                    {expense.date.getFullYear()}
-                                    <br/>
-                                    Sum: {expense.money} {currencyCode}
-                                </Typography>
+                                <Grid container xs={12}>
+                                    <Grid container item xs={12}>
+                                        <Typography>
+                                            {expense.title}<br/>
+                                            Date: {expense.date.getDate()}/
+                                            {GetMonthName(expense.date.getMonth())}/
+                                            {expense.date.getFullYear()}
+                                            <br/>
+                                            Sum: {expense.money} {currencyCode}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item style={{padding:10}} container xs={12} direction="row-reverse">
+                                        <Button variant="contained" 
+                                        color="secondary" className={classes.buttons}>
+                                            <Typography>
+                                                Delete
+                                            </Typography>
+                                        </Button>
+                                        <Button variant="contained" 
+                                        color="primary" onClick={() => handleOpen("update", expense.id)}
+                                         className={classes.buttons}>
+                                            <Typography>
+                                                Edit
+                                            </Typography>
+                                        </Button>
+                                    </Grid>
+                                </Grid>
                                 </AccordionDetails>
                             </Accordion>
 

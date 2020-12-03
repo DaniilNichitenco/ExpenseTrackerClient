@@ -12,6 +12,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ExpenseForCreate from "../../../Data/Models/Expenses/ExpenseForCreate";
 import "./datepickerStyles.css";
+import { CreateExpense } from "../../../Services/expense.service/ExpenseService";
 
 const validationSchema = yup.object().shape({
     title: yup.string().required("Enter title!")
@@ -59,8 +60,12 @@ export const CreateExpenseForm: React.FC<CreateExpenseFormProps> = (props) => {
     
 
     const onSubmit = (formValues: ExpenseForCreate) => {
-        console.log(formValues);
-        console.log(new Date(currentDate));
+        formValues.date = new Date(currentDate);
+        
+        CreateExpense(formValues).then(res => {
+            console.log(res);
+            props.handleClose();
+        });
     }
 
     const ExampleCustomInput = ({ value, onClick, ...rest}: any) => (
@@ -116,7 +121,7 @@ export const CreateExpenseForm: React.FC<CreateExpenseFormProps> = (props) => {
                                             label="Purse"
                                             required
                                             variant="outlined"
-                                            select={{select: true, items: items}}
+                                            select={{select: true, items: items, upperCase:true}}
                                             />
                                         </Grid>
                                         <Grid item xs={5}>

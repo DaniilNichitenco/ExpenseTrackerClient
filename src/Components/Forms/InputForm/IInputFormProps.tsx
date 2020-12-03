@@ -14,7 +14,8 @@ interface IInputFormProps
     disabled?: boolean,
     select?: {
         select: boolean,
-        items: {id: number, label: string}[]
+        items: {id: number, label: string}[],
+        upperCase?: boolean
     }
 }
 

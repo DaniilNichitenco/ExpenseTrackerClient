@@ -5,7 +5,7 @@ import IInputFormData from './IInputFormProps';
 
 const InputForm: React.FC<IInputFormData> = ({name, label, errorObj, autoFocus = false, 
     required = false, type="text", variant = "standard", autoComplete, defaultValue = "",
-    disabled = false, select = {select:false, items: []}
+    disabled = false, select = {select:false, items: [], upperCase: false},
     }) => {
 
     const { control } = useFormContext();
@@ -36,13 +36,19 @@ const InputForm: React.FC<IInputFormData> = ({name, label, errorObj, autoFocus =
                     required: required
                 }}
                 helperText={errorMessage}
+                defaultValue={defaultValue}
                 variant={variant}
                 disabled={disabled}
             >
                 {select.items.map((option) => {
+                    let label: string = option.label;
+                    if(select.upperCase)
+                    {
+                        label = label.toUpperCase();
+                    }
                     return(
                     <MenuItem key={option.id} value={option.id}>
-                        {option.label}
+                        {label}
                     </MenuItem>
                 );})}
             </Controller>

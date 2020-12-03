@@ -9,6 +9,7 @@ import RequestFilters from '../pagedRequests/RequestFilters';
 import jwt_decode from 'jwt-decode';
 import PagedResult from '../pagedRequests/PagedResult';
 import LogicalOperators from '../pagedRequests/LogicalOperators';
+import ExpenseForCreate from '../../Data/Models/Expenses/ExpenseForCreate';
 
 export const GetAllExpenses = async () => {
     
@@ -81,16 +82,22 @@ export const DeleteExpense = async (id: number) => {
         })
 }
 
-export const UpdateExpense = async (id: number) => {
+export const UpdateExpense = async (expense: Expense) => {
 
-    return API.put("/expenses")
+    return API.put("/expenses", expense)
         .then(response => {
             console.log(response);
-            return {response: response};
+            return {
+                response: response,
+                data: response.data
+            };
         })
         .catch(error => {
             console.log(error);
-            return {response: error.response};
+            return {
+                response: error.response,
+                data: error.response.data
+            };
         })
 }
 
@@ -297,6 +304,22 @@ export const GetPagedUserExpenses = async (request: PagedRequest, topic?: Topic)
         });
 }
 
+export const CreateExpense = async (expense: ExpenseForCreate) => {
+    return API.post("Expenses", expense)
+        .then(response => {
+            return {
+                response: response,
+                data: response.data
+            }
+        })
+        .catch(error => {
+            return{
+                response: error.response,
+                data: error.response.data
+            }
+        });
+}
+
 export const GetExpense = async (id: number) => {
     return API.get("Expenses/" + id)
         .then(response => {
@@ -329,5 +352,7 @@ export default {
     GetUserExpensesByTopic,
     GetUserExpenses,
     GetPagedUserExpenses,
-    GetExpense
+    GetExpense,
+    CreateExpense,
+    UpdateExpense
 }
