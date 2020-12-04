@@ -21,8 +21,7 @@ import Purse from '../../../Data/Models/Purses/Purse';
   const ExpensesLineDiagram:React.FC<ExpensesLineDiagramProps> = (props) => {
 
     return(
-        <div style={{
-        }}>
+        <div>
             <Line data={props.data}
             height={300}
             width={600}

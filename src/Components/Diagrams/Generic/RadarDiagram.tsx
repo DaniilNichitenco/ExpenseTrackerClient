@@ -1,48 +1,50 @@
 import React, { Component } from 'react';
 import { Radar } from 'react-chartjs-2';
 
-const state = {
-    labels: ['January', 'February', 'March',
-             'April', 'May'],
-    datasets: [
-      {
-        label: 'My First dataset',
-			backgroundColor: 'rgba(179,181,198,0.2)',
-			borderColor: 'rgba(179,181,198,1)',
-			pointBackgroundColor: 'rgba(179,181,198,1)',
-			pointBorderColor: '#fff',
-			pointHoverBackgroundColor: '#fff',
-			pointHoverBorderColor: 'rgba(179,181,198,1)',
-			data: [65, 59, 90, 81, 56]
-		},
-		{
-			label: 'My Second dataset',
-			backgroundColor: 'rgba(255,99,132,0.2)',
-			borderColor: 'rgba(255,99,132,1)',
-			pointBackgroundColor: 'rgba(255,99,132,1)',
-			pointBorderColor: '#fff',
-			pointHoverBackgroundColor: '#fff',
-			pointHoverBorderColor: 'rgba(255,99,132,1)',
-			data: [28, 48, 40, 19, 100]
-		}
+interface RadarDiagramProps
+{
+    legend?:{
+        display?:boolean;
+        position?: "left" | "right" | "top" | "bottom" | "chartArea";
+      };
+      title?: {
+        display: boolean;
+        text: string;
+        fontSize: number;
+      };
+      data: {
+        labels: string[];
+        datasets: {
+            label?: string;
+            backgroundColor: string;
+            pointBorderColor?: string;
+            pointHoverBackgroundColor?: string;
+            pointHoverBorderColor?: string;
+            data: number[];
+            pointBorderWidth?: number;
+			pointHoverRadius?: number;
+		    pointHoverBorderWidth?: number;
+			pointRadius?: number;
+			pointHitRadius?: number;
+        }[];
+      };
+      width?: number;
+}
 
-    ]
-  };
-
-const RadarDiagram: React.FC = () => {
+const RadarDiagram: React.FC<RadarDiagramProps> = (props) => {
 
     return(
         <div>
-            <Radar data={state} 
+            <Radar data={props.data} width={props.width}
             options={{
                 title:{
-                    display:true,
-                    text:'Average Rainfall per month',
-                    fontSize:20
+                    display: props.title?.display,
+                    text: props.title?.text,
+                    fontSize: props.title?.fontSize
                 },
                 legend:{
-                    display:true,
-                    position:'right'
+                    display: props.legend?.display,
+                    position:props.legend?.position
                 }
             }}
             />

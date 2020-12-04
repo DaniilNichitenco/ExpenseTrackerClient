@@ -10,6 +10,7 @@ import jwt_decode from 'jwt-decode';
 import PagedResult from '../pagedRequests/PagedResult';
 import LogicalOperators from '../pagedRequests/LogicalOperators';
 import ExpenseForCreate from '../../Data/Models/Expenses/ExpenseForCreate';
+import PercentsTopicExpense from '../../Data/Models/Expenses/PercentsTopicExpense';
 
 export const GetAllExpenses = async () => {
     
@@ -69,7 +70,7 @@ export const GetExpensesForCurrentYear = async () => {
 
 export const DeleteExpense = async (id: number) => {
 
-    API.delete("/expenses/" + id)
+    return API.delete("/expenses/" + id)
         .then(response => {
             console.log(response);
 
@@ -348,6 +349,27 @@ export const GetExpense = async (id: number) => {
         });
 }
 
+export const GetPercentsExpensesPerTopic = async () => {
+    return API.get("Expenses/percentsExpensesPerTopic")
+        .then(response => {
+            let percents: PercentsTopicExpense[] = response.data;
+            console.log(percents);
+
+            return{
+                data: percents,
+                response: response
+            };
+        })
+        .catch(error => {
+            console.log(error);
+
+            return{
+                data: error.response.data,
+                response: error.response
+            }
+        });
+}
+
 export default {
     GetExpensesForCurrentYear,
     GetAllExpenses,
@@ -360,5 +382,6 @@ export default {
     GetPagedUserExpenses,
     GetExpense,
     CreateExpense,
-    UpdateExpense
+    UpdateExpense,
+    GetPercentsExpensesPerTopic
 }

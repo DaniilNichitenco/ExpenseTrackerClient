@@ -104,9 +104,6 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
                     setPageIndex(pageIndex + 1);
                 }
             })
-            .catch(error => {
-                console.log(error);
-            });
         }
     }
 
@@ -133,11 +130,8 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
       }
 
       const Delete = async (expenseId: number) => {
-        DeleteExpense(expenseId).then(res => {
-            console.log(res);
-
-            handleClose();
-        })
+        await DeleteExpense(expenseId);
+        handleClose();
       }
 
     if(dialog.isOpen && dialog.action!="delete")
