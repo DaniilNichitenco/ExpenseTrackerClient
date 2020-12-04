@@ -6,13 +6,16 @@ import React, { useEffect, useState } from 'react';
 import Expense from '../../Data/Models/Expenses/Expense';
 import Topic from '../../Data/Models/Topics/Topic';
 import TopicWithExpenses from '../../Data/Models/Topics/TopicWithExpenses';
-import ExpenseService from '../../Services/expense.service/ExpenseService';
+import { GetPagedUserExpenses, DeleteExpense } from '../../Services/expense.service/ExpenseService';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import Purse from '../../Data/Models/Purses/Purse';
 import { GetMonthName } from '../../Date/MonthName';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import PagedRequest from '../../Services/pagedRequests/PagedRequest';
+import useNonInitialEffect from '../../CustomHooks/CustomUseEffectHooks/useNonInitialEffect';
+import CreateExpenseForm from '../Forms/ExpenseForm/CreateExpenseForm';
+import EditExpenseForm from '../Forms/ExpenseForm/EditExpenseForm';
 
 const useStyles = makeStyles((theme) =>
 ({
@@ -22,7 +25,10 @@ const useStyles = makeStyles((theme) =>
   },
   dialogPaper: {
       maxHeight: "600px",
-      minHeight: "400px"
+      minHeight: "600px"
+  },
+  buttons:{
+      width: 100
   }
 }),
 );
@@ -44,17 +50,35 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
     const [expenses, setExpenses] = useState<Expense[]>([]);
     const [hasNextPage, setHasNextPage] = useState<boolean>(true);
     const [pursesData, setPursesData, removePursesData] = useSessionStorage<Purse[]>("pursesData", []);
+    
+
+    const [dialog, setDialog] = useState<{
+        isOpen: boolean, 
+        action: "update" | "create" | "delete",
+        itemId: number
+    }>({isOpen: false, action: "update", itemId: 0});
 
     const classes = useStyles();
+
+    useNonInitialEffect(() => {
+        console.log(dialog);
+        if(!dialog.isOpen) //if we close nested dialog, we rerender whole component
+        {
+            console.log("rerender");
+            setPageIndex(0);
+            setHasData(true);
+            setIsLoadingData(true);
+            setHasNextPage(true);
+            setExpenses([...[]]);
+        }
+    }, [dialog]);
 
     useEffect(() => {
         if (isLoadingData)
         {
             handleLoadMore();
         }
-        console.log("useEffect state:" + isLoadingData + expenses);
       }, [isLoadingData]);
-      
 
     const handleLoadMore = () => {
         if(hasNextPage)
@@ -65,10 +89,11 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
             pageSize: pageSize
         };
 
-        ExpenseService.GetPagedUserExpenses(request, props.topic)
+        GetPagedUserExpenses(request, props.topic)
             .then(result => {
                 if(result.response.status == 200)
                 {
+                    console.log(result.data);
                     if(result.data.total == 0)
                     {
                         setHasData(false);
@@ -79,9 +104,6 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
                     setPageIndex(pageIndex + 1);
                 }
             })
-            .catch(error => {
-                console.log(error);
-            });
         }
     }
 
@@ -92,9 +114,47 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
         scrollContainer: "parent"
       });
 
+      const handleClose = () => {
+          setDialog({...dialog, isOpen: false});
+      }
+      
+      const handleOpen = (action: "update" | "create" | "delete", itemId?: number) => {
+        if(itemId == undefined)
+        {
+            setDialog({...dialog, isOpen: true, action: action});
+        }
+        else
+        {
+            setDialog({...dialog, isOpen: true, action: action, itemId: itemId})
+        }
+      }
+
+      const Delete = async (expenseId: number) => {
+        await DeleteExpense(expenseId);
+        handleClose();
+      }
+
+    if(dialog.isOpen && dialog.action!="delete")
+    {
+        if(dialog.action == "create")
+        {
+            return(<CreateExpenseForm topic={props.topic} handleClose={handleClose} />);
+        }
+        if(dialog.action == "update")
+        {
+            return(<EditExpenseForm topic={props.topic} 
+                expenseId={dialog.itemId} handleClose={handleClose} />);
+        }
+    }
+
     return(
         <React.Fragment>
             <DialogTitle id="scroll-dialog-title">
+                <Grid container direction="row-reverse">
+                    <Button color="secondary" variant="outlined" onClick={() => handleOpen("create")}>
+                        Create
+                    </Button>
+                </Grid>
                 <Grid container justify="center" xs={12}>
                     <Typography variant="h6">{props.topic.name}</Typography>
                 </Grid>
@@ -128,14 +188,33 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
                                 <Typography className={classes.heading}>{expense.title}</Typography>
                                 </AccordionSummary>
                                 <AccordionDetails>
-                                <Typography>
-                                    {expense.title}<br/>
-                                    Date: {expense.date.getDate()}/
-                                    {GetMonthName(expense.date.getMonth())}/
-                                    {expense.date.getFullYear()}
-                                    <br/>
-                                    Sum: {expense.money} {currencyCode}
-                                </Typography>
+                                <Grid container xs={12}>
+                                    <Grid container item xs={12}>
+                                        <Typography>
+                                            {expense.title}<br/>
+                                            Date: {expense.date.getDate()}/
+                                            {GetMonthName(expense.date.getMonth())}/
+                                            {expense.date.getFullYear()}
+                                            <br/>
+                                            Sum: {expense.money} {currencyCode}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item style={{padding:10}} container xs={12} direction="row-reverse">
+                                        <Button variant="contained" onClick={() => handleOpen("delete", expense.id)}
+                                        color="secondary" className={classes.buttons}>
+                                            <Typography>
+                                                Delete
+                                            </Typography>
+                                        </Button>
+                                        <Button variant="contained" 
+                                        color="primary" onClick={() => handleOpen("update", expense.id)}
+                                         className={classes.buttons}>
+                                            <Typography>
+                                                Edit
+                                            </Typography>
+                                        </Button>
+                                    </Grid>
+                                </Grid>
                                 </AccordionDetails>
                             </Accordion>
 
@@ -164,7 +243,41 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
                         Close
                     </Typography>
                 </Button>
-            </DialogActions>     
+            </DialogActions>
+            <Dialog open={dialog.isOpen && dialog.action=="delete"}>
+                <DialogTitle>
+                    <Typography>
+                        Delete expense
+                    </Typography>
+                </DialogTitle>
+                <DialogContent dividers={true}>
+                        <DialogContentText>
+                            <Typography>
+                                Are you sure you want to delete this expense?
+                            </Typography>
+                        </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                <Button 
+                    variant="contained" 
+                    color="secondary"
+                    onClick={async () => {await Delete(dialog.itemId);}}
+                    >
+                    <Typography>
+                        Delete
+                    </Typography>
+                </Button>
+                <Button 
+                    variant="contained" 
+                    color="primary"
+                    onClick={handleClose}
+                    >
+                    <Typography>
+                        Close
+                    </Typography>
+                </Button>
+            </DialogActions>
+            </Dialog>
         </React.Fragment>
     );
 }

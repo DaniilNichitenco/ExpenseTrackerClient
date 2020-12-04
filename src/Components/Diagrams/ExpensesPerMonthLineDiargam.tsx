@@ -3,8 +3,7 @@ import React, { useEffect, useState } from "react";
 import useSessionStorage from "../../CustomHooks/StorageHooks/useSessionStorage";
 import ExpensesLineDiagram from "./Generic/ExpensesLineDiargam";
 import ExpensesForYearDefault from '../../Data/Models/Expenses/default/ExpensesForYearDefault';
-import ExpenseService from "../../Services/expense.service/ExpenseService";
-
+import { GetExpensesForCurrentYear } from "../../Services/expense.service/ExpenseService";
 
 const randomColor = require('random-color');
 
@@ -21,13 +20,12 @@ interface ExpensesPerMonthLineDiagramProps
   const ExpensesPerMonthLineDiagram:React.FC<ExpensesPerMonthLineDiagramProps> = (props) => {
 
     const [isLoading, setIsLoading] = useState(true);
-    const [expensesForYearData, setExpensesForYearData, 
-      removeExpensesForYearData] = useSessionStorage("expensesForYearData", ExpensesForYearDefault)
+    const [expensesForYearData, setExpensesForYearData] = useSessionStorage("expensesForYearData", ExpensesForYearDefault);
 
     useEffect(() => {
       if(expensesForYearData == ExpensesForYearDefault)
       {
-        ExpenseService.GetExpensesForCurrentYear()
+        GetExpensesForCurrentYear()
           .then(result => {
             if(result.response.status == 200)
             {
@@ -43,12 +41,11 @@ interface ExpensesPerMonthLineDiagramProps
       {
         setIsLoading(false);
       }
-
     }, []);
 
     const getData = () => {
       let datasets:any[] = [];
-      console.log(expensesForYearData);
+
       for (const expense of expensesForYearData) {
         let color = randomColor(0.99, 0.99);
 
