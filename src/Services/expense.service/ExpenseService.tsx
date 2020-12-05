@@ -370,6 +370,24 @@ export const GetPercentsExpensesPerTopic = async () => {
         });
 }
 
+export const GetCountUserExpenses = async () => {
+    return API.get("Expenses/count")
+        .then(response => {
+
+            return{
+                response: response,
+                data: response.data as number
+            };
+        })
+        .catch(error => {
+
+            return{
+                response: error.response,
+                data: error.response.data
+            };
+        });
+}
+
 export default {
     GetExpensesForCurrentYear,
     GetAllExpenses,
@@ -383,5 +401,6 @@ export default {
     GetExpense,
     CreateExpense,
     UpdateExpense,
-    GetPercentsExpensesPerTopic
+    GetPercentsExpensesPerTopic,
+    GetCountUserExpenses
 }

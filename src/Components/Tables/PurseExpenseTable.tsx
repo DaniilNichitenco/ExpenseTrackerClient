@@ -205,11 +205,11 @@ const TableYearlyData: React.FC<TableDataProps> = ({currencyCode}) => {
 const PurseExpenseTable:React.FC = () => {
   const classes = useStyles();
   const [isLoading, setIsLoading] = useState(true);
-  const [pursesData, setPursesData, removePursesData] = useSessionStorage<Purse[]>("pursesData", PursesDefault);
+  const [pursesData, setPursesData] = useSessionStorage<Purse[]>("pursesData", []);
 
   useEffect(() => {
     
-    if(pursesData == PursesDefault)
+    if(pursesData == [])
     {
         PursesService.GetCurrentUserPurses()
             .then(result => {

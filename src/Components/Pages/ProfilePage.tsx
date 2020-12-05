@@ -1,5 +1,5 @@
-import { GridList, Grid, GridListTile, makeStyles, Typography, Box, Divider, Button, Paper } from '@material-ui/core';
-import React, { useContext, useEffect, useState } from 'react';
+import { GridList, Grid, makeStyles, Typography, Box, Divider, Button, Paper } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
 import './ProfilePageStyles.css';
 import FlyingGridTile from '../Tiles/FlyingGridTile';
 import { CircularProgress } from '@material-ui/core';
@@ -9,14 +9,13 @@ import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage'
 import PurseExpenseTable from '../Tables/PurseExpenseTable';
 import Purse from '../../Data/Models/Purses/Purse';
 import { PursesDefault } from '../../Data/Models/Purses/default/PurseDefault';
-import PursesService from '../../Services/purse.services/Purse.service';
-import SettingsIcon from '@material-ui/icons/Settings';
+import { GetCurrentUserPurses } from '../../Services/purse.services/Purse.service';
 import EditProfileButton from '../Buttons/EditProfileButton';
+import { GetCountUserExpenses } from '../../Services/expense.service/ExpenseService';
 
 const useStyles = makeStyles((theme) => ({
     contentList: {
         justifyContent:"center",
-        // alignItems:"flex-start",
         overflowX: "hidden",
         height: "fit-content",
         padding: 20
@@ -67,12 +66,17 @@ const ProfilePage: React.FC = () => {
     // const pursesData = useContext(PursesContext).pursesData;
     const classes = useStyles();
     const [isLoading, setIsLoading] = useState(true);
-    const [pursesData, setPursesData, removePursesData] = useSessionStorage<Purse[]>("pursesData", PursesDefault);
+    const [pursesData, setPursesData] = useSessionStorage<Purse[]>("pursesData", []);
+    const [countExpenses, setCountExpenses] = useState<number>(0);
 
     useEffect(() => {
-        if(pursesData == PursesDefault)
-    {
-        PursesService.GetCurrentUserPurses()
+        GetCountUserExpenses().then(res => {
+            if(res.response.status == 200)
+            {
+                setCountExpenses(res.data);
+            }
+        });
+        GetCurrentUserPurses()
             .then(result => {
                 if(result.response.status == 200)
                 {
@@ -83,11 +87,24 @@ const ProfilePage: React.FC = () => {
             .catch(error => {
                 console.log(error);
             })
-    }
-    else
-    {
-        setIsLoading(false);
-    }
+    //     if(pursesData == PursesDefault)
+    // {
+    //     GetCurrentUserPurses()
+    //         .then(result => {
+    //             if(result.response.status == 200)
+    //             {
+    //                 setPursesData(result.data);
+    //                 setIsLoading(false);
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.log(error);
+    //         })
+    // }
+    // else
+    // {
+    //     setIsLoading(false);
+    // }
     }, []);
 
     return(
@@ -131,18 +148,16 @@ const ProfilePage: React.FC = () => {
                                     <Typography>
                                         {
                                             isLoading ? (<CircularProgress color="secondary" />) :
-                                                <><b>Purses:</b><br/>{pursesData.length}</>
+                                                <><b>Count purses:</b><br/>{pursesData.length}</>
                                         }    
                                         </Typography>
                                 </Grid>
                                 <Grid item style={{width: "fit-content",height: "fit-content"}}>
                                     <Typography>
-                                        <b>Notes:</b><br/>0
-                                    </Typography>
-                                </Grid>
-                                <Grid item style={{width: "fit-content",height: "fit-content"}}>
-                                    <Typography>
-                                        <b>Occations:</b><br/>0
+                                        {
+                                            isLoading ? (<CircularProgress color="secondary" />) : 
+                                            <><b>Count expenses:</b><br/>{countExpenses}</>
+                                        }
                                     </Typography>
                                 </Grid>
                             </Grid>

@@ -5,10 +5,10 @@ import { Grid, makeStyles, Paper, Tab, Tabs, Typography, Box } from '@material-u
 import { PursesDefault } from '../../Data/Models/Purses/default/PurseDefault';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import Purse from '../../Data/Models/Purses/Purse';
-import PursesService from '../../Services/purse.services/Purse.service';
+import { GetCurrentUserPurses } from '../../Services/purse.services/Purse.service';
 import { ExpensesForSumDefault } from "../../Data/Models/Expenses/default/ExpenseForSumDefault";
 import { ExpenseForSum } from "../../Data/Models/Expenses/ExpenseForSum";
-import ExpenseService from "../../Services/expense.service/ExpenseService";
+import { GetExpensesSumForToday } from "../../Services/expense.service/ExpenseService";
 import { CountDays } from "../../Date/CountDays";
 import ExpensesList from "../ExpensesList/ExpensesList";
 import { GetCurrentUser } from "../../Services/auth.services/auth-service";
@@ -61,9 +61,7 @@ const HomePage: React.FC = () => {
 
     useEffect(() => {
         
-        if(pursesData == PursesDefault)
-        {
-            PursesService.GetCurrentUserPurses()
+        GetCurrentUserPurses()
                 .then(result => {
                     if(result.response.status == 200)
                     {
@@ -74,32 +72,19 @@ const HomePage: React.FC = () => {
                 .catch(error => {
                     console.log(error);
                 })
-        }
-        else
-        {
-            setIsLoadingPurses(false);
-        }
 
-        if(dailyExpenseSum == ExpensesForSumDefault)
-            {
-                ExpenseService.GetExpensesSumForToday()
-                    .then(result => {
+        GetExpensesSumForToday()
+                .then(result => {
 
-                        if(result.response.status == 200)
-                        {
-                            console.log(result.data);
-                            setDailyExpenseSum(result.data);
-                            setIsLoadingExpenses(false);
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-            }
-            else
-            {
-                setIsLoadingExpenses(false);
-            }
+                    if(result.response.status == 200)
+                    {
+                        setDailyExpenseSum(result.data);
+                        setIsLoadingExpenses(false);
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         
       }, []);
 
