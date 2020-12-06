@@ -1,4 +1,4 @@
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress, Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import PercentsTopicExpense from '../../Data/Models/Expenses/PercentsTopicExpense';
@@ -60,7 +60,7 @@ export const TopicPercentsDiagram: React.FC = () => {
 
 	const getData = () => {
 		let datasets:any[] = [];
-		console.log(percentsTopic);
+		
 		for (const percent of percentsTopic) 
 		{
 			let color = randomColor(0.99, 0.99);
@@ -110,7 +110,11 @@ export const TopicPercentsDiagram: React.FC = () => {
 
 	if(isLoading)
     {
-      return (<CircularProgress color="secondary" />);
+      return (
+		<Grid container xs={12} justify="center">
+			<CircularProgress color="secondary" />
+		</Grid>
+		);
     }	
 
     return (<RadarDiagram data={getData()} title={{

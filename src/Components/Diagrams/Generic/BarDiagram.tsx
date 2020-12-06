@@ -2,45 +2,48 @@ import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import CountDays from '../../../Date/CountDays';
 
-const data = {
-	labels: Array.from({length: CountDays()}, (_, i) => i + 1),
-	datasets: [
-		{
-			label: 'My First dataset',
-			backgroundColor: 'rgba(255,99,132,0.2)',
-			borderColor: 'rgba(255,99,132,1)',
-			borderWidth: 1,
-			hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-			hoverBorderColor: 'rgba(255,99,132,1)',
-			data: [65, 59, 80, 81, 56, 55, 40]
-        },
-        {
-			label: 'My second dataset',
-			backgroundColor: 'rgba(215,19,102,0.2)',
-			borderColor: 'rgba(215,19,102,1)',
-			borderWidth: 1,
-			hoverBackgroundColor: 'rgba(215,19,102,0.4)',
-			hoverBorderColor: 'rgba(215,19,102,1)',
-			data: [60, 39, 90, 71, 46, 35, 70]
-        },
-        {
-			label: 'My third dataset',
-			backgroundColor: 'rgba(215,19,102,0.8)',
-			borderColor: 'rgba(215,19,102,1)',
-			borderWidth: 1,
-			hoverBackgroundColor: 'rgba(215,19,102,1)',
-			hoverBorderColor: 'rgba(215,19,102,1)',
-			data: [60, 39, 90, 71, 46, 35, 70]
-		}
-	]
-};
+interface ExpensesPerDaysDiagramProps
+{
+    width?: number;
+    title?: {
+        display: boolean;
+        text: string;
+        fontSize: number;
+      };
+    legend?:{
+        display?:boolean;
+        position?: "left" | "right" | "top" | "bottom" | "chartArea";
+    };
+    data:{
+        labels: any[],
+        datasets: {
+            label: string;
+	        backgroundColor: string
+	        borderColor: string;
+	        borderWidth: number;
+	        hoverBackgroundColor: string;
+	        hoverBorderColor: string;
+	        data: number[];
+        }[]
+    } 
+}
 
-export const BarDiagram: React.FC = () => {
+export const BarDiagram: React.FC<ExpensesPerDaysDiagramProps> = (props) => {
 
     return(
         <React.Fragment>
             <div>
-                <Bar data={data} />
+                <Bar data={props.data} options={{
+                title:{
+                    display: props.title?.display,
+                    text: props.title?.text,
+                    fontSize: props.title?.fontSize
+                },
+                legend:{
+                    display: props.legend?.display,
+                    position:props.legend?.position
+                }
+            }}/>
             </div>
         </React.Fragment>
     );

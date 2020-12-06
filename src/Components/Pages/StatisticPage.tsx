@@ -1,5 +1,6 @@
 import { Box, Container, Grid, Paper } from '@material-ui/core';
 import React, { useEffect } from 'react';
+import ExpensesPerDaysDiagram from '../Diagrams/ExpensesPerDaysDiagram';
 import ExpensesPerMonthLineDiagram from '../Diagrams/ExpensesPerMonthLineDiargam';
 import BarDiagram from '../Diagrams/Generic/BarDiagram';
 import TopicPercentsDiagram from '../Diagrams/TopicPercentsDiagram';
@@ -22,7 +23,7 @@ const StatisticPage:React.FC = () => {
                     </Grid>
                     <Grid item xs={11}>
                         <Paper elevation={15}>
-                            <BarDiagram />
+                            <ExpensesPerDaysDiagram />
                         </Paper>
                     </Grid>
                  </Grid>

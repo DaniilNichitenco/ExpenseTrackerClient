@@ -86,25 +86,7 @@ const ProfilePage: React.FC = () => {
             })
             .catch(error => {
                 console.log(error);
-            })
-    //     if(pursesData == PursesDefault)
-    // {
-    //     GetCurrentUserPurses()
-    //         .then(result => {
-    //             if(result.response.status == 200)
-    //             {
-    //                 setPursesData(result.data);
-    //                 setIsLoading(false);
-    //             }
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         })
-    // }
-    // else
-    // {
-    //     setIsLoading(false);
-    // }
+            });
     }, []);
 
     return(
