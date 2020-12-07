@@ -123,7 +123,6 @@ export const EditExpenseForm: React.FC<EditExpenseFormProps> = (props) => {
         formValues.topicId = props.topic.id;
          
         UpdateExpense(formValues).then(res => {
-            console.log(res);
             props.handleClose();
         })
     }
@@ -137,9 +136,29 @@ export const EditExpenseForm: React.FC<EditExpenseFormProps> = (props) => {
     if(isLoading)
     {
         return(
-            <Grid container xs={12} justify="center">
+        <React.Fragment>
+            <DialogTitle id="scroll-dialog-title">
+                <Grid container justify="center" xs={12}>
                 <CircularProgress color="secondary" />
-            </Grid>
+                </Grid>
+            </DialogTitle>
+            <DialogContent dividers={true}>
+                <DialogContentText>
+                    <CircularProgress color="secondary" />
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button 
+                    variant="contained" 
+                    color="primary"
+                    onClick={props.handleClose}
+                    >
+                    <Typography>
+                        Close
+                    </Typography>
+                </Button>
+            </DialogActions>
+        </React.Fragment>
         );
     }
 

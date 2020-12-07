@@ -108,31 +108,23 @@ const TableDailyData: React.FC<TableDataProps> = ({currencyCode}) => {
 
 const TableMonthlyData: React.FC<TableDataProps> = ({currencyCode}) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [monlyExpenseSum, setMonlyExpenseSum, 
-        removeMonlyExpenseSum] = useSessionStorage<ExpenseForSum[]>("monlyExpenseSum", ExpensesForSumDefault);
+    const [monlyExpenseSum, setMonlyExpenseSum] = useSessionStorage<ExpenseForSum[]>("monlyExpenseSum", []);
 
     let expenseForSum: number = 0;
 
         useEffect(() => {
-            if(monlyExpenseSum == ExpensesForSumDefault)
-            {
-                ExpenseService.GetExpensesSumForMonth()
-                    .then(result => {
-
-                        if(result.response.status == 200)
-                        {
-                            setMonlyExpenseSum(result.data);
-                            setIsLoading(false);
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-            }
-            else
-            {
-                setIsLoading(false);
-            }
+          ExpenseService.GetExpensesSumForMonth()
+          .then(result => {
+              console.log(result);
+              if(result.response.status == 200)
+              {
+                  setMonlyExpenseSum(result.data);
+                  setIsLoading(false);
+              }
+          })
+          .catch(error => {
+              console.log(error);
+          });
         });
 
     if(isLoading)
@@ -205,11 +197,11 @@ const TableYearlyData: React.FC<TableDataProps> = ({currencyCode}) => {
 const PurseExpenseTable:React.FC = () => {
   const classes = useStyles();
   const [isLoading, setIsLoading] = useState(true);
-  const [pursesData, setPursesData, removePursesData] = useSessionStorage<Purse[]>("pursesData", PursesDefault);
+  const [pursesData, setPursesData] = useSessionStorage<Purse[]>("pursesData", []);
 
   useEffect(() => {
     
-    if(pursesData == PursesDefault)
+    if(pursesData == [])
     {
         PursesService.GetCurrentUserPurses()
             .then(result => {

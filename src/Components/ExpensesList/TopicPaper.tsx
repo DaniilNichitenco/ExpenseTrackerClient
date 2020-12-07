@@ -179,7 +179,7 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
                         }
 
                         return(
-                            <Accordion>
+                            <Accordion key={expense.id}>
                                 <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls={expense.id + "-content"}
@@ -284,7 +284,8 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
 
 interface TopicPaperProps
 {
-    topic: TopicWithExpenses
+    topic: TopicWithExpenses;
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const TopicPaper: React.FC<TopicPaperProps> = (props) => {
@@ -299,6 +300,7 @@ export const TopicPaper: React.FC<TopicPaperProps> = (props) => {
 
     const handleClose = () => {
         setIsOpen(false);
+        props.setIsLoading(true);
     }
 
     return(

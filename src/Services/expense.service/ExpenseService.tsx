@@ -11,6 +11,7 @@ import PagedResult from '../pagedRequests/PagedResult';
 import LogicalOperators from '../pagedRequests/LogicalOperators';
 import ExpenseForCreate from '../../Data/Models/Expenses/ExpenseForCreate';
 import PercentsTopicExpense from '../../Data/Models/Expenses/PercentsTopicExpense';
+import PurseExpensesPerDay from '../../Data/Models/Expenses/PurseExpensesPerDay';
 
 export const GetAllExpenses = async () => {
     
@@ -370,6 +371,42 @@ export const GetPercentsExpensesPerTopic = async () => {
         });
 }
 
+export const GetCountUserExpenses = async () => {
+    return API.get("Expenses/count")
+        .then(response => {
+
+            return{
+                response: response,
+                data: response.data as number
+            };
+        })
+        .catch(error => {
+
+            return{
+                response: error.response,
+                data: error.response.data
+            };
+        });
+}
+
+export const GetExpensesPerDayForCurrentMonth = async () => {
+    return API.get("Expenses/month")
+        .then(response => {
+
+            return{
+                response: response,
+                data: response.data as PurseExpensesPerDay[]
+            };
+        })
+        .catch(error => {
+            
+            return{
+                response: error.response,
+                data: error.response.data
+            };
+        })
+}
+
 export default {
     GetExpensesForCurrentYear,
     GetAllExpenses,
@@ -383,5 +420,7 @@ export default {
     GetExpense,
     CreateExpense,
     UpdateExpense,
-    GetPercentsExpensesPerTopic
+    GetPercentsExpensesPerTopic,
+    GetCountUserExpenses,
+    GetExpensesPerDayForCurrentMonth
 }

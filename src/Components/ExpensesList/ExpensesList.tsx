@@ -1,21 +1,20 @@
-import { Grid, GridList, Button, Box, Paper, Typography, CircularProgress, Dialog, DialogTitle, DialogContent } from '@material-ui/core';
+import { Grid, GridList, CircularProgress } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import TopicWithExpenses from '../../Data/Models/Topics/TopicWithExpenses';
-import TopicService from '../../Services/topic.services/TopicService';
+import { GetTopicsWithExpenses } from '../../Services/topic.services/TopicService';
 import { TopicPaper } from './TopicPaper';
 
 export const ExpensesList: React.FC = () => {
 
     const [isLoading, setIsLoading] = useState(true);
-    const [topicsWithExpenses, setTopicsWithExpenses, 
-        removeTopicsWithExpenses] = useSessionStorage<TopicWithExpenses[]>("topicsWithExpenses", []);
+    const [topicsWithExpenses, setTopicsWithExpenses] = useSessionStorage<TopicWithExpenses[]>("topicsWithExpenses", []);
 
     useEffect(() => {
 
-        if(topicsWithExpenses.length == 0)
+        if(isLoading)
         {
-            TopicService.GetTopicsWithExpenses(5)
+            GetTopicsWithExpenses(5)
             .then(result => {
                 if(result.response.status == 200)
                 {
@@ -27,12 +26,8 @@ export const ExpensesList: React.FC = () => {
                 console.log(error);
             });
         }
-        else
-        {
-            setIsLoading(false);
-        }
 
-    }, []);
+    }, [isLoading]);
 
     if(isLoading)
     {
@@ -50,7 +45,7 @@ export const ExpensesList: React.FC = () => {
 
                 return(
                     <Grid item container key={topic.id} justify="center" style={{ marginBottom: 10}}>
-                        <TopicPaper topic={topic} />
+                        <TopicPaper setIsLoading={setIsLoading} topic={topic} />
                     </Grid>
                 );
                 })}

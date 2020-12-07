@@ -41,11 +41,11 @@ export const CreateExpenseForm: React.FC<CreateExpenseFormProps> = (props) => {
     });
     const { handleSubmit, errors } = methods;
     const classes = useStyles();
-    const [items, setitems] = useState<{id: number, label: string}[]>([]);
+    const [items, setItems] = useState<{id: number, label: string}[]>([]);
     const [pursesData, setPursesData, removePursesData] = useSessionStorage<Purse[]>("pursesData", []);
 
     useEffect(() => {
-        setitems(mapToSelectItems("id", "currencyCode", pursesData));
+        setItems(mapToSelectItems("id", "currencyCode", pursesData));
         console.log(items);
     }, [pursesData])
 

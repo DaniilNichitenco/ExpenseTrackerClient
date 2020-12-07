@@ -1,5 +1,5 @@
-import { GridList, Grid, GridListTile, makeStyles, Typography, Box, Divider, Button, Paper } from '@material-ui/core';
-import React, { useContext, useEffect, useState } from 'react';
+import { GridList, Grid, makeStyles, Typography, Box, Divider, Button, Paper } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
 import './ProfilePageStyles.css';
 import FlyingGridTile from '../Tiles/FlyingGridTile';
 import { CircularProgress } from '@material-ui/core';
@@ -9,14 +9,13 @@ import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage'
 import PurseExpenseTable from '../Tables/PurseExpenseTable';
 import Purse from '../../Data/Models/Purses/Purse';
 import { PursesDefault } from '../../Data/Models/Purses/default/PurseDefault';
-import PursesService from '../../Services/purse.services/Purse.service';
-import SettingsIcon from '@material-ui/icons/Settings';
+import { GetCurrentUserPurses } from '../../Services/purse.services/Purse.service';
 import EditProfileButton from '../Buttons/EditProfileButton';
+import { GetCountUserExpenses } from '../../Services/expense.service/ExpenseService';
 
 const useStyles = makeStyles((theme) => ({
     contentList: {
         justifyContent:"center",
-        // alignItems:"flex-start",
         overflowX: "hidden",
         height: "fit-content",
         padding: 20
@@ -49,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: "inherit"
     },
     profileHeaderText: {
-        marginTop: 25,
         marginBottom:10,
         marginLeft: 15,
         fontSize: 23,
@@ -64,51 +62,52 @@ const ProfilePage: React.FC = () => {
 
     const [userData, setUserData, removeUserData] = useSessionStorage<User>("userData", 
     DefaultUser);
-    // const pursesData = useContext(PursesContext).pursesData;
     const classes = useStyles();
-    const [isLoading, setIsLoading] = useState(true);
-    const [pursesData, setPursesData, removePursesData] = useSessionStorage<Purse[]>("pursesData", PursesDefault);
+    const [isLoadingPurses, setIsLoadingPurses] = useState(true);
+    const [isLoadingExpenses, setIsLoadingExpenses] = useState(true);
+    const [pursesData, setPursesData] = useSessionStorage<Purse[]>("pursesData", []);
+    const [countExpenses, setCountExpenses] = useState<number>(0);
 
     useEffect(() => {
-        if(pursesData == PursesDefault)
-    {
-        PursesService.GetCurrentUserPurses()
+        GetCountUserExpenses().then(res => {
+            if(res.response.status == 200)
+            {
+                setCountExpenses(res.data);
+                setIsLoadingExpenses(false);
+            }
+        });
+        GetCurrentUserPurses()
             .then(result => {
                 if(result.response.status == 200)
                 {
                     setPursesData(result.data);
-                    setIsLoading(false);
+                    setIsLoadingPurses(false);
                 }
             })
             .catch(error => {
                 console.log(error);
-            })
-    }
-    else
-    {
-        setIsLoading(false);
-    }
+            });
     }, []);
 
     return(
         <React.Fragment> 
-            <Grid className="contentDiv" xs={10} xl={9}>
-                <div className={classes.profileHeader}>
+            <Grid container className="contentDiv" xs={10} xl={9}>
+                <Grid item xs={12} className={classes.profileHeader}>
                     <Typography className={classes.profileHeaderText}>
                         User profile
                     </Typography>
-                </div>
-                <Divider variant="middle" />
-                <GridList cols={2} className={classes.contentList} spacing={25}>
-                    <FlyingGridTile xl={9} xs={10} paddingBottom={16}>
+                    <Divider variant="middle" />
+                </Grid>
+                <Grid xs={12} container className={classes.contentList}>
+                    <FlyingGridTile xl={10} xs={11} paddingBottom={16}>
                         <Grid spacing={3} style={{height:"fit-content",
                             justifyContent: "center",}} container>
-                            <Grid item xs={12} className="boxAvatar">
+                            <Grid container item xs={12} className="boxAvatar">
                                     <Grid xs={12} container direction="row-reverse">
                                         <EditProfileButton
                                         style={{margin: 5}} />
                                     </Grid>
-                                    <Box className="avatar" />
+                                    <Grid item xs={12} style={{height: 170}} />
                             </Grid>
                             <Grid item xs={12} className="name">
                                 <Typography className={classes.nameText}>
@@ -130,28 +129,26 @@ const ProfilePage: React.FC = () => {
                                 <Grid item style={{width: "fit-content",height: "fit-content"}}>
                                     <Typography>
                                         {
-                                            isLoading ? (<CircularProgress color="secondary" />) :
-                                                <><b>Purses:</b><br/>{pursesData.length}</>
+                                            isLoadingPurses ? (<CircularProgress color="secondary" />) :
+                                                <><b>Count purses:</b><br/>{pursesData.length}</>
                                         }    
                                         </Typography>
                                 </Grid>
                                 <Grid item style={{width: "fit-content",height: "fit-content"}}>
                                     <Typography>
-                                        <b>Notes:</b><br/>0
-                                    </Typography>
-                                </Grid>
-                                <Grid item style={{width: "fit-content",height: "fit-content"}}>
-                                    <Typography>
-                                        <b>Occations:</b><br/>0
+                                        {
+                                            isLoadingExpenses ? (<CircularProgress color="secondary" />) : 
+                                            <><b>Count expenses:</b><br/>{countExpenses}</>
+                                        }
                                     </Typography>
                                 </Grid>
                             </Grid>
                         </Grid>
                     </FlyingGridTile>
-                        <FlyingGridTile>
-                            <PurseExpenseTable />
-                        </FlyingGridTile>
-                </GridList>
+                    <FlyingGridTile xl={10} xs={11}>
+                        <PurseExpenseTable />
+                    </FlyingGridTile>
+                </Grid>
             </Grid>
         </React.Fragment>
     );

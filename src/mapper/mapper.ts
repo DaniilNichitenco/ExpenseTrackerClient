@@ -1,7 +1,10 @@
-export const mapToSelectItem = (idProperty: string, labelProperty: string, sourceObject: any) => {
+const mapToSelectItem = (idProperty: string, labelProperty: string, sourceObject: any) => {
     try
     {
-        const item = {
+        const item: {
+            id: number,
+            label: string
+        } = {
             id: sourceObject[idProperty],
             label: sourceObject[labelProperty]
         }
@@ -14,17 +17,44 @@ export const mapToSelectItem = (idProperty: string, labelProperty: string, sourc
     }
 }
 
-export const mapToSelectItems = (idPropery: string, labelProperty: string, sourceObjectArray: any[]) => {
+const mapToSelectItemWithoutIdProperty = (id: number, labelProperty: string, sourceObject: any) => {
+    try
+    {
+        const item: {
+                id: number,
+                label: string
+            } = {
+                id: id,
+                label: sourceObject[labelProperty]
+            }
+        return item;
+    }
+    catch(exception: any)
+    {
+        console.log(exception);
+        return {id: 0, label: ""}
+    }
+}
+
+export const mapToSelectItems = (idProperty: string, labelProperty: string, sourceObjectArray: any[]) => {
     let items: {id: number, label: string}[] = [];
-    sourceObjectArray.forEach(element => {
-        let item = mapToSelectItem(idPropery, labelProperty, element);
+    sourceObjectArray.forEach((element, index) => {
+        let item: {
+            id: number,
+            label: string
+        }; 
+        if(idProperty.length > 0)
+        {
+            item = mapToSelectItem(idProperty, labelProperty, element);
+        }
+        else
+        {
+            item = mapToSelectItemWithoutIdProperty(index, labelProperty, element);
+        }
         items.push(item);
     });
 
     return items;
 }
 
-export default {
-    mapToSelectItem,
-    mapToSelectItems
-}
+export default mapToSelectItems;

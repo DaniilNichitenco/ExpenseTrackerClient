@@ -1,8 +1,8 @@
 export default interface PercentsTopicExpense
 {
-    currencyCode: string,
+    currencyCode: string;
     percents: {
-        topic: string,
-        sum: number
-    }[]
+        topic: string;
+        sum: number;
+    }[];
 }
