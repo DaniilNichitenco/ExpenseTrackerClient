@@ -1,11 +1,11 @@
 
 .boxAvatar {
     /* padding-top: 7px; */
-    padding-bottom: 15px;
+    /* padding-bottom: 15px;
     padding-right: 0px;
-    margin-right: 0px;
+    margin-right: 0px; */
     border-radius: 15px 15px 0 0;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
     background-image: url(../../assets/images/avatarProfileBg.jpg);
     background-repeat: no-repeat;
     background-size: cover;
@@ -23,7 +23,7 @@
 }
 
 .name {
-    color: rgb(51, 22, 155);
+    color: rgb(8, 4, 196);
     text-align: center;
     margin-bottom: 15px;
     font-size: 30px;
@@ -47,28 +47,18 @@
 }
 
 .email{
-    color: rgb(23, 20, 170);
+    color: rgb(8, 4, 196);
     font-size: 16px;
     text-align: center;
     max-width: 300px;
 }
-
-.avatar {
-    background-image: url(../../assets//images//UserAvatar.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    margin: auto;
-    width: 155px;
-    height: 155px;
-    padding: 0;
-    border: solid 1px white;
-    border-radius: 100px;
-}
-
 .contentDiv {
     background-color: rgba(255, 255, 255, 1);
     margin:auto; 
     /* width: 900px; */
     border-radius: 10px;
     border: solid 1px rgb(21, 35, 80);
+    min-height: 350px;
+    padding-top: 25px;
+    padding-bottom: 20px;
 }

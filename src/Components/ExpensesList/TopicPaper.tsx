@@ -179,7 +179,7 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
                         }
 
                         return(
-                            <Accordion>
+                            <Accordion key={expense.id}>
                                 <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls={expense.id + "-content"}

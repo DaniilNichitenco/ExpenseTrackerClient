@@ -1,6 +1,7 @@
 import Purse from '../../Data/Models/Purses/Purse';
 import PurseForCreate from '../../Data/Models/Purses/PurseForCreate';
-import PursesForUpdate from '../../Data/Models/Purses/PursesForUpdate';
+import PurseForList from '../../Data/Models/Purses/PurseForList';
+import PursesForUpdate from '../../Data/Models/Purses/PurseForUpdate';
 import API from '../Api';
 
 export const GetPurse = async (id: number) => {
@@ -97,7 +98,7 @@ export const UpdatePurse = async (pursesForUpdate: PursesForUpdate) => {
         })
 }
 
-export const CreatePurse = (purseForUpdate: PurseForCreate) => {
+export const CreatePurse = async (purseForUpdate: PurseForCreate) => {
 
     API.post('/Purses', purseForUpdate)
         .then(response => {
@@ -110,9 +111,9 @@ export const CreatePurse = (purseForUpdate: PurseForCreate) => {
         });
 }
 
-export const DeletePurse = (id: number) => {
+export const DeletePurse = async (id: number) => {
 
-    API.delete('/Purses/' + id)
+    return API.delete('/Purses/' + id)
         .then(response => {
             console.log(response);
             return {response: response};
@@ -123,6 +124,75 @@ export const DeletePurse = (id: number) => {
         });
 }
 
+export const GetPursesForList = async () => {
+    return API.get("Purses/list")
+        .then(response => {
+            let purses: PurseForList[] = response.data;
+
+            purses.forEach(p => {
+                p.createdAt = new Date(p.createdAt);
+            });
+            return{
+                response: response,
+                data: purses
+            };
+        })
+        .catch(error => {
+            return{
+                response: error.response,
+                data: error.response.data
+            };
+        })
+}
+
+export const GetAvailableCurrencies = async () => {
+    return API.get("Purses/available")
+        .then(response => {
+
+            const data: string[] = response.data;
+            let currencies: {
+                currencyCode: string
+            }[] = [];
+
+            if(data.length > 0)
+            {
+                data.forEach(c => {
+                    currencies.push({
+                        currencyCode: c
+                    });
+                });
+            }
+
+            return{
+                response: response,
+                data: currencies
+            };
+        })
+        .catch(error => {
+
+            return{
+                response: error.response,
+                data: error.response.data
+            };
+        });
+}
+
+export const GetAllCurrenciesAmount = async () => {
+    return API.get("Purses/AmountCurrencies")
+        .then(response => {
+            return{
+                response: response,
+                data: response.data as number
+            };
+        })
+        .catch(error => {
+            return{
+                response: error.response,
+                data: error.response.data
+            };
+        });
+}
+
 export default {
     GetPurse,
     GetAllPurses,
@@ -130,5 +200,8 @@ export default {
     GetCurrentUserPurses,
     UpdatePurse,
     CreatePurse,
-    DeletePurse
+    DeletePurse,
+    GetPursesForList,
+    GetAvailableCurrencies,
+    GetAllCurrenciesAmount
 }

@@ -17,6 +17,7 @@ import User from '../Data/Models/User/User';
 import { GetCurrentUser, SignOut } from '../Services/auth.services/auth-service';
 import { GetCurrentUserData } from '../Services/user.services/User.service';
 import DefaultUser from '../Data/Models/User/default/DefaultUser';
+import PursesPage from '../Components/Pages/PursesPage';
 
   const AuthorizedRouter:React.FC = () => {
 
@@ -83,7 +84,7 @@ import DefaultUser from '../Data/Models/User/default/DefaultUser';
                     <Route exact path="/au/home" component={HomePage} />
                     <Route exact path="/au/profile" component={ProfilePage} />
                     <Route exact path="/au/statistic" component={StatisticPage} />
-                    <Route exact path="/au/calendar" component={CalendarPage} />
+                    <Route exact path="/au/purses" component={PursesPage} />
                     <Redirect to="/au/home" />
                   </Switch>
                 </AppContent>

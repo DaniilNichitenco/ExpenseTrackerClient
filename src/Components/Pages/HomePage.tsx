@@ -101,7 +101,6 @@ const HomePage: React.FC = () => {
         <React.Fragment>
             <Grid container
              justify="center" className="contentDiv" xs={10} xl={9}
-             style={{paddingTop:25, paddingBottom:25}}
              >
                 <Grid item xs={11} justify="center">
                     <Paper elevation={12} style={{paddingTop: 10}}>
@@ -109,7 +108,6 @@ const HomePage: React.FC = () => {
                     <Grid
                         component={Tabs}
                         item
-                        // style={{width:300}}
                         value={value}
                         onChange={handleChange}
                         indicatorColor="primary"

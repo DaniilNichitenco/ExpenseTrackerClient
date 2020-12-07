@@ -18,6 +18,8 @@ import './NavigationBarStyles.css';
 import { NavLink, useLocation } from 'react-router-dom';
 import DefaultUser from '../../Data/Models/User/default/DefaultUser';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
+import GetDay from '../../Date/DayOfWeek';
+import { Typography } from '@material-ui/core';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -70,7 +72,7 @@ export interface NavigatorProps extends Omit<DrawerProps, 'classes'>, WithStyles
 const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
   const { classes, ...other } = props;
 
-  const [userData, setuserData, removeuserData] = useSessionStorage("userData", DefaultUser);
+  const [userData, setuserData] = useSessionStorage("userData", DefaultUser);
 
 
   // const userData = useContext(UserContext).userData;
@@ -83,7 +85,7 @@ const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
         { id: 'Registration', icon: <PeopleIcon />, to: "/registration" },
         { id: 'Profile', icon: <DnsRoundedIcon />, to: "/au/profile" },
         { id: 'Home', icon: <PermMediaOutlinedIcon />, to: "/au/home" },
-        { id: 'Calendar', icon: <PublicIcon />, to: "/au/calendar" },
+        { id: 'Purses', icon: <PublicIcon />, to: "/au/purses" },
         { id: 'Statistic', icon: <PublicIcon />, to: "/au/statistic" },
       ],
     },
@@ -101,12 +103,10 @@ const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
     <Drawer className={classes.drawer} variant="permanent" {...other} open={true}>
       <List disablePadding>
         <ListItem className={clsx(classes.firebase, classes.item, classes.itemCategory)}>
-          Hello, {userData.firstName}!
+          <Typography variant="h5">{GetDay()}</Typography>
         </ListItem>
         <ListItem className={clsx(classes.item, classes.itemCategory)}>
-          <ListItemIcon className={classes.itemIcon}>
-            <div className="avatar1"></div>
-          </ListItemIcon>
+          <Typography variant="h5">Hello, {userData.firstName}!</Typography>
         </ListItem>
         {categories.map(({ id, children }) => (
           <React.Fragment key={id}>

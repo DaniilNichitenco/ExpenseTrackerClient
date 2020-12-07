@@ -9,7 +9,7 @@ const StatisticPage:React.FC = () => {
 
     return(
         <React.Fragment>
-            <Container className="contentDiv" component={Grid} xs={11} style={{padding: 0}}>
+            <Container className="contentDiv" component={Grid} xs={11}>
                  <Grid container justify="center" style={{margin:0}} spacing={4}>
                     <Grid item xs={8}>
                         <Paper elevation={15}>
