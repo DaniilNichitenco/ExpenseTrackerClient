@@ -29,16 +29,10 @@ import { GetCurrentUserData } from '../Services/user.services/User.service';
 
     return(
         <Router>
-            <UserContext.Provider value={{userData:userData, setUserData:setUserData}}>
-              <PursesContext.Provider value={{pursesData:pursesData, 
-                setPursesData:setPursesData, getCurrecyCodes:getCurrencyCodes,
-                getBills:getBills}}>
                 <Switch>
                   <Route path="/au" component={AuthorizedRouter} />
                   <Route component={UnauthorizedRouter} />
                 </Switch>
-              </PursesContext.Provider>
-            </UserContext.Provider>
         </Router>
     );
   }

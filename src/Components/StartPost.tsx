@@ -1,6 +1,7 @@
-import { Button, Container, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Button, Container, Grid, makeStyles, Paper, Typography, useTheme } from '@material-ui/core';
 import React from 'react';
 import SignUpButton from './Buttons/SignUpButton';
+import image from "..\\assets\\images\\StartPostBg.jpg";
 
 const useStyles = makeStyles((theme) => ({
     PostContainer: {
@@ -8,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.common.white,
         marginBottom: 0,
 
-        backgroundImage: "url(https://source.unsplash.com/random)",
+        backgroundImage: `url(${image})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center"
@@ -30,34 +31,40 @@ const useStyles = makeStyles((theme) => ({
 const StartPost: React.FC = () => {
 
     const styles = useStyles();
+    const theme = useTheme();
     
     return(
-        <Paper className={styles.PostContainer}>
+        <Paper square elevation={6} className={styles.PostContainer}>
             <Container fixed>
                 <div className={styles.Overlay}/>
                 <Grid container>
-                    <Grid item md={6}>
-                        <div className={styles.PostContent}>
+                    <Grid item container xs={6} className={styles.PostContent} justify="flex-start">
                             <Typography 
                             component="h1"
                             variant="h3"
                             color="inherit"
                             gutterBottom
+                            align="left"
                             >
-                                Expense Tracker Web Application
+                                It’s all coming together
                             </Typography>
                             <Typography
                             variant="h5"
                             color="inherit"
                             paragraph
+                            align="left"
                             >
-                                FSAfdsa  dafs fdsa ad gfs
-                                gdsaf  dsfa fsda sfda 
-                                fdsa asdf  sfda dsfa afsd  fdsa
-                                fsda fdsa adfs  a sdf
+                                When you’re on top of your money, life is good. We help you
+                                effortlessly manage your finances in one place.
                             </Typography>
-                            <SignUpButton text="Try It Free" />
-                        </div>
+                            <SignUpButton text="Try It Free" 
+                            textVariant="h6" style={{
+                                paddingLeft: 25,
+                                paddingRight: 25,
+                                paddingTop: 13,
+                                paddingBottom: 13,
+                                backgroundColor: theme.palette.primary.dark
+                                }} />
                     </Grid>
                 </Grid>
             </Container>

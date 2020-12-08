@@ -24,7 +24,8 @@ interface IAppbarGenericProps
 {
     rightButtons?: React.ReactNode,
     leftMenu?: React.ReactNode,
-    title?: string
+    title?: string,
+    appBarStyle?: React.CSSProperties,
 }
 
 
@@ -33,7 +34,7 @@ const AppbarGeneric: React.FC<IAppbarGenericProps> = (props) => {
     const history = useHistory();
 
     return(
-        <AppBar className={classes.appbar} color="primary" position="fixed">
+        <AppBar className={classes.appbar} style={props.appBarStyle} color="primary" position="fixed">
                 <Container fixed>
                     <Toolbar>
                         <Box>

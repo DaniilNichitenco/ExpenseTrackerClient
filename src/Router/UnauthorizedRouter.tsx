@@ -3,24 +3,32 @@ import {
     Route, Redirect, Switch, useHistory
   } from "react-router-dom";
 import SignInButton from '../Components/Buttons/SignInButton';
-import AppbarGeneric from '../Components/Generics/AppbarGeneric';
+import AppbarGeneric from '../Components/Appbar/AppbarGeneric';
 import SignUpPage from '../Components/Pages/SignUpPage';
 import UnauthorizedPage from '../Components/Pages/UnauthorizedPage';
 import CreditCardRoundedIcon from '@material-ui/icons/CreditCardRounded';
 import SignUpButton from '../Components/Buttons/SignUpButton';
 import useLocalStorage from '../CustomHooks/StorageHooks/useLocalStorage';
+import { GetCurrentUserData } from '../Services/user.services/User.service';
+import { useTheme } from '@material-ui/core';
 
   const UnauthorizedRouter:React.FC = () => {
 
-    const [isAuthorized, setIsAuthorized] = useLocalStorage("authorized", false);
+    const theme = useTheme();
 
     const history = useHistory();
     useEffect(() => {
        
-          if(isAuthorized)
-          {
-              history.push('/au/home');
-          }
+        GetCurrentUserData()
+            .then(res => {
+                if(res.status == 200)
+                {
+                    history.push("/au/home");
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }, []);
 
     const leftIcon = () => {
@@ -32,7 +40,9 @@ import useLocalStorage from '../CustomHooks/StorageHooks/useLocalStorage';
 
     return(
         <React.Fragment>
-            <AppbarGeneric rightButtons={<><SignInButton /><SignUpButton /></>} 
+            <AppbarGeneric appBarStyle={{backgroundColor: theme.palette.primary.dark}} 
+            rightButtons={<><SignInButton />
+            <SignUpButton style={{backgroundColor: theme.palette.success.main}} /></>} 
             leftMenu={leftIcon()} title="Expense Tracker Web Application"/>
             <Switch>
                 <Route exact path="/registration" component={SignUpPage} />

@@ -99,16 +99,21 @@ const SignUpForm: React.FC = () => {
 
     const onSubmit: SubmitHandler<UserForSignUp> = async (formValues) => {
 
-        let response = await AuthService.SignUp(formValues);
-
-        if(response.status == 200)
-        {
-            history.push("/au/home");
-        }
-        else
-        {
-            setSignUpError(response.data);
-        }
+        await AuthService.SignUp(formValues)
+            .then(response => {
+                if(response.status == 200)
+                {
+                    history.push("/au/home");
+                }
+                else
+                {
+                    setSignUpError(JSON.stringify(response.data));
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                setSignUpError("Cannot sign up, server may be down");
+            });
     }
 
     return(
