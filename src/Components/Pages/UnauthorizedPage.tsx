@@ -1,9 +1,14 @@
 import React from 'react';
 import StartPost from '../StartPost';
-import { Box, Grid, makeStyles, Paper, Typography} from '@material-ui/core';
+import { Box, Divider, Grid, makeStyles, Paper, Typography, useTheme} from '@material-ui/core';
 import NetworkCheckIcon from '@material-ui/icons/NetworkCheck';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+import BarDiagram from '../Diagrams/Generic/BarDiagram';
+import RadarDiagram from '../Diagrams/Generic/RadarDiagram';
+import DoughnutDiagram from '../Diagrams/Generic/DoughnutDiagram';
+import SignInButton from '../Buttons/SignInButton';
+import SignUpButton from '../Buttons/SignUpButton';
 
 const useStyles = makeStyles((theme) => ({
     gridPaper: {
@@ -22,12 +27,149 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+const Diagram1 = () => {
+
+    const data = {
+        labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        datasets: [
+            {
+                label: "USD",
+                backgroundColor: "#33E011",
+                borderColor: "#33E011",
+                borderWidth: 1,
+                hoverBackgroundColor: "#39FE12",
+                hoverBorderColor: "#39FE12",
+                data: [45, 63, 36, 74, 19, 47, 35]
+            },
+            {
+                label: "RUB",
+                backgroundColor: "#1937C8",
+                borderColor: "#1937C8",
+                borderWidth: 1,
+                hoverBackgroundColor: "#4364FF",
+                hoverBorderColor: "#4364FF",
+                data: [35, 60, 70, 54, 67, 40, 53]
+            },
+            {
+                label: "GBR",
+                backgroundColor: "#00BA7F",
+                borderColor: "#00BA7F",
+                borderWidth: 1,
+                hoverBackgroundColor: "#00FFAE",
+                hoverBorderColor: "#00FFAE",
+                data: [43, 23, 47, 65, 46, 53, 78]
+            }
+        ]}
+
+    return(
+        <Grid item style={{marginLeft: 30, marginRight: 20, paddingTop: 20}}>
+            <BarDiagram data={data} />
+        </Grid>
+    );
+}
+
+const Diagram2 = () => {
+    const data = {
+        labels: ["Transport", "Health", "Food", "Amusement", "Others"],
+        datasets: [
+            {
+                label: "USD",
+                lineTension: 0.1,
+                fill: false,
+                backgroundColor: "#33E011",
+                borderColor: "#33E011",
+                pointBackgroundColor: "#33E011",
+                pointHoverBorderColor: "#39FE12",
+                pointHoverBackgroundColor: "#39FE12",
+                pointBorderColor: "#33E011",
+                pointBorderWidth: 2,
+                pointHoverRadius: 9,
+                pointHoverBorderWidth: 2,
+                pointRadius: 4,
+                pointHitRadius: 10,
+                data: [13, 27, 29, 13, 18]
+            },
+            {
+                label: "RUB",
+                lineTension: 0.1,
+                fill: false,
+                backgroundColor: "#1937C8",
+                borderColor: "#1937C8",
+                pointBackgroundColor: "#1937C8",
+                pointHoverBorderColor: "#4364FF",
+                pointHoverBackgroundColor: "#4364FF",
+                pointBorderColor: "#1937C8",
+                pointBorderWidth: 2,
+                pointHoverRadius: 9,
+                pointHoverBorderWidth: 2,
+                pointRadius: 4,
+                pointHitRadius: 10,
+                data: [25, 15, 26, 21, 13]
+            },
+            {
+                label: "GBR",
+                lineTension: 0.1,
+                fill: false,
+                backgroundColor: "#00BA7F",
+                borderColor: "#00BA7F",
+                pointBackgroundColor: "#00BA7F",
+                pointHoverBorderColor: "#00FFAE",
+                pointHoverBackgroundColor: "#00FFAE",
+                pointBorderColor: "#00BA7F",
+                pointBorderWidth: 2,
+                pointHoverRadius: 9,
+                pointHoverBorderWidth: 2,
+                pointRadius: 4,
+                pointHitRadius: 10,
+                data: [20, 13, 21, 31, 15]
+            }
+        ]}
+
+    return(
+        <Grid item style={{marginLeft: 30, marginRight: 20, paddingTop: 20}}>
+            <RadarDiagram data={data} />
+        </Grid>
+    );
+}
+
+const Diagram3 = () => {
+    const data = {
+        labels: ["Remaining money", "Daily expenses"],
+        datasets: [
+            {
+                label: "USD",
+                backgroundColor: ["#33E011", "#FF0000"],
+                borderColor: "black",
+                hoverBackgroundColor: ["#39FE12", "#FE6868"],
+                borderWidth: 2,
+                data: [43, 69]
+            }
+        ]}
+
+    return(
+        <Grid item style={{marginLeft: 30, marginRight: 20,
+         paddingTop: 20, paddingBottom: 20}}>
+            <DoughnutDiagram data={data} legend={{
+                display: true,
+                position: "right"
+            }}
+            title={{
+                display: true,
+                text: "Daily plan",
+                fontSize: 26
+            }}
+            cutoutPercentage={65} />
+        </Grid>
+    );
+}
+
 const UnauthorizedPage: React.FC = () => {
 
     const classes = useStyles();
+    const theme = useTheme();
     
     return(
-        <Grid container xs={12}>
+        <Grid container xs={12} style={{paddingBottom: 50}}>
             <Grid item xs={12}>
                 <StartPost />
             </Grid>
@@ -82,6 +224,79 @@ const UnauthorizedPage: React.FC = () => {
                             </Typography>
                         </Grid>
                     </Paper>
+                </Grid>
+            </Grid>
+            <Grid item container alignItems="center" justify="space-evenly"
+             style={{margin:20}} xs={12} xl={11} spacing={8}>
+                <Grid item xs={7}>
+                    <Paper elevation={8}>
+                        <Diagram1 />
+                    </Paper>
+                </Grid>
+                <Grid item xs={4}>
+                        <Typography variant="h3" align="center">
+                            Track your expenses for every day
+                        </Typography>
+                </Grid>
+            </Grid>
+            <Grid item container alignItems="center" justify="space-evenly"
+             style={{margin:20}} xs={12} xl={11} spacing={8}>
+                <Grid item xs={4}>
+                        <Typography variant="h3" align="center">
+                            Check where you spend too much money
+                        </Typography>
+                </Grid>
+                <Grid item xs={7}>
+                    <Paper elevation={8}>
+                        <Diagram2 />
+                    </Paper>
+                </Grid>
+            </Grid>
+            <Grid item container alignItems="center" justify="space-evenly"
+             style={{margin:20}} xs={12} xl={11} spacing={8}>
+                <Grid item xs={7}>
+                    <Paper elevation={8}>
+                        <Diagram3 />
+                    </Paper>
+                </Grid>
+                <Grid item xs={4}>
+                        <Typography variant="h3" align="center">
+                            Set up a monthly plan and we'll help you
+                            control expenses every day
+                        </Typography>
+                </Grid>
+            </Grid>
+            <Grid item container alignItems="center" justify="space-evenly"
+             style={{margin:20}} xs={12} xl={11} spacing={8}>
+                <Grid item xs={12}>
+                    <Divider variant="middle" />
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography variant="h3" align="center" style={{marginBottom:10}}>
+                        Sign up for Expense Tracker today
+                    </Typography>
+                    <Typography align="center">
+                    From budgets and bills to free credit score and more, 
+                    you’ll discover the effortless way to stay on top of it all.
+                    </Typography>
+                </Grid>
+                <Grid item container xs={12} spacing={4} justify="center">
+                    <Grid container item justify="flex-end" xs={6}>
+                        <SignUpButton text="Sign up free"
+                        style={{
+                            backgroundColor: theme.palette.primary.dark,
+                            width: 140
+                        }}
+                         textVariant="h6" />
+                    </Grid>
+                    <Grid container item justify="flex-start" xs={6}>
+                        <SignInButton text="Sign in"
+                        style={{
+                            color: theme.palette.primary.dark,
+                            width: 140
+                        }}
+                         textVariant="h6" />
+                    </Grid>
                 </Grid>
             </Grid>
         </Grid>

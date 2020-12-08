@@ -11,6 +11,8 @@ interface DoughnutDiagramProps
         backgroundColor: string[];
         hoverBackgroundColor: string[];
         data: number[];
+        borderColor?: string;
+        borderWidth?: number;
     }[];
   },
   title?: {
