@@ -8,26 +8,23 @@ import { TopicPaper } from './TopicPaper';
 export const ExpensesList: React.FC = () => {
 
     const [isLoading, setIsLoading] = useState(true);
-    const [topicsWithExpenses, setTopicsWithExpenses] = useSessionStorage<TopicWithExpenses[]>("topicsWithExpenses", []);
+    const [topicsWithExpenses, setTopicsWithExpenses] = useSessionStorage<TopicWithExpenses[]>(
+        "topicsWithExpenses", []
+        );
 
     useEffect(() => {
-
-        if(isLoading)
-        {
-            GetTopicsWithExpenses(5)
-            .then(result => {
-                if(result.response.status == 200)
-                {
-                    setTopicsWithExpenses(result.data);
-                    setIsLoading(false);
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        }
-
-    }, [isLoading]);
+        GetTopicsWithExpenses(5)
+        .then(result => {
+            if(result.response.status == 200)
+            {
+                setTopicsWithExpenses(result.data);
+                setIsLoading(false);
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }, []);
 
     if(isLoading)
     {

@@ -39,8 +39,7 @@ import { useTheme } from '@material-ui/core';
 
     return(
         <React.Fragment>
-            <AppbarGeneric appBarStyle={{backgroundColor: theme.palette.primary.dark}} 
-            rightButtons={<><SignInButton style={{width: 100}} />
+            <AppbarGeneric rightButtons={<><SignInButton style={{width: 100}} />
             <SignUpButton style={{backgroundColor: theme.palette.success.main, width: 100}} /></>} 
             leftMenu={leftIcon()} title="Expense Tracker Web Application"/>
             <Switch>

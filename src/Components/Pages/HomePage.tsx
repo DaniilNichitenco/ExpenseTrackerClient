@@ -11,7 +11,6 @@ import { ExpenseForSum } from "../../Data/Models/Expenses/ExpenseForSum";
 import { GetExpensesSumForToday } from "../../Services/expense.service/ExpenseService";
 import { CountDays } from "../../Date/CountDays";
 import ExpensesList from "../ExpensesList/ExpensesList";
-import { GetCurrentUser } from "../../Services/auth.services/auth-service";
 import GridPaperHeader from "../GridPaper/GridPaperHeader";
 
 interface TabPanelProps {
@@ -51,9 +50,12 @@ const HomePage: React.FC = () => {
     const classes = useStyles();
     const [isLoadingPurses, setIsLoadingPurses] = useState(true);
     const [isLoadingExpenses, setIsLoadingExpenses] = useState(true);
-    const [pursesData, setPursesData, removePursesData] = useSessionStorage<Purse[]>("pursesData", PursesDefault);
-    const [dailyExpenseSum, setDailyExpenseSum, 
-        removeDailyExpenseSum] = useSessionStorage<ExpenseForSum[]>("dailyExpenseSum", ExpensesForSumDefault);
+    const [pursesData, setPursesData] = useSessionStorage<Purse[]>(
+        "pursesData", []
+        );
+    const [dailyExpenseSum, setDailyExpenseSum] = useSessionStorage<ExpenseForSum[]>(
+        "dailyExpenseSum", []
+        );
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {

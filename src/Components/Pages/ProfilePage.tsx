@@ -1,4 +1,4 @@
-import { GridList, Grid, makeStyles, Typography, Box, Divider, Button, Paper } from '@material-ui/core';
+import { Grid, makeStyles, Typography, Divider } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import './PageStyles.css';
 import FlyingGridTile from '../Tiles/FlyingGridTile';
@@ -8,10 +8,11 @@ import DefaultUser from '../../Data/Models/User/default/DefaultUser';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import PurseExpenseTable from '../Tables/PurseExpenseTable';
 import Purse from '../../Data/Models/Purses/Purse';
-import { PursesDefault } from '../../Data/Models/Purses/default/PurseDefault';
 import { GetCurrentUserPurses } from '../../Services/purse.services/Purse.service';
 import EditProfileButton from '../Buttons/EditProfileButton';
 import { GetCountUserExpenses } from '../../Services/expense.service/ExpenseService';
+import { GetCurrentUserData } from '../../Services/user.services/User.service';
+import ExpenseForSum from '../../Data/Models/Expenses/ExpenseForSum';
 
 const useStyles = makeStyles((theme) => ({
     contentList: {
@@ -55,15 +56,27 @@ const useStyles = makeStyles((theme) => ({
 
 const ProfilePage: React.FC = () => {
 
-    const [userData] = useSessionStorage<User>("userData", 
-    DefaultUser);
+    const [userData, setUserData] = useSessionStorage<User | undefined>("userData", 
+    undefined);
     const classes = useStyles();
     const [isLoadingPurses, setIsLoadingPurses] = useState(true);
     const [isLoadingExpenses, setIsLoadingExpenses] = useState(true);
     const [pursesData, setPursesData] = useSessionStorage<Purse[]>("pursesData", []);
     const [countExpenses, setCountExpenses] = useState<number>(0);
+    const [dailyExpenseSum, setDailyExpenseSum , removeDailyExpenseSum] = useSessionStorage<ExpenseForSum[]>(
+        "dailyExpenseSum", []
+        );
+    const [monlyExpenseSum, setMonlyExpenseSum, removeMonthlyExpenseSum] = useSessionStorage<ExpenseForSum[]>(
+        "monlyExpenseSum", []
+        );
+        const [yearlyExpenseSum, setYearlyExpenseSum, removeYearlyExpenseSum] = useSessionStorage<ExpenseForSum[]>(
+            "yearlyExpenseSum", []
+            );
 
     useEffect(() => {
+        removeDailyExpenseSum();
+        removeMonthlyExpenseSum();
+        removeYearlyExpenseSum();
         GetCountUserExpenses().then(res => {
             if(res.response.status == 200)
             {
@@ -77,6 +90,16 @@ const ProfilePage: React.FC = () => {
                 {
                     setPursesData(result.data);
                     setIsLoadingPurses(false);
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        GetCurrentUserData()
+            .then(res => {
+                if(res.status == 200)
+                {
+                    setUserData(res.data);
                 }
             })
             .catch(error => {
@@ -109,17 +132,23 @@ const ProfilePage: React.FC = () => {
                             <Grid item xs={12} className={classes.name}>
                                 <Typography variant="h4"
                                 align="center" style={{fontWeight:600}} >
-                                    {userData.firstName} {userData.lastName}
+                                    {userData == undefined ? <CircularProgress color="secondary" />
+                                    : <>{userData.firstName} {userData.lastName}</>
+                                    }
                                 </Typography>
                             </Grid>
                             <Grid item xs={12} className={classes.subInfo}>
                                 <Typography align="center" variant="h6">
-                                    <b>Email:</b> {userData.email}
+                                    {userData == undefined ? <CircularProgress color="secondary" />
+                                    : <><b>Email:</b> {userData.email}</>
+                                    }
                                 </Typography>
                             </Grid>
                             <Grid item xs={12} className={classes.subInfo}>
                                 <Typography align="center" variant="h6">
-                                    <b>UserName:</b> {userData.userName}
+                                    {userData == undefined ? <CircularProgress color="secondary" />
+                                    : <><b>UserName:</b> {userData.userName}</>
+                                    }
                                 </Typography>
                             </Grid>
                             <Divider variant="middle" />

@@ -1,8 +1,7 @@
-import { Box, Container, Grid, Paper } from '@material-ui/core';
-import React, { useEffect } from 'react';
+import { Container, Grid, Paper } from '@material-ui/core';
+import React from 'react';
 import ExpensesPerDaysDiagram from '../Diagrams/ExpensesPerDaysDiagram';
 import ExpensesPerMonthLineDiagram from '../Diagrams/ExpensesPerMonthLineDiargam';
-import BarDiagram from '../Diagrams/Generic/BarDiagram';
 import TopicPercentsDiagram from '../Diagrams/TopicPercentsDiagram';
 import GridPaperHeader from '../GridPaper/GridPaperHeader';
 

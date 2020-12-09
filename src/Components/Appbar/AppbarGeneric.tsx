@@ -7,7 +7,7 @@ import SignUpButton from '../Buttons/SignUpButton';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 
-const useStyles = makeStyles((theme: any) =>({
+const useStyles = makeStyles((theme) =>({
     menuButton: {
         marginRight:theme.spacing(1)
     },
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: any) =>({
     },
     appbar: {
         zIndex:theme.zIndex.drawer + 1,
-        backgroundColor: "rgba(15, 15, 15, 1)"
+        backgroundColor: theme.palette.primary.dark
     }
 }));
 

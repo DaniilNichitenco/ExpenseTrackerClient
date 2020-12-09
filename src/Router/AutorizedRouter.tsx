@@ -29,8 +29,7 @@ import PursesPage from '../Components/Pages/PursesPage';
             GetCurrentUserData().then(result => {
               if(result.status == 200)
               {
-                let user = result.data as User;
-                setUserData(user);
+                setUserData(result.data);
                 setIsLoading(false);
               }
               else
@@ -66,7 +65,6 @@ import PursesPage from '../Components/Pages/PursesPage';
             <LeftMenu />
             <div style={{paddingLeft: 256}}>
                 <AppbarGeneric leftMenu={leftIcon()} title="Expense Tracker Web Application"
-                appBarStyle={{backgroundColor: theme.palette.primary.dark}}
                 rightButtons={<><SignOutButtom style={{backgroundColor: theme.palette.primary.light, width: 100}} /></>} />
                 <AppContent>
                   <Switch>

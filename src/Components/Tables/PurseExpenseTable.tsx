@@ -9,7 +9,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import Purse from '../../Data/Models/Purses/Purse';
-import { PursesDefault } from '../../Data/Models/Purses/default/PurseDefault';
 import PursesService from '../../Services/purse.services/Purse.service';
 import { CircularProgress, Grid } from '@material-ui/core';
 import { ExpensesForSumDefault } from '../../Data/Models/Expenses/default/ExpenseForSumDefault';
@@ -59,20 +58,20 @@ interface TableDataProps
 
 const TableDailyData: React.FC<TableDataProps> = ({currencyCode}) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [dailyExpenseSum, setDailyExpenseSum, 
-        removeDailyExpenseSum] = useSessionStorage<ExpenseForSum[]>("dailyExpenseSum", ExpensesForSumDefault);
+    const [dailyExpenseSum, setDailyExpenseSum] = useSessionStorage<ExpenseForSum[]>(
+      "dailyExpenseSum", []
+      );
 
     let expenseForSum: number = 0;
 
         useEffect(() => {
-            if(dailyExpenseSum == ExpensesForSumDefault)
+            if(dailyExpenseSum.length == 0)
             {
                 ExpenseService.GetExpensesSumForToday()
                     .then(result => {
 
                         if(result.response.status == 200)
                         {
-                            console.log(result.data);
                             setDailyExpenseSum(result.data);
                             setIsLoading(false);
                         }
@@ -113,18 +112,24 @@ const TableMonthlyData: React.FC<TableDataProps> = ({currencyCode}) => {
     let expenseForSum: number = 0;
 
         useEffect(() => {
-          ExpenseService.GetExpensesSumForMonth()
-          .then(result => {
-              console.log(result);
-              if(result.response.status == 200)
-              {
-                  setMonlyExpenseSum(result.data);
-                  setIsLoading(false);
-              }
-          })
-          .catch(error => {
-              console.log(error);
-          });
+          if(monlyExpenseSum.length == 0)
+          {
+            ExpenseService.GetExpensesSumForMonth()
+                .then(result => {
+                if(result.response.status == 200)
+                {
+                    setMonlyExpenseSum(result.data);
+                    setIsLoading(false);
+                }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+          }
+          else
+          {
+            setIsLoading(false);
+          }
         });
 
     if(isLoading)
@@ -148,13 +153,14 @@ const TableMonthlyData: React.FC<TableDataProps> = ({currencyCode}) => {
 
 const TableYearlyData: React.FC<TableDataProps> = ({currencyCode}) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [yearlyExpenseSum, setYearlyExpenseSum, 
-        removeYearlyExpenseSum] = useSessionStorage<ExpenseForSum[]>("yearlyExpenseSum", ExpensesForSumDefault);
+    const [yearlyExpenseSum, setYearlyExpenseSum] = useSessionStorage<ExpenseForSum[]>(
+      "yearlyExpenseSum", []
+      );
 
     let expenseForSum: number = 0;
 
         useEffect(() => {
-            if(yearlyExpenseSum == ExpensesForSumDefault)
+            if(yearlyExpenseSum.length == 0)
             {
                 ExpenseService.GetExpensesSumForYear()
                     .then(result => {
