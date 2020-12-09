@@ -10,8 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import Purse from '../../Data/Models/Purses/Purse';
 import PursesService from '../../Services/purse.services/Purse.service';
-import { CircularProgress, Grid } from '@material-ui/core';
-import { ExpensesForSumDefault } from '../../Data/Models/Expenses/default/ExpenseForSumDefault';
+import { CircularProgress, Grid, Typography } from '@material-ui/core';
 import ExpenseForSum from '../../Data/Models/Expenses/ExpenseForSum';
 import ExpenseService from '../../Services/expense.service/ExpenseService';
 import clsx from 'clsx';
@@ -249,6 +248,24 @@ const PurseExpenseTable:React.FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
+          {pursesData.length == 0 && 
+          <StyledTableRow className={classes.textTable}>
+            <>
+            <StyledTableCell align="center" className={classes.textTable}>
+              <Typography>There are not any purses</Typography>    
+            </StyledTableCell>
+            <StyledTableCell align="center" className={classes.textTable}>
+              <Typography>There are not any purses</Typography>    
+            </StyledTableCell>
+            <StyledTableCell align="center" className={classes.textTable}>
+              <Typography>There are not any purses</Typography>    
+            </StyledTableCell>
+            <StyledTableCell align="center" className={classes.textTable}>
+              <Typography>There are not any purses</Typography>    
+            </StyledTableCell>
+            </>
+          </StyledTableRow>
+          }
           {pursesData.map((purse) => (
             <StyledTableRow key={purse.id} className={classes.textTable}>
               <StyledTableCell component="th" scope="row" align="center" className={clsx(classes.rowHeader, classes.textTable)}>

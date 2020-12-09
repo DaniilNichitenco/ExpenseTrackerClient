@@ -109,6 +109,11 @@ const HomePage: React.FC = () => {
                     <Paper elevation={12} style={{paddingTop: 10}}>
                         <GridPaperHeader />
                         <Grid container justify="center" xs={12} className={classes.root}>
+                            {pursesData.length == 0 &&
+                            <Typography variant="h4">
+                                There are not any purses
+                            </Typography>
+                            }
                             <Grid
                                 component={Tabs}
                                 item

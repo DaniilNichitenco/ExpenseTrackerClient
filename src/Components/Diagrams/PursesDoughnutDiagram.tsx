@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import PursesContext from '../../Context/PursesContext';
 import DoughnutDiagram from './Generic/DoughnutDiagram';
 
 interface PursesDoughnutDiagramProps
@@ -11,7 +10,6 @@ interface PursesDoughnutDiagramProps
 
 const PursesDoughnutDiagram: React.FC<PursesDoughnutDiagramProps> = (props) => {
   
-  const pursesContext = useContext(PursesContext);
   let title: string = "Purses diagram";
   if(props.title != undefined)
   {

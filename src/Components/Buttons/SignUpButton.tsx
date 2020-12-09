@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Box, Button, Typography } from '@material-ui/core';
-import UserContext from '../../Context/UserContext';
 import { Link } from 'react-router-dom';
 
 interface SignUpButtonProps
