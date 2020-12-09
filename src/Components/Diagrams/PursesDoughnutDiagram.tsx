@@ -24,21 +24,16 @@ const PursesDoughnutDiagram: React.FC<PursesDoughnutDiagramProps> = (props) => {
       {
         label: 'Purses',
         backgroundColor: [
-          '#1C9E14',
-          '#CC0909',
-          '#2FDE00',
-          '#00A6B4',
-          '#6800B4'
+          '#03A600',
+          '#DD0000'
         ],
         hoverBackgroundColor: [
-        '#1CC917',
-        '#F40808',
-        '#175000',
-        '#003350',
-        '#35014F'
+        '#39FE12',
+        '#FF1010'
         ],
         data: props.data,
-        borderColor: '#1E1818'
+        borderColor: '#1E1818',
+        borderWidth: 1
       },
     ]
   };

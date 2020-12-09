@@ -12,6 +12,7 @@ import { GetExpensesSumForToday } from "../../Services/expense.service/ExpenseSe
 import { CountDays } from "../../Date/CountDays";
 import ExpensesList from "../ExpensesList/ExpensesList";
 import { GetCurrentUser } from "../../Services/auth.services/auth-service";
+import GridPaperHeader from "../GridPaper/GridPaperHeader";
 
 interface TabPanelProps {
     index: number,
@@ -104,49 +105,54 @@ const HomePage: React.FC = () => {
              >
                 <Grid item xs={11} justify="center">
                     <Paper elevation={12} style={{paddingTop: 10}}>
-                    <Grid container justify="center" xs={12} className={classes.root}>
-                    <Grid
-                        component={Tabs}
-                        item
-                        value={value}
-                        onChange={handleChange}
-                        indicatorColor="primary"
-                        textColor="primary"
-                        centered
-                    >
-                        {pursesData.map((purse) => (
-                            <Grid component={Tab} item key={purse.id} 
-                            label={<Typography variant="h5">{purse.currencyCode.toUpperCase()}</Typography>}/>
-                        ))}
-                    </Grid>
-                </Grid>
-                <Grid container item justify="center" xs={12}>
-                    {pursesData.map((purse, index) => {
-                        let expense = dailyExpenseSum.find(e => e.currencyCode == purse.currencyCode);
-                        let sum:number = 0;
-                        let countDays: number = CountDays(); 
-                        if(expense != undefined)
-                        {
-                            sum = expense.sum;
-                        }
-
-                        let rest: number = purse.bill / countDays - sum;
-                        if(rest < 0)
-                        {
-                            rest = 0;
-                        }
-
-                        return(
-                        <Grid item xs={12}
-                         component={TabPanel} value={value} index={index}>
-                            <PursesDoughnutDiagram 
-                                title={"Daily expenses, purse " + purse.currencyCode.toUpperCase()}
-                                labels={["Remaining money", "Daily expenses" ]}
-                                data={[Number((rest).toFixed(2)), Number((sum).toFixed(2))]}                        
-                            />
+                        <GridPaperHeader />
+                        <Grid container justify="center" xs={12} className={classes.root}>
+                            <Grid
+                                component={Tabs}
+                                item
+                                value={value}
+                                onChange={handleChange}
+                                indicatorColor="primary"
+                                textColor="primary"
+                                centered
+                            >
+                                {pursesData.map((purse) => (
+                                    <Grid component={Tab} item key={purse.id} 
+                                    label={
+                                    <Typography variant="h5">
+                                        {purse.currencyCode.toUpperCase()}
+                                    </Typography>}/>
+                                ))}
+                            </Grid>
                         </Grid>
-                        )})}
-                </Grid>
+                        <Grid container item justify="center" xs={12}>
+                            {pursesData.map((purse, index) => {
+                                let expense = dailyExpenseSum.find(e => 
+                                    e.currencyCode == purse.currencyCode);
+                                let sum:number = 0;
+                                let countDays: number = CountDays(); 
+                                if(expense != undefined)
+                                {
+                                    sum = expense.sum;
+                                }
+
+                                let rest: number = purse.bill / countDays - sum;
+                                if(rest < 0)
+                                {
+                                    rest = 0;
+                                }
+
+                                return(
+                                <Grid item xs={12}
+                                component={TabPanel} value={value} index={index}>
+                                    <PursesDoughnutDiagram 
+                                        title={"Daily expenses, purse " + purse.currencyCode.toUpperCase()}
+                                        labels={["Remaining money", "Daily expenses" ]}
+                                        data={[Number((rest).toFixed(2)), Number((sum).toFixed(2))]}                        
+                                    />
+                                </Grid>
+                                )})}
+                        </Grid>
                     </Paper>
                 </Grid>
                 <ExpensesList />

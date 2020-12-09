@@ -1,6 +1,6 @@
 import { GridList, Grid, makeStyles, Typography, Box, Divider, Button, Paper } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import './ProfilePageStyles.css';
+import './PageStyles.css';
 import FlyingGridTile from '../Tiles/FlyingGridTile';
 import { CircularProgress } from '@material-ui/core';
 import User from '../../Data/Models/User/User';
@@ -20,11 +20,6 @@ const useStyles = makeStyles((theme) => ({
         height: "fit-content",
         padding: 20
     },
-    info: {
-        padding:25,
-        justifyContent:"space-between", 
-        
-    },
     tile: {
         border: "1px solid black"
     },
@@ -43,24 +38,24 @@ const useStyles = makeStyles((theme) => ({
           fontWeight: "inherit"
       },
       profileHeader: {
-        // backgroundColor: theme.palette.primary.dark,
-        height:"fit-content", 
-        borderRadius: "inherit"
-    },
-    profileHeaderText: {
         marginBottom:10,
-        marginLeft: 15,
-        fontSize: 23,
-        fontWeight: 'bolder'
+        color: theme.palette.primary.dark
     },
     buttonSetting: {
         margin: 5
+    },
+    name: {
+        color: theme.palette.primary.dark,
+        marginBottom: 15,
+    },
+    subInfo: {
+        color: theme.palette.primary.dark,
     }
 }));
 
 const ProfilePage: React.FC = () => {
 
-    const [userData, setUserData, removeUserData] = useSessionStorage<User>("userData", 
+    const [userData] = useSessionStorage<User>("userData", 
     DefaultUser);
     const classes = useStyles();
     const [isLoadingPurses, setIsLoadingPurses] = useState(true);
@@ -91,11 +86,13 @@ const ProfilePage: React.FC = () => {
 
     return(
         <React.Fragment> 
-            <Grid container className="contentDiv" xs={10} xl={9}>
-                <Grid item xs={12} className={classes.profileHeader}>
-                    <Typography className={classes.profileHeaderText}>
+            <Grid container justify="center" className="contentDiv" xs={10} xl={9}>
+                <Grid item xs={10} className={classes.profileHeader}>
+                    <Typography variant="h4">
                         User profile
                     </Typography>
+                </Grid>
+                <Grid item xs={12}>
                     <Divider variant="middle" />
                 </Grid>
                 <Grid xs={12} container className={classes.contentList}>
@@ -109,24 +106,25 @@ const ProfilePage: React.FC = () => {
                                     </Grid>
                                     <Grid item xs={12} style={{height: 170}} />
                             </Grid>
-                            <Grid item xs={12} className="name">
-                                <Typography className={classes.nameText}>
+                            <Grid item xs={12} className={classes.name}>
+                                <Typography variant="h4"
+                                align="center" style={{fontWeight:600}} >
                                     {userData.firstName} {userData.lastName}
                                 </Typography>
                             </Grid>
-                            <Grid item xs={12} className="email">
-                                <Typography>
+                            <Grid item xs={12} className={classes.subInfo}>
+                                <Typography align="center" variant="h6">
                                     <b>Email:</b> {userData.email}
                                 </Typography>
                             </Grid>
-                            <Grid item xs={12} className="email">
-                                <Typography>
+                            <Grid item xs={12} className={classes.subInfo}>
+                                <Typography align="center" variant="h6">
                                     <b>UserName:</b> {userData.userName}
                                 </Typography>
                             </Grid>
                             <Divider variant="middle" />
-                            <Grid style={{marginLeft:15, marginRight:15}} container item xs={12} className={classes.info}>
-                                <Grid item style={{width: "fit-content",height: "fit-content"}}>
+                            <Grid justify="space-between" container item xs={11}>
+                                <Grid item className={classes.subInfo}>
                                     <Typography>
                                         {
                                             isLoadingPurses ? (<CircularProgress color="secondary" />) :
@@ -134,7 +132,7 @@ const ProfilePage: React.FC = () => {
                                         }    
                                         </Typography>
                                 </Grid>
-                                <Grid item style={{width: "fit-content",height: "fit-content"}}>
+                                <Grid item className={classes.subInfo}>
                                     <Typography>
                                         {
                                             isLoadingExpenses ? (<CircularProgress color="secondary" />) : 

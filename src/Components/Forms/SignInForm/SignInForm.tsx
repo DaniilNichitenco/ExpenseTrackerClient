@@ -46,17 +46,22 @@ const SignInForm: React.FC<ISignInFormProps> = (props) => {
 
     const signIn = async (formValues: UserForSignIn) => {
         
-        let response = await AuthService.SignIn(formValues);
-        
-        if(response.status == 200)
-        {
-            props.handleClose();
-            history.push("/au/home");
-        }
-        else
-        {
-            setSignInError(JSON.stringify(response.data));
-        }
+        AuthService.SignIn(formValues)
+            .then(response => {
+                if(response.status == 200)
+                {
+                    props.handleClose();
+                    history.push("/au/home");
+                }
+                else
+                {
+                    setSignInError("Incorrect login or password");
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                setSignInError("Cannot sign in, server may be down");
+            });      
     }
 
     return(

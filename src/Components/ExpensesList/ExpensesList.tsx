@@ -45,7 +45,7 @@ export const ExpensesList: React.FC = () => {
 
                 return(
                     <Grid item container key={topic.id} justify="center" style={{ marginBottom: 10}}>
-                        <TopicPaper setIsLoading={setIsLoading} topic={topic} />
+                        <TopicPaper topic={topic} />
                     </Grid>
                 );
                 })}
