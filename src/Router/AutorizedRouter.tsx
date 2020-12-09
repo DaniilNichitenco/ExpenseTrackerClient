@@ -1,4 +1,4 @@
-import { CircularProgress, Grid } from '@material-ui/core';
+import { CircularProgress, Grid, useTheme } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import {
     Route, Redirect, Switch, useHistory
@@ -14,6 +14,7 @@ import useSessionStorage from '../CustomHooks/StorageHooks/useSessionStorage';
 import User from '../Data/Models/User/User';
 import { SignOut } from '../Services/auth.services/auth-service';
 import { GetCurrentUserData } from '../Services/user.services/User.service';
+import HomeIcon from '@material-ui/icons/Home';
 import PursesPage from '../Components/Pages/PursesPage';
 
   const AuthorizedRouter:React.FC = () => {
@@ -22,6 +23,7 @@ import PursesPage from '../Components/Pages/PursesPage';
       const [isLoading, setIsLoading] = useState(true);
       const [userData, setUserData] = useSessionStorage<User | undefined>(
         "userData", undefined);
+      const theme = useTheme();
 
       useEffect(() => {
             GetCurrentUserData().then(result => {
@@ -43,6 +45,13 @@ import PursesPage from '../Components/Pages/PursesPage';
             });
       }, []);
 
+      const leftIcon = () => {
+        
+        return(
+            <HomeIcon onClick={() => {history.push('/au/home');}} />
+            );
+        }
+
     if(isLoading || userData == undefined)
     {
       return (
@@ -56,7 +65,9 @@ import PursesPage from '../Components/Pages/PursesPage';
         <React.Fragment>
             <LeftMenu />
             <div style={{paddingLeft: 256}}>
-                <AppbarGeneric rightButtons={<><SignOutButtom /></>} />
+                <AppbarGeneric leftMenu={leftIcon()} title="Expense Tracker Web Application"
+                appBarStyle={{backgroundColor: theme.palette.primary.dark}}
+                rightButtons={<><SignOutButtom style={{backgroundColor: theme.palette.primary.light, width: 100}} /></>} />
                 <AppContent>
                   <Switch>
                     <Route exact path="/au/home" component={HomePage} />

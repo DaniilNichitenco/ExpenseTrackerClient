@@ -9,17 +9,12 @@ import RadarDiagram from '../Diagrams/Generic/RadarDiagram';
 import DoughnutDiagram from '../Diagrams/Generic/DoughnutDiagram';
 import SignInButton from '../Buttons/SignInButton';
 import SignUpButton from '../Buttons/SignUpButton';
+import GridPaperHeader from '../GridPaper/GridPaperHeader';
 
 const useStyles = makeStyles((theme) => ({
     gridPaper: {
         width: "70%", 
         paddingBottom: 15,
-    },
-    gridPaperBoxTop: {
-        borderRadius: "15px 15px 0 0",
-        backgroundColor: theme.palette.primary.dark,
-        height: 7,
-        marginBottom: 15
     },
     gridPaperGridText: {
         marginLeft:40, 
@@ -138,10 +133,10 @@ const Diagram3 = () => {
         datasets: [
             {
                 label: "USD",
-                backgroundColor: ["#33E011", "#FF0000"],
+                backgroundColor: ["#03A600", "#DD0000"],
                 borderColor: "black",
-                hoverBackgroundColor: ["#39FE12", "#FE6868"],
-                borderWidth: 2,
+                hoverBackgroundColor: ["#39FE12", "#FF1010"],
+                borderWidth: 1,
                 data: [43, 69]
             }
         ]}
@@ -176,7 +171,7 @@ const UnauthorizedPage: React.FC = () => {
             <Grid item container xs={12} style={{margin: 20}}>
                 <Grid item container justify="center" xs={4}>
                     <Paper elevation={10} className={classes.gridPaper}>
-                        <Box className={classes.gridPaperBoxTop} />
+                        <GridPaperHeader />
                         <Grid item container justify="center">
                             <AssignmentTurnedInIcon fontSize="large" />
                         </Grid>
@@ -193,7 +188,7 @@ const UnauthorizedPage: React.FC = () => {
                 </Grid>
                 <Grid item container justify="center" xs={4}>
                     <Paper elevation={10} className={classes.gridPaper}>
-                        <Box className={classes.gridPaperBoxTop} />
+                        <GridPaperHeader />
                         <Grid item container justify="center">
                             <AccountBalanceIcon fontSize="large" />
                         </Grid>
@@ -210,7 +205,7 @@ const UnauthorizedPage: React.FC = () => {
                 </Grid>
                 <Grid item container justify="center" xs={4}>
                     <Paper elevation={10} className={classes.gridPaper}>
-                        <Box className={classes.gridPaperBoxTop} />
+                        <GridPaperHeader />
                         <Grid item container justify="center">
                             <NetworkCheckIcon fontSize="large" />
                         </Grid>
@@ -230,6 +225,7 @@ const UnauthorizedPage: React.FC = () => {
              style={{margin:20}} xs={12} xl={11} spacing={8}>
                 <Grid item xs={7}>
                     <Paper elevation={8}>
+                        <GridPaperHeader />
                         <Diagram1 />
                     </Paper>
                 </Grid>
@@ -248,6 +244,7 @@ const UnauthorizedPage: React.FC = () => {
                 </Grid>
                 <Grid item xs={7}>
                     <Paper elevation={8}>
+                        <GridPaperHeader />
                         <Diagram2 />
                     </Paper>
                 </Grid>
@@ -256,6 +253,7 @@ const UnauthorizedPage: React.FC = () => {
              style={{margin:20}} xs={12} xl={11} spacing={8}>
                 <Grid item xs={7}>
                     <Paper elevation={8}>
+                    <GridPaperHeader />
                         <Diagram3 />
                     </Paper>
                 </Grid>

@@ -55,7 +55,7 @@ const SignInForm: React.FC<ISignInFormProps> = (props) => {
                 }
                 else
                 {
-                    setSignInError(JSON.stringify(response.data));
+                    setSignInError("Incorrect login or password");
                 }
             })
             .catch(error => {

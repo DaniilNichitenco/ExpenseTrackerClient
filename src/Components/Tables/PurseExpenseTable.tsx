@@ -21,7 +21,7 @@ import CountDays from '../../Date/CountDays';
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
     head: {
-      backgroundColor: theme.palette.common.black,
+      backgroundColor: theme.palette.primary.dark,
       color: theme.palette.common.white,
     },
     body: {

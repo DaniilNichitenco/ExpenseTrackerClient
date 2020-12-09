@@ -56,6 +56,12 @@ let theme = createMuiTheme({
 theme = {
   ...theme,
   overrides: {
+    MuiAppBar: {
+      root: {
+        paddingTop: 5,
+        paddingBottom: 5,
+      }
+    },
     MuiDrawer: {
       paper: {
         backgroundColor: '#18202c',

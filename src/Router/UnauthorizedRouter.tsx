@@ -8,7 +8,6 @@ import SignUpPage from '../Components/Pages/SignUpPage';
 import UnauthorizedPage from '../Components/Pages/UnauthorizedPage';
 import CreditCardRoundedIcon from '@material-ui/icons/CreditCardRounded';
 import SignUpButton from '../Components/Buttons/SignUpButton';
-import useLocalStorage from '../CustomHooks/StorageHooks/useLocalStorage';
 import { GetCurrentUserData } from '../Services/user.services/User.service';
 import { useTheme } from '@material-ui/core';
 
@@ -41,8 +40,8 @@ import { useTheme } from '@material-ui/core';
     return(
         <React.Fragment>
             <AppbarGeneric appBarStyle={{backgroundColor: theme.palette.primary.dark}} 
-            rightButtons={<><SignInButton />
-            <SignUpButton style={{backgroundColor: theme.palette.success.main}} /></>} 
+            rightButtons={<><SignInButton style={{width: 100}} />
+            <SignUpButton style={{backgroundColor: theme.palette.success.main, width: 100}} /></>} 
             leftMenu={leftIcon()} title="Expense Tracker Web Application"/>
             <Switch>
                 <Route exact path="/registration" component={SignUpPage} />

@@ -16,6 +16,8 @@ import PagedRequest from '../../Services/pagedRequests/PagedRequest';
 import useNonInitialEffect from '../../CustomHooks/CustomUseEffectHooks/useNonInitialEffect';
 import CreateExpenseForm from '../Forms/ExpenseForm/CreateExpenseForm';
 import EditExpenseForm from '../Forms/ExpenseForm/EditExpenseForm';
+import GridPaperHeader from '../GridPaper/GridPaperHeader';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) =>
 ({
@@ -49,7 +51,7 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
     const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
     const [expenses, setExpenses] = useState<Expense[]>([]);
     const [hasNextPage, setHasNextPage] = useState<boolean>(true);
-    const [pursesData, setPursesData, removePursesData] = useSessionStorage<Purse[]>("pursesData", []);
+    const [pursesData] = useSessionStorage<Purse[]>("pursesData", []);
     
 
     const [dialog, setDialog] = useState<{
@@ -168,58 +170,72 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
                                 You do not have any {props.topic.name} expeses
                             </Typography>
                         </Grid>
-                        : expenses.map((expense) => {
-
-                        let currencyCode: string = "";
-                        let purse = pursesData.find(p => p.id == expense.purseId);
-                        
-                        if(purse != null && purse != undefined)
-                        {
-                            currencyCode = purse.currencyCode.toUpperCase();
-                        }
-
-                        return(
-                            <Accordion key={expense.id}>
-                                <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls={expense.id + "-content"}
-                                id={expense.id + "-header"}
-                                >
-                                <Typography className={classes.heading}>{expense.title}</Typography>
-                                </AccordionSummary>
-                                <AccordionDetails>
-                                <Grid container xs={12}>
-                                    <Grid container item xs={12}>
-                                        <Typography>
-                                            {expense.title}<br/>
-                                            Date: {expense.date.getDate()}/
-                                            {GetMonthName(expense.date.getMonth())}/
-                                            {expense.date.getFullYear()}
-                                            <br/>
-                                            Sum: {expense.money} {currencyCode}
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item style={{padding:10}} container xs={12} direction="row-reverse">
-                                        <Button variant="contained" onClick={() => handleOpen("delete", expense.id)}
-                                        color="secondary" className={classes.buttons}>
-                                            <Typography>
-                                                Delete
-                                            </Typography>
-                                        </Button>
-                                        <Button variant="contained" 
-                                        color="primary" onClick={() => handleOpen("update", expense.id)}
-                                         className={classes.buttons}>
-                                            <Typography>
-                                                Edit
-                                            </Typography>
-                                        </Button>
-                                    </Grid>
+                        : 
+                        <Grid item container xs={12} justify="center" spacing={2}>
+                            {expenses.map((expense) => {
+    
+                            let currencyCode: string = "";
+                            let purse = pursesData.find(p => p.id == expense.purseId);
+                            
+                            if(purse != null && purse != undefined)
+                            {
+                                currencyCode = purse.currencyCode.toUpperCase();
+                            }
+                            return(
+                                <Grid item container justify="center">
+                                    <Accordion key={expense.id} style={{width: "100%"}}>
+                                        <Grid item xs={12}>
+                                            <GridPaperHeader style={{margin: 0}} />
+                                            <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls={expense.id + "-content"}
+                                            id={expense.id + "-header"}
+                                            >
+                                                <Typography className={classes.heading}>{expense.title}</Typography>
+                                            </AccordionSummary>
+                                        </Grid>
+                                        <AccordionDetails>
+                                        <Grid container xs={12}>
+                                            <Grid container item xs={12}>
+                                                <Typography>
+                                                    Title: {expense.title}<br/>
+                                                    Date: {expense.date.getDate()}/
+                                                    {GetMonthName(expense.date.getMonth())}/
+                                                    {expense.date.getFullYear()}
+                                                    <br/>
+                                                    Sum: {expense.money} {currencyCode}
+                                                </Typography>
+                                            </Grid>
+                                            <Grid spacing={3}
+                                                    item container xs={12} 
+                                                    direction="row-reverse">
+                                                <Grid item>
+                                                    <Button variant="contained" onClick={() => handleOpen("delete", expense.id)}
+                                                    color="secondary" className={classes.buttons}>
+                                                        <Typography>
+                                                            Delete
+                                                        </Typography>
+                                                    </Button>
+                                                </Grid>
+                                                <Grid item>
+                                                    <Button variant="contained" 
+                                                    color="primary" onClick={() => handleOpen("update", expense.id)}
+                                                    className={classes.buttons}>
+                                                        <Typography>
+                                                            Edit
+                                                        </Typography>
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                        </AccordionDetails>
+                                    </Accordion>
                                 </Grid>
-                                </AccordionDetails>
-                            </Accordion>
-
-                        );
-                    })}
+    
+                            );
+                        })}     
+                        </Grid>
+                    }
                     {isLoadingData && 
                         <Grid container xs={12} justify="center">
                             <Grid container item xs={12} justify="center">
@@ -285,7 +301,6 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
 interface TopicPaperProps
 {
     topic: TopicWithExpenses;
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const TopicPaper: React.FC<TopicPaperProps> = (props) => {
@@ -293,6 +308,7 @@ export const TopicPaper: React.FC<TopicPaperProps> = (props) => {
     const [isOpen, setIsOpen] = useState(false);
     const theme = useTheme();
     const classes = useStyles();
+    const history = useHistory();
     
     const handleOpen = () => {
         setIsOpen(true);
@@ -300,7 +316,7 @@ export const TopicPaper: React.FC<TopicPaperProps> = (props) => {
 
     const handleClose = () => {
         setIsOpen(false);
-        props.setIsLoading(true);
+        history.push("/au"); // used for rerender home page
     }
 
     return(
@@ -308,13 +324,12 @@ export const TopicPaper: React.FC<TopicPaperProps> = (props) => {
                                 <Button style={{width:"100%", padding:0}} onClick={handleOpen}>
                                 <Paper elevation={20} style={{marginBottom:10, width:"100%"}}
                                 >
-                                    <Box display="flex" p={1}
-                                    style={{backgroundColor: "black", color:"white",
-                                    borderRadius:"10px 10px 0 0"
-                                }} 
-                                    justifyContent="center">
-                                        <Typography>{props.topic.name}</Typography>
-                                    </Box>
+                                    <GridPaperHeader style={{
+                                        color: "white", 
+                                        padding: 7,
+                                        }}>
+                                        <Typography variant="h6">{props.topic.name}</Typography>
+                                    </GridPaperHeader>
                                     {
                                         props.topic.expenses.length == 0 &&
                                         <Box display="flex" justifyContent="center"

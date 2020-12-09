@@ -7,6 +7,7 @@ import GetMonthName from '../../Date/MonthName';
 import { CreatePurseForm } from '../Forms/PursesForm/CreatePurseForm';
 import useNonInitialEffect from '../../CustomHooks/CustomUseEffectHooks/useNonInitialEffect';
 import EditPurseForm from '../Forms/PursesForm/EditPurseForm';
+import GridPaperHeader from '../GridPaper/GridPaperHeader';
 
 const useStyles = makeStyles((theme) => ({
     heading: {
@@ -94,6 +95,10 @@ export const PursesPage: React.FC = () => {
             });
     }
 
+    const gridPaperHeaderStyle = {
+        margin: 0
+    }
+
     if(isLoadingPurses)
     {
       return (
@@ -148,15 +153,18 @@ export const PursesPage: React.FC = () => {
                             return(
                                 <Grid item container xs={12} justify="center">
                                     <Accordion key={purse.id} style={{width: "100%"}}>
-                                        <AccordionSummary
-                                        expandIcon={<ExpandMoreIcon />}
-                                        aria-controls={purse.id + "-content"}
-                                        id={purse.id + "-header"}
-                                        >
-                                            <Typography className={classes.heading}>
-                                                {purse.currencyCode.toUpperCase()}
-                                            </Typography>
-                                        </AccordionSummary>
+                                        <Grid item xs={12}>
+                                            <GridPaperHeader style={gridPaperHeaderStyle} />
+                                            <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls={purse.id + "-content"}
+                                            id={purse.id + "-header"}
+                                            >
+                                                <Typography className={classes.heading}>
+                                                    {purse.currencyCode.toUpperCase()}
+                                                </Typography>
+                                            </AccordionSummary>
+                                        </Grid>
                                         <AccordionDetails>
                                             <Grid container xs={12} spacing={6}>
                                                 <Grid container item xs={12}>
@@ -173,7 +181,7 @@ export const PursesPage: React.FC = () => {
                                                     direction="row-reverse">
                                                     <Grid item>
                                                         <Button variant="contained" 
-                                                            color="primary" 
+                                                            color="secondary" 
                                                             onClick={() => {handleOpen("delete", purse.id);}}
                                                             className={classes.buttons}>
                                                             <Typography>

@@ -4,6 +4,7 @@ import ExpensesPerDaysDiagram from '../Diagrams/ExpensesPerDaysDiagram';
 import ExpensesPerMonthLineDiagram from '../Diagrams/ExpensesPerMonthLineDiargam';
 import BarDiagram from '../Diagrams/Generic/BarDiagram';
 import TopicPercentsDiagram from '../Diagrams/TopicPercentsDiagram';
+import GridPaperHeader from '../GridPaper/GridPaperHeader';
 
 const StatisticPage:React.FC = () => {
 
@@ -13,16 +14,19 @@ const StatisticPage:React.FC = () => {
                  <Grid container justify="center" style={{margin:0}} spacing={4}>
                     <Grid item xs={8}>
                         <Paper elevation={15}>
+                            <GridPaperHeader />
                             <ExpensesPerMonthLineDiagram />
                         </Paper>
                     </Grid>
                     <Grid item xs={8}>
                         <Paper elevation={15}>
+                            <GridPaperHeader />
                             <TopicPercentsDiagram />
                         </Paper>
                     </Grid>
                     <Grid item xs={11}>
                         <Paper elevation={15}>
+                            <GridPaperHeader />
                             <ExpensesPerDaysDiagram />
                         </Paper>
                     </Grid>
