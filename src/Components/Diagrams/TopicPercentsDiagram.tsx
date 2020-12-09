@@ -61,9 +61,12 @@ export const TopicPercentsDiagram: React.FC = () => {
 
 		const topics: string[] = [];
 
-		percentsTopic[0].percents.forEach(p => {
-			topics.push(p.topic);
-		})
+		if(percentsTopic.length != 0)
+		{
+			percentsTopic[0].percents.forEach(p => {
+				topics.push(p.topic);
+			});
+		}
   
 		const data = {
 		  labels: topics,

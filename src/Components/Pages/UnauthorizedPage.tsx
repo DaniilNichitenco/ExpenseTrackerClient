@@ -1,6 +1,6 @@
 import React from 'react';
 import StartPost from '../StartPost';
-import { Box, Divider, Grid, makeStyles, Paper, Typography, useTheme} from '@material-ui/core';
+import { Divider, Grid, makeStyles, Paper, Typography, useTheme} from '@material-ui/core';
 import NetworkCheckIcon from '@material-ui/icons/NetworkCheck';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';

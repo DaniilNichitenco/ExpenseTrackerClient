@@ -1,4 +1,4 @@
-import { Button, Container, Grid, makeStyles, Paper, Typography, useTheme } from '@material-ui/core';
+import { Container, Grid, makeStyles, Paper, Typography, useTheme } from '@material-ui/core';
 import React from 'react';
 import SignUpButton from './Buttons/SignUpButton';
 import image from "..\\assets\\images\\StartPostBg.jpg";

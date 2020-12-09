@@ -100,7 +100,7 @@ export const UpdatePurse = async (pursesForUpdate: PursesForUpdate) => {
 
 export const CreatePurse = async (purseForUpdate: PurseForCreate) => {
 
-    API.post('/Purses', purseForUpdate)
+    return API.post('/Purses', purseForUpdate)
         .then(response => {
             console.log(response.data);
             return {response: response};

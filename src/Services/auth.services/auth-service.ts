@@ -25,7 +25,6 @@ export const SignIn = (userForSignIn: UserForSignIn) => {
 
 export const SignOut = () => {
     localStorage.removeItem("user");
-    localStorage.setItem("authorized", "false");
     sessionStorage.clear();
 }
 

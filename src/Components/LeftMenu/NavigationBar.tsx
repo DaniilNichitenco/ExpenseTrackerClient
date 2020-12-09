@@ -72,10 +72,7 @@ export interface NavigatorProps extends Omit<DrawerProps, 'classes'>, WithStyles
 const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
   const { classes, ...other } = props;
 
-  const [userData, setuserData] = useSessionStorage("userData", DefaultUser);
-
-
-  // const userData = useContext(UserContext).userData;
+  const [userData] = useSessionStorage("userData", DefaultUser);
   const location = useLocation();
 
   const categories = [
