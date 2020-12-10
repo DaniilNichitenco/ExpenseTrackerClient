@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
@@ -14,14 +14,12 @@ import PublicIcon from '@material-ui/icons/Public';
 import TimerIcon from '@material-ui/icons/Timer';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { Omit } from '@material-ui/types';
-import './NavigationBarStyles.css';
 import { NavLink, useLocation } from 'react-router-dom';
-import DefaultUser from '../../Data/Models/User/default/DefaultUser';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import GetDay from '../../Date/DayOfWeek';
-import { Typography } from '@material-ui/core';
-import { GetCurrentUserData } from '../../Services/user.services/User.service';
+import { SvgIconTypeMap, Typography } from '@material-ui/core';
 import User from '../../Data/Models/User/User';
+import { OverridableComponent } from '@material-ui/core/OverridableComponent';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -69,34 +67,23 @@ const styles = (theme: Theme) =>
     }
   });
 
-export interface NavigatorProps extends Omit<DrawerProps, 'classes'>, WithStyles<typeof styles> {}
+export interface NavigatorProps extends Omit<DrawerProps, 'classes'>, WithStyles<typeof styles> 
+{
+  categories: {
+    id: string;
+    children: {
+      id: string;
+      icon: JSX.Element;
+      to: string;
+    }[];
+  }[];
+}
 
 const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
   const { classes, ...other } = props;
 
   const [userData] = useSessionStorage<User | undefined>("userData", undefined, true);
   const location = useLocation();
-
-  const categories = [
-    {
-      id: 'Menu',
-      children: [
-        { id: 'Registration', icon: <PeopleIcon />, to: "/registration" },
-        { id: 'Profile', icon: <DnsRoundedIcon />, to: "/au/profile" },
-        { id: 'Home', icon: <PermMediaOutlinedIcon />, to: "/au/home" },
-        { id: 'Purses', icon: <PublicIcon />, to: "/au/purses" },
-        { id: 'Statistic', icon: <PublicIcon />, to: "/au/statistic" },
-      ],
-    }, 
-    {
-      id: 'Admin',
-      children: [
-        { id: 'Analytics', icon: <SettingsIcon />, to: "/" },
-        { id: 'Performance', icon: <TimerIcon />, to: "/" },
-      ],
-    },
-  ];
-
 
   return (
     <Drawer className={classes.drawer} variant="permanent" {...other} open={true}>
@@ -107,7 +94,7 @@ const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
         <ListItem className={clsx(classes.item, classes.itemCategory)}>
           <Typography variant="h5">Hello, {userData != undefined && userData.firstName}!</Typography>
         </ListItem>
-        {categories.map(({ id, children }) => (
+        {props.categories.map(({ id, children }) => (
           <React.Fragment key={id}>
             <ListItem className={classes.categoryHeader}>
               <ListItemText
