@@ -26,7 +26,7 @@ const StyledTableCell = withStyles((theme: Theme) =>
       fontSize: 14,
     },
   }),
-)(TableCell);
+)(TableCell); 
 
 const StyledTableRow = withStyles((theme: Theme) =>
   createStyles({
@@ -57,14 +57,14 @@ interface TableDataProps
 
 const TableDailyData: React.FC<TableDataProps> = ({currencyCode}) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [dailyExpenseSum, setDailyExpenseSum] = useSessionStorage<ExpenseForSum[]>(
-      "dailyExpenseSum", []
+    const [dailyExpenseSum, setDailyExpenseSum] = useSessionStorage<ExpenseForSum[] | undefined>(
+      "dailyExpenseSum", undefined
       );
 
     let expenseForSum: number = 0;
 
         useEffect(() => {
-            if(dailyExpenseSum.length == 0)
+            if(dailyExpenseSum == undefined)
             {
                 ExpenseService.GetExpensesSumForToday()
                     .then(result => {
@@ -85,7 +85,7 @@ const TableDailyData: React.FC<TableDataProps> = ({currencyCode}) => {
             }
         });
 
-    if(isLoading)
+    if(isLoading || dailyExpenseSum == undefined)
     {
         return(
         <Grid container xs={12} justify="center">
@@ -106,12 +106,14 @@ const TableDailyData: React.FC<TableDataProps> = ({currencyCode}) => {
 
 const TableMonthlyData: React.FC<TableDataProps> = ({currencyCode}) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [monlyExpenseSum, setMonlyExpenseSum] = useSessionStorage<ExpenseForSum[]>("monlyExpenseSum", []);
+    const [monlyExpenseSum, setMonlyExpenseSum] = useSessionStorage<ExpenseForSum[] | undefined>(
+      "monlyExpenseSum", undefined
+      );
 
     let expenseForSum: number = 0;
 
         useEffect(() => {
-          if(monlyExpenseSum.length == 0)
+          if(monlyExpenseSum == undefined)
           {
             ExpenseService.GetExpensesSumForMonth()
                 .then(result => {
@@ -131,7 +133,7 @@ const TableMonthlyData: React.FC<TableDataProps> = ({currencyCode}) => {
           }
         });
 
-    if(isLoading)
+    if(isLoading || monlyExpenseSum == undefined)
     {
         return(
           <Grid container xs={12} justify="center">
@@ -152,14 +154,14 @@ const TableMonthlyData: React.FC<TableDataProps> = ({currencyCode}) => {
 
 const TableYearlyData: React.FC<TableDataProps> = ({currencyCode}) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [yearlyExpenseSum, setYearlyExpenseSum] = useSessionStorage<ExpenseForSum[]>(
-      "yearlyExpenseSum", []
+    const [yearlyExpenseSum, setYearlyExpenseSum] = useSessionStorage<ExpenseForSum[] | undefined>(
+      "yearlyExpenseSum", undefined
       );
 
     let expenseForSum: number = 0;
 
         useEffect(() => {
-            if(yearlyExpenseSum.length == 0)
+            if(yearlyExpenseSum == undefined)
             {
                 ExpenseService.GetExpensesSumForYear()
                     .then(result => {
@@ -180,7 +182,7 @@ const TableYearlyData: React.FC<TableDataProps> = ({currencyCode}) => {
             }
         });
 
-    if(isLoading)
+    if(isLoading || yearlyExpenseSum == undefined)
     {
         return(
           <Grid container xs={12} justify="center">

@@ -1,104 +1,122 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
-import { Button, DialogTitle, DialogContent, DialogContentText, DialogActions, makeStyles, Theme } from "@material-ui/core";
+import { Button, DialogTitle, DialogContent, 
+    DialogContentText, DialogActions, makeStyles, 
+    Theme, Typography, CircularProgress, Grid } from "@material-ui/core";
 import InputForm from '../InputForm/InputForm';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import IEditProfileFormProps from './IEditProfileFormProps';
-import UserForSignIn from "../../../Data/Models/User/UserForSignIn";
-import AuthService from "../../../Services/auth.services/auth-service";
-import { useHistory } from "react-router-dom";
+import UserForUpdate from "../../../Data/Models/User/UserForUpdate";
+import { EditUser, GetCurrentUserData } from "../../../Services/user.services/User.service";
+import User from "../../../Data/Models/User/User";
+import useSessionStorage from "../../../CustomHooks/StorageHooks/useSessionStorage";
 
 const validationSchema = yup.object().shape({
-    login: yup.string().required("Enter login!"),
-    password: yup.string().required("Enter password!")
+    firstName: yup.string().required("Enter first name!").min(3, "Minimum length is 3 characters!")
+        .max(15, "maximum length is 15 characters!"),
+    lastName: yup.string().required("Enter last name!").min(3, "Minimum length is 3 characters!")
+        .max(15, "maximum length is 15 characters!"),
   });
 
 const useStyles = makeStyles((theme: Theme) => ({
-    title: {
-        alignSelf: "center",
-        color: "black"
-    },
-    subtitle: {
-        color: "black"
-    },
-    buttonContainer: {
-        justifyContent: "center",
-        marginTop: 30
-    },
-    button: {
-        marginLeft:50,
-        marginRight:50
+    form: {
+        width: '100%', // Fix IE 11 issue.
     }
 }));
 
 const EditProfileForm: React.FC<IEditProfileFormProps> = (props) => {
 
     const classes = useStyles();
-    const history = useHistory();
     const methods = useForm({
         resolver: yupResolver(validationSchema)
     });
     const { handleSubmit, errors } = methods;
-    const [signInError, setSignInError] = useState("");
+    const [userData, setUserData] = useSessionStorage<User | undefined>("userData", 
+    undefined);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    const onSubmit: SubmitHandler<UserForSignIn> = async (formValues) => await signIn(formValues);
+    const onSubmit: SubmitHandler<UserForUpdate> = async (formValues) => {
 
-    const signIn = async (formValues: UserForSignIn) => {
-        
-        let response = await AuthService.SignIn(formValues);
-        
-        if(response.status == 200)
+        EditUser(formValues)
+            .then(res => {
+                props.handleClose();
+            });
+    };
+
+    useEffect(() => {
+        if(userData == undefined)
         {
-            props.handleClose();
-            history.push("/au/home");
+            GetCurrentUserData()
+                .then(res => {
+                    if(res.status == 200)
+                    {
+                        setUserData(res.data);
+                        setIsLoading(false);
+                    }
+                    else
+                    {
+                        console.log(res.data);
+                        props.handleClose();
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                    props.handleClose();
+                });
         }
         else
         {
-            setSignInError(response.data);
+            setIsLoading(false);
         }
-    }
+    }, []);
 
     return(
         <FormProvider {...methods}>
-            <DialogTitle id="form-dialog-title" className={classes.title}>
-                Sign In
+            <DialogTitle id="form-dialog-title">
+                Editing profile
             </DialogTitle>
             <DialogContent>
-            <DialogContentText className={classes.subtitle}>
-                Please, fill fields to sign in
-            <p style={{color:"red", fontWeight:400, fontSize:16}}>{signInError}</p>
-            </DialogContentText>
-            <form>
-                <InputForm 
-                errorObj={errors}
-                name="login" 
-                label="Login(Username/Email)" 
-                autoFocus={true} 
-                required={true}
-                />
-                <InputForm 
-                errorObj={errors}
-                type="password"
-                name="password" 
-                label="Password" 
-                required={true}
-                />
-            </form>
-            <DialogActions className={classes.buttonContainer}>
+            {isLoading || userData == undefined ?
+            <Grid container xs={12}>
+                <CircularProgress color="secondary" />
+            </Grid>
+            : <>
+                <DialogContentText>
+                    <Typography>Fill the folowing fields</Typography>
+                </DialogContentText>
+                <form noValidate className={classes.form}>
+                    <InputForm 
+                    errorObj={errors}
+                    name="firstName" 
+                    label="First name" 
+                    autoFocus={true} 
+                    required={true}
+                    defaultValue={userData.firstName}
+                    />
+                    <InputForm 
+                    errorObj={errors}
+                    name="lastName" 
+                    type="text"
+                    label="Last name"
+                    required={true}
+                    defaultValue={userData.lastName}
+                    />
+                </form>
+            </>
+            }
+            <DialogActions>
                 <Button 
-                    variant="contained" 
-                    color="primary"
+                    variant="contained"
+                    color="secondary"
                     onClick={handleSubmit(onSubmit)}
-                    className={classes.button}
                     >
-                    Sign In
+                    Edit
                 </Button>
                 <Button 
                     variant="contained" 
                     color="primary"
                     onClick={props.handleClose}
-                    className={classes.button}
                     >
                     Cancel
                 </Button>

@@ -106,7 +106,7 @@ const HomePage: React.FC = () => {
              justify="center" className="contentDiv" xs={10} xl={9}
              >
                 <Grid item xs={11} justify="center">
-                    <Paper elevation={12} style={{paddingTop: 10}}>
+                    <Paper elevation={12}>
                         <GridPaperHeader />
                         <Grid container justify="center" xs={12} className={classes.root}>
                             {pursesData.length == 0 &&

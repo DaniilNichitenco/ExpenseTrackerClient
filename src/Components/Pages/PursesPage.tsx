@@ -8,6 +8,7 @@ import { CreatePurseForm } from '../Forms/PursesForm/CreatePurseForm';
 import useNonInitialEffect from '../../CustomHooks/CustomUseEffectHooks/useNonInitialEffect';
 import EditPurseForm from '../Forms/PursesForm/EditPurseForm';
 import GridPaperHeader from '../GridPaper/GridPaperHeader';
+import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 
 const useStyles = makeStyles((theme) => ({
     heading: {
@@ -26,6 +27,7 @@ export const PursesPage: React.FC = () => {
     const [pursesForList, setPursesForList] = useState<PurseForList[]>([]);
     const [countCurrencies, setCountCurrencies] = useState<number>(0);
     const [isLoadingCurrencies, setIsLoadingCurrencies] = useState<boolean>(true);
+    const [a, setA] = useSessionStorage("a", "s");
     const theme = useTheme();
     const [dialog, setDialog] = useState<{
         isOpen: boolean, 
@@ -50,6 +52,8 @@ export const PursesPage: React.FC = () => {
     }
 
     useEffect(() => {
+        setA("c");
+        console.log("c");
         GetPursesForList()
             .then(res => {
                 if(res.response.status == 200)
@@ -151,7 +155,7 @@ export const PursesPage: React.FC = () => {
                         </Grid> :
                         pursesForList.map((purse) => {
                             return(
-                                <Grid item container xs={12} justify="center">
+                                <Grid key={purse.id} item container xs={12} justify="center">
                                     <Accordion key={purse.id} style={{width: "100%"}}>
                                         <Grid item xs={12}>
                                             <GridPaperHeader style={gridPaperHeaderStyle} />

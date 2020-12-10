@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { deepEqual, propertiesEqual } from "../../Comparers/ObjectsComparer";
 
-const useSessionStorage = <T extends unknown>(key: string, initialValue:T) => {
+const useSessionStorage = <T extends unknown>(key: string, initialValue:T, check = false) => {
 
     const [storedValue, setStoredValue] = useState<T>(() => {
         try
@@ -19,6 +20,8 @@ const useSessionStorage = <T extends unknown>(key: string, initialValue:T) => {
             return initialValue;
         }   
     });
+
+    let checkItem = storedValue;
 
     const setValue = (value: T) => {
         try
@@ -43,6 +46,34 @@ const useSessionStorage = <T extends unknown>(key: string, initialValue:T) => {
             sessionStorage.removeItem(key);
         }
     }
+
+    useEffect(() => {
+        if(check)
+        {
+            setInterval(() => {
+                const itemStr = sessionStorage.getItem(key);
+                if(itemStr != null)
+                {
+                    try
+                    {
+                        const item = JSON.parse(itemStr) as T;
+                        if(propertiesEqual(item, storedValue))
+                        {
+                            if(!deepEqual(item, checkItem))
+                            {
+                                setStoredValue(item);
+                                checkItem = item;
+                            }
+                        }
+                    }
+                    catch(error : any)
+                    {
+                        console.log(error);
+                    }
+                }
+            }, 3000);
+        }
+    }, []);
 
     return [storedValue, setValue, removeValue] as const;
 }

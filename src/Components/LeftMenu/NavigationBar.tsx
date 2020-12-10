@@ -20,6 +20,8 @@ import DefaultUser from '../../Data/Models/User/default/DefaultUser';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import GetDay from '../../Date/DayOfWeek';
 import { Typography } from '@material-ui/core';
+import { GetCurrentUserData } from '../../Services/user.services/User.service';
+import User from '../../Data/Models/User/User';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -72,7 +74,7 @@ export interface NavigatorProps extends Omit<DrawerProps, 'classes'>, WithStyles
 const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
   const { classes, ...other } = props;
 
-  const [userData] = useSessionStorage("userData", DefaultUser);
+  const [userData] = useSessionStorage<User | undefined>("userData", undefined, true);
   const location = useLocation();
 
   const categories = [
@@ -85,7 +87,7 @@ const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
         { id: 'Purses', icon: <PublicIcon />, to: "/au/purses" },
         { id: 'Statistic', icon: <PublicIcon />, to: "/au/statistic" },
       ],
-    },
+    }, 
     {
       id: 'Admin',
       children: [
@@ -103,7 +105,7 @@ const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
           <Typography variant="h5">{GetDay()}</Typography>
         </ListItem>
         <ListItem className={clsx(classes.item, classes.itemCategory)}>
-          <Typography variant="h5">Hello, {userData.firstName}!</Typography>
+          <Typography variant="h5">Hello, {userData != undefined && userData.firstName}!</Typography>
         </ListItem>
         {categories.map(({ id, children }) => (
           <React.Fragment key={id}>

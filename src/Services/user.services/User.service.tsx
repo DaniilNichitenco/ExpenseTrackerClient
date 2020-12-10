@@ -30,10 +30,14 @@ export const GetCurrentUserData = async () => {
 
 export const EditUser = async (userForUpdate: UserForUpdate) => {
 
-    return await API.put('/user/', userForUpdate)
+    return API.put('/user/', userForUpdate)
+        .then(response => {
+            return {response: response}
+        })
         .catch(error => {
             console.log(error);
-        })
+            return {response: error.response};
+        });
 }
 
 export const EditUserById = async (userForUpdate: UserForUpdate, userId: number) => {
