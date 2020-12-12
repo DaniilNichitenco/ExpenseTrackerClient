@@ -45,7 +45,7 @@ export const EditExpenseForm: React.FC<EditExpenseFormProps> = (props) => {
     const { handleSubmit, errors } = methods;
     const classes = useStyles();
     const [items, setitems] = useState<{id: number, label: string}[]>([]);
-    const [pursesData, setPursesData, removePursesData] = useSessionStorage<Purse[]>("pursesData", []);
+    const [pursesData] = useSessionStorage<Purse[]>("pursesData", []);
     const [currentDate, setCurrentDate] = useState(new Date());
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [result, setResult] = useState<{

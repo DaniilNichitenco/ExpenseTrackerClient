@@ -1,10 +1,9 @@
-import { Grid, makeStyles, Typography, Divider } from '@material-ui/core';
+import { Grid, makeStyles, Typography, Divider, DialogContent, Button, Dialog, DialogActions, DialogContentText, DialogTitle } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import './PageStyles.css';
 import FlyingGridTile from '../Tiles/FlyingGridTile';
 import { CircularProgress } from '@material-ui/core';
 import User from '../../Data/Models/User/User';
-import DefaultUser from '../../Data/Models/User/default/DefaultUser';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import PurseExpenseTable from '../Tables/PurseExpenseTable';
 import Purse from '../../Data/Models/Purses/Purse';
@@ -13,6 +12,8 @@ import EditProfileButton from '../Buttons/EditProfileButton';
 import { GetCountUserExpenses } from '../../Services/expense.service/ExpenseService';
 import { GetCurrentUserData } from '../../Services/user.services/User.service';
 import ExpenseForSum from '../../Data/Models/Expenses/ExpenseForSum';
+import EditProfileForm from '../Forms/EditProfileForm/EditProfileForm';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     contentList: {
@@ -58,54 +59,85 @@ const ProfilePage: React.FC = () => {
 
     const [userData, setUserData] = useSessionStorage<User | undefined>("userData", 
     undefined);
+    // const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
     const classes = useStyles();
     const [isLoadingPurses, setIsLoadingPurses] = useState(true);
     const [isLoadingExpenses, setIsLoadingExpenses] = useState(true);
     const [pursesData, setPursesData] = useSessionStorage<Purse[]>("pursesData", []);
     const [countExpenses, setCountExpenses] = useState<number>(0);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [rerender, setRerender] = useState<boolean>(true);
     const [dailyExpenseSum, setDailyExpenseSum , removeDailyExpenseSum] = useSessionStorage<ExpenseForSum[]>(
         "dailyExpenseSum", []
         );
     const [monlyExpenseSum, setMonlyExpenseSum, removeMonthlyExpenseSum] = useSessionStorage<ExpenseForSum[]>(
         "monlyExpenseSum", []
         );
-        const [yearlyExpenseSum, setYearlyExpenseSum, removeYearlyExpenseSum] = useSessionStorage<ExpenseForSum[]>(
-            "yearlyExpenseSum", []
-            );
+    const [yearlyExpenseSum, setYearlyExpenseSum, removeYearlyExpenseSum] = useSessionStorage<ExpenseForSum[]>(
+        "yearlyExpenseSum", []
+        );
+
+    const history = useHistory();
+
 
     useEffect(() => {
-        removeDailyExpenseSum();
-        removeMonthlyExpenseSum();
-        removeYearlyExpenseSum();
-        GetCountUserExpenses().then(res => {
-            if(res.response.status == 200)
-            {
-                setCountExpenses(res.data);
-                setIsLoadingExpenses(false);
-            }
-        });
-        GetCurrentUserPurses()
-            .then(result => {
-                if(result.response.status == 200)
+        if(rerender)
+        {
+            removeDailyExpenseSum();
+            removeMonthlyExpenseSum();
+            removeYearlyExpenseSum();
+            GetCountUserExpenses().then(res => {
+                if(res.response.status == 200)
                 {
-                    setPursesData(result.data);
-                    setIsLoadingPurses(false);
+                    setCountExpenses(res.data);
+                    setIsLoadingExpenses(false);
                 }
-            })
-            .catch(error => {
-                console.log(error);
             });
-        GetCurrentUserData()
-            .then(res => {
-                if(res.status == 200)
-                {
-                    setUserData(res.data);
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }, []);
+            GetCurrentUserPurses()
+                .then(result => {
+                    if(result.response.status == 200)
+                    {
+                        setPursesData(result.data);
+                        setIsLoadingPurses(false);
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+            GetCurrentUserData()
+                .then(res => {
+                    if(res.status == 200)
+                    {
+                        setUserData(res.data);
+                        // setIsLoadingUser(false);
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+        setRerender(false);
+    }, [rerender]);
+
+    const handleOpen = () => {
+        setIsOpen(true);
+    }
+
+    const handleClose = () => {
+        // setIsLoadingUser(true);
+        setRerender(true);
+        setIsOpen(false);
+        history.push("/au/profile");
+    }
+
+    // if(isLoadingUser)
+    // {
+    //     return(
+    //         <Grid container xs={12} >
+    //             <CircularProgress color="secondary" />
+    //         </Grid>
+    //     )
+    // }
 
     return(
         <React.Fragment> 
@@ -124,7 +156,7 @@ const ProfilePage: React.FC = () => {
                             justifyContent: "center",}} container>
                             <Grid container item xs={12} className="boxAvatar">
                                     <Grid xs={12} container direction="row-reverse">
-                                        <EditProfileButton
+                                        <EditProfileButton onClick={handleOpen}
                                         style={{margin: 5}} />
                                     </Grid>
                                     <Grid item xs={12} style={{height: 170}} />
@@ -176,6 +208,9 @@ const ProfilePage: React.FC = () => {
                         <PurseExpenseTable />
                     </FlyingGridTile>
                 </Grid>
+                <Dialog open={isOpen}>
+                    <EditProfileForm handleClose={handleClose} />
+                </Dialog>
             </Grid>
         </React.Fragment>
     );

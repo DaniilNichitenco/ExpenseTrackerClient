@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
       buttons: {
           width: 100
       }
-}))
+}));
 
 export const PursesPage: React.FC = () => {
 
@@ -95,10 +95,6 @@ export const PursesPage: React.FC = () => {
             });
     }
 
-    const gridPaperHeaderStyle = {
-        margin: 0
-    }
-
     if(isLoadingPurses)
     {
       return (
@@ -151,10 +147,10 @@ export const PursesPage: React.FC = () => {
                         </Grid> :
                         pursesForList.map((purse) => {
                             return(
-                                <Grid item container xs={12} justify="center">
+                                <Grid key={purse.id} item container xs={12} justify="center">
                                     <Accordion key={purse.id} style={{width: "100%"}}>
                                         <Grid item xs={12}>
-                                            <GridPaperHeader style={gridPaperHeaderStyle} />
+                                            <GridPaperHeader style={{margin:0}} />
                                             <AccordionSummary
                                             expandIcon={<ExpandMoreIcon />}
                                             aria-controls={purse.id + "-content"}
@@ -192,7 +188,7 @@ export const PursesPage: React.FC = () => {
                                                     <Grid item>
                                                         <Button variant="contained" 
                                                         color="primary" 
-                                                        onClick={() => {handleOpen("update", purse.id)}}
+                                                        onClick={() => {handleOpen("update", purse.id);}}
                                                         className={classes.buttons}>
                                                             <Typography>
                                                                 Edit
@@ -231,7 +227,7 @@ export const PursesPage: React.FC = () => {
                     <Button 
                         variant="contained" 
                         color="secondary"
-                        onClick={() => {deletePurse(dialog.itemId);}}
+                        onClick={async () => {await deletePurse(dialog.itemId);}}
                         >
                         <Typography>
                             Delete

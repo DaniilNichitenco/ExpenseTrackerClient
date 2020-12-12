@@ -63,10 +63,8 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
     const classes = useStyles();
 
     useNonInitialEffect(() => {
-        console.log(dialog);
         if(!dialog.isOpen) //if we close nested dialog, we rerender whole component
         {
-            console.log("rerender");
             setPageIndex(0);
             setHasData(true);
             setIsLoadingData(true);
@@ -182,8 +180,8 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
                                 currencyCode = purse.currencyCode.toUpperCase();
                             }
                             return(
-                                <Grid item container justify="center">
-                                    <Accordion key={expense.id} style={{width: "100%"}}>
+                                <Grid item key={expense.id} container justify="center">
+                                    <Accordion style={{width: "100%"}}>
                                         <Grid item xs={12}>
                                             <GridPaperHeader style={{margin: 0}} />
                                             <AccordionSummary

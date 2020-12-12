@@ -1,12 +1,79 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { GetCurrentUser } from '../../Services/auth.services/auth-service';
 import Navigator from './NavigationBar';
+import jwt_decode from 'jwt-decode';
+import { CircularProgress, Grid } from '@material-ui/core';
+import PeopleIcon from '@material-ui/icons/People';
+import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
+import PermMediaOutlinedIcon from '@material-ui/icons/PhotoSizeSelectActual';
+import PublicIcon from '@material-ui/icons/Public';
+import TimerIcon from '@material-ui/icons/Timer';
+import SettingsIcon from '@material-ui/icons/Settings';
+import PersonIcon from '@material-ui/icons/Person';
+import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import HomeWorkIcon from '@material-ui/icons/HomeWork';
+import BarChartIcon from '@material-ui/icons/BarChart';
 
   const drawerWidth = 256;
 
+  const categoriesAdmin = [
+    {
+      id: 'Menu',
+      children: [
+        { id: 'Home', icon: <HomeWorkIcon />, to: "/au/home" },
+        { id: 'Profile', icon: <PersonIcon />, to: "/au/profile" },
+        { id: 'Purses', icon: <DnsRoundedIcon />, to: "/au/purses" },
+        { id: 'Statistic', icon: <BarChartIcon />, to: "/au/statistic" },
+      ],
+    }, 
+    {
+      id: 'Admin',
+      children: [
+        { id: 'Users', icon: <PeopleIcon />, to: "/au/admin/users" },
+      ],
+    },
+  ];
+
+  const categories = [
+    {
+      id: 'Menu',
+      children: [
+        { id: 'Home', icon: <HomeWorkIcon />, to: "/au/home" },
+        { id: 'Profile', icon: <PersonIcon />, to: "/au/profile" },
+        { id: 'Purses', icon: <DnsRoundedIcon />, to: "/au/purses" },
+        { id: 'Statistic', icon: <BarChartIcon />, to: "/au/statistic" },
+      ],
+    }
+  ];
+
   const LeftMenu: React.FC = () => {
 
+    const [role, setRole] = useState<string>();
+
+    useEffect(() => {
+      const token = GetCurrentUser().accessToken;
+      const role: string = (jwt_decode(token) as any).Role;
+      setRole(role);
+    }, []);
+
+    if(role == undefined)
+    {
+      return(
+        <Grid container>
+          <CircularProgress color="secondary" />
+        </Grid>
+      )
+    }
+
+    if(role == "admin")
+    {
+      return(
+        <Navigator categories={categoriesAdmin} PaperProps={{ style: { width: drawerWidth } }} />
+    );
+    }
+
     return(
-        <Navigator PaperProps={{ style: { width: drawerWidth } }} />
+        <Navigator categories={categories} PaperProps={{ style: { width: drawerWidth } }} />
     );
   }
 

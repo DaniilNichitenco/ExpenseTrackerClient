@@ -102,13 +102,13 @@ const HomePage: React.FC = () => {
     
     return(
         <React.Fragment>
-            <Grid container
+            <Grid container item
              justify="center" className="contentDiv" xs={10} xl={9}
              >
-                <Grid item xs={11} justify="center">
-                    <Paper elevation={12} style={{paddingTop: 10}}>
+                <Grid item xs={11}>
+                    <Paper elevation={12}>
                         <GridPaperHeader />
-                        <Grid container justify="center" xs={12} className={classes.root}>
+                        <Grid container justify="center" className={classes.root}>
                             {pursesData.length == 0 &&
                             <Typography variant="h4">
                                 There are not any purses
@@ -150,7 +150,7 @@ const HomePage: React.FC = () => {
                                 }
 
                                 return(
-                                <Grid item xs={12}
+                                <Grid item xs={12} key={index}
                                 component={TabPanel} value={value} index={index}>
                                     <PursesDoughnutDiagram 
                                         title={"Daily expenses, purse " + purse.currencyCode.toUpperCase()}

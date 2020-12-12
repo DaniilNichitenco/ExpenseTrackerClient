@@ -29,7 +29,7 @@ const StatisticPage:React.FC = () => {
 
     return(
         <React.Fragment>
-            <Container className="contentDiv" component={Grid} xs={11}>
+            <Container className="contentDiv" component={Grid} item xs={11}>
                  <Grid container justify="center" spacing={4}>
                     {isLoading ?
                     <Grid item container xs={12} justify="center">

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { Button, DialogTitle, DialogContent, DialogContentText, DialogActions, makeStyles, Theme, Grid, Typography, CircularProgress } from "@material-ui/core";
+import { Button, DialogTitle, DialogContent, 
+    DialogContentText, DialogActions, makeStyles, 
+    Grid, Typography, CircularProgress } from "@material-ui/core";
 import InputForm from '../InputForm/InputForm';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -63,7 +65,7 @@ export const EditPurseForm: React.FC<EditPurseFormProps> = (props) => {
                 {
                     return{
                         successed: false,
-                        description: "Expense has already deleted",
+                        description: "Purse has already deleted",
                         purse: undefined
                     };
                 }
