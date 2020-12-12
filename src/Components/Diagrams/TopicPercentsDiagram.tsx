@@ -79,7 +79,7 @@ export const TopicPercentsDiagram: React.FC = () => {
 	if(isLoading)
     {
       return (
-		<Grid container xs={12} justify="center">
+		<Grid container justify="center">
 			<CircularProgress color="secondary" />
 		</Grid>
 		);

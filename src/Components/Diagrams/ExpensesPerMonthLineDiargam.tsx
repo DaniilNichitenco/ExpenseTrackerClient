@@ -4,6 +4,7 @@ import useSessionStorage from "../../CustomHooks/StorageHooks/useSessionStorage"
 import ExpensesLineDiagram from "./Generic/ExpensesLineDiargam";
 import ExpensesForYearDefault from '../../Data/Models/Expenses/default/ExpensesForYearDefault';
 import { GetExpensesForCurrentYear } from "../../Services/expense.service/ExpenseService";
+import ExpensesForYear from "../../Data/Models/Expenses/ExpensesForYear";
 
 const randomColor = require('random-color');
 
@@ -20,11 +21,10 @@ interface ExpensesPerMonthLineDiagramProps
   const ExpensesPerMonthLineDiagram:React.FC<ExpensesPerMonthLineDiagramProps> = (props) => {
 
     const [isLoading, setIsLoading] = useState(true);
-    const [expensesForYearData, setExpensesForYearData] = useSessionStorage("expensesForYearData", ExpensesForYearDefault);
+    const [expensesForYearData, setExpensesForYearData] = useSessionStorage<ExpensesForYear[]>(
+      "expensesForYearData", []);
 
     useEffect(() => {
-      if(expensesForYearData == ExpensesForYearDefault)
-      {
         GetExpensesForCurrentYear()
           .then(result => {
             if(result.response.status == 200)
@@ -36,11 +36,6 @@ interface ExpensesPerMonthLineDiagramProps
           .catch(error => {
             console.log(error);
           })
-      }
-      else
-      {
-        setIsLoading(false);
-      }
     }, []);
 
     const getData = () => {

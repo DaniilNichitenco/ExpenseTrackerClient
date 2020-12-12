@@ -57,6 +57,7 @@ const styles = (theme: Theme) =>
     },
     itemIcon: {
       margin: "auto",
+      marginRight: 3,
       minWidth: 'auto',
     },
     divider: {
@@ -102,7 +103,9 @@ const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
                   primary: classes.categoryHeaderPrimary,
                 }}
               >
-                {id}
+                <Typography variant="h5" style={{color: "white"}}>
+                  {id}
+                </Typography>
               </ListItemText>
             </ListItem>
             {children.map(({ id: childId, icon, to }) => (
@@ -121,7 +124,9 @@ const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
                     primary: classes.itemPrimary,
                   }}
                 >
-                  {childId}
+                  <Typography>
+                    {childId}
+                  </Typography>
                 </ListItemText>
               </ListItem>
             ))}

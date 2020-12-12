@@ -16,6 +16,7 @@ import { SignOut } from '../Services/auth.services/auth-service';
 import { GetCurrentUserData } from '../Services/user.services/User.service';
 import HomeIcon from '@material-ui/icons/Home';
 import PursesPage from '../Components/Pages/PursesPage';
+import AdminRouter from './AdminRouter';
 
   const AuthorizedRouter:React.FC = () => {
 
@@ -54,7 +55,7 @@ import PursesPage from '../Components/Pages/PursesPage';
     if(isLoading || userData == undefined)
     {
       return (
-        <Grid container xs={12} justify="center">
+        <Grid container justify="center">
           <CircularProgress color="secondary" />
         </Grid>
       );
@@ -72,6 +73,7 @@ import PursesPage from '../Components/Pages/PursesPage';
                     <Route exact path="/au/profile" component={ProfilePage} />
                     <Route exact path="/au/statistic" component={StatisticPage} />
                     <Route exact path="/au/purses" component={PursesPage} />
+                    <Route path="/au/admin" component={AdminRouter} />
                     <Redirect to="/au/home" />
                   </Switch>
                 </AppContent>

@@ -275,7 +275,10 @@ export const GetPagedUserExpenses = async (request: PagedRequest, topic?: Topic)
         request.columnNameForSorting = "Date";
         request.sortDirection = "DESC";
     }
-    console.log("request: " + JSON.stringify(request));
+    if(request.sortDirection == undefined)
+    {
+        request.sortDirection = "ASC";
+    }
     
     return API.post("Expenses/PaginatedSearch", request)
         .then(response => {

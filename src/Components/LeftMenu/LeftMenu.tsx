@@ -9,6 +9,10 @@ import PermMediaOutlinedIcon from '@material-ui/icons/PhotoSizeSelectActual';
 import PublicIcon from '@material-ui/icons/Public';
 import TimerIcon from '@material-ui/icons/Timer';
 import SettingsIcon from '@material-ui/icons/Settings';
+import PersonIcon from '@material-ui/icons/Person';
+import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import HomeWorkIcon from '@material-ui/icons/HomeWork';
+import BarChartIcon from '@material-ui/icons/BarChart';
 
   const drawerWidth = 256;
 
@@ -16,18 +20,16 @@ import SettingsIcon from '@material-ui/icons/Settings';
     {
       id: 'Menu',
       children: [
-        { id: 'Registration', icon: <PeopleIcon />, to: "/registration" },
-        { id: 'Profile', icon: <DnsRoundedIcon />, to: "/au/profile" },
-        { id: 'Home', icon: <PermMediaOutlinedIcon />, to: "/au/home" },
-        { id: 'Purses', icon: <PublicIcon />, to: "/au/purses" },
-        { id: 'Statistic', icon: <PublicIcon />, to: "/au/statistic" },
+        { id: 'Home', icon: <HomeWorkIcon />, to: "/au/home" },
+        { id: 'Profile', icon: <PersonIcon />, to: "/au/profile" },
+        { id: 'Purses', icon: <DnsRoundedIcon />, to: "/au/purses" },
+        { id: 'Statistic', icon: <BarChartIcon />, to: "/au/statistic" },
       ],
     }, 
     {
       id: 'Admin',
       children: [
-        { id: 'Analytics', icon: <SettingsIcon />, to: "/" },
-        { id: 'Performance', icon: <TimerIcon />, to: "/" },
+        { id: 'Users', icon: <PeopleIcon />, to: "/au/admin/users" },
       ],
     },
   ];
@@ -36,11 +38,10 @@ import SettingsIcon from '@material-ui/icons/Settings';
     {
       id: 'Menu',
       children: [
-        { id: 'Registration', icon: <PeopleIcon />, to: "/registration" },
-        { id: 'Profile', icon: <DnsRoundedIcon />, to: "/au/profile" },
-        { id: 'Home', icon: <PermMediaOutlinedIcon />, to: "/au/home" },
-        { id: 'Purses', icon: <PublicIcon />, to: "/au/purses" },
-        { id: 'Statistic', icon: <PublicIcon />, to: "/au/statistic" },
+        { id: 'Home', icon: <HomeWorkIcon />, to: "/au/home" },
+        { id: 'Profile', icon: <PersonIcon />, to: "/au/profile" },
+        { id: 'Purses', icon: <DnsRoundedIcon />, to: "/au/purses" },
+        { id: 'Statistic', icon: <BarChartIcon />, to: "/au/statistic" },
       ],
     }
   ];
@@ -58,7 +59,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
     if(role == undefined)
     {
       return(
-        <Grid container xs={12}>
+        <Grid container>
           <CircularProgress color="secondary" />
         </Grid>
       )

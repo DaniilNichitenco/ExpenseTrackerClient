@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
-import { Button, DialogTitle, DialogContent, DialogContentText, DialogActions, makeStyles, Theme } from "@material-ui/core";
+import { Button, DialogTitle, DialogContent, DialogContentText, DialogActions, makeStyles, Theme, Typography } from "@material-ui/core";
 import InputForm from '../InputForm/InputForm';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -72,7 +72,11 @@ const SignInForm: React.FC<ISignInFormProps> = (props) => {
             <DialogContent>
             <DialogContentText className={classes.subtitle}>
                 Please, fill fields to sign in
-            <p style={{color:"red", fontWeight:400, fontSize:16}}>{signInError}</p>
+            <p style={{color:"red", fontWeight:400, fontSize:16}}>
+                <Typography>
+                    {signInError}
+                </Typography>
+            </p>
             </DialogContentText>
             <form>
                 <InputForm 
