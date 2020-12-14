@@ -18,7 +18,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
       children: [
         { id: 'Home', icon: <HomeWorkIcon />, to: "/au/home" },
         { id: 'Profile', icon: <PersonIcon />, to: "/au/profile" },
-        { id: 'Purses', icon: <DnsRoundedIcon />, to: "/au/purses" },
+        { id: 'Wallets', icon: <DnsRoundedIcon />, to: "/au/wallets" },
         { id: 'Topics', icon: <NotesIcon />, to: "/au/topics" },
         { id: 'Statistic', icon: <BarChartIcon />, to: "/au/statistic" },
       ],
@@ -37,7 +37,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
       children: [
         { id: 'Home', icon: <HomeWorkIcon />, to: "/au/home" },
         { id: 'Profile', icon: <PersonIcon />, to: "/au/profile" },
-        { id: 'Purses', icon: <DnsRoundedIcon />, to: "/au/purses" },
+        { id: 'Wallets', icon: <DnsRoundedIcon />, to: "/au/wallets" },
         { id: 'Topics', icon: <NotesIcon />, to: "/au/topics" },
         { id: 'Statistic', icon: <BarChartIcon />, to: "/au/statistic" },
       ],

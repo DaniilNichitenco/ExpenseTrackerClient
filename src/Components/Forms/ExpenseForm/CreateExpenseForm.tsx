@@ -8,7 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Topic from "../../../Data/Models/Topics/Topic";
 import { mapToSelectItems } from "../../../mapper/mapper";
 import useSessionStorage from "../../../CustomHooks/StorageHooks/useSessionStorage";
-import Purse from "../../../Data/Models/Purses/Purse";
+import Wallet from "../../../Data/Models/Wallets/Wallet";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ExpenseForCreate from "../../../Data/Models/Expenses/ExpenseForCreate";
@@ -18,7 +18,7 @@ import { createExpense } from "../../../Services/expense.service/ExpenseService"
 const validationSchema = yup.object().shape({
     title: yup.string().required("Enter title!")
         .min(3, "Title is too short!").max(15,  "Should be 15 chars maximum"),
-    purseId: yup.number().required("Chose purse!"),
+    walletId: yup.number().required("Chose wallet!"),
     money: yup.number().required("Enter money!")
         .min(1, "Minimum value is 1!").max(9999999999, "Maximum value is 9999999999!")
   });
@@ -43,12 +43,12 @@ export const CreateExpenseForm: React.FC<CreateExpenseFormProps> = (props) => {
     const { handleSubmit, errors } = methods;
     const classes = useStyles();
     const [items, setItems] = useState<{id: number, label: string}[]>([]);
-    const [pursesData, setPursesData, removePursesData] = useSessionStorage<Purse[]>("pursesData", []);
+    const [walletsData, setWalletsData, removeWalletsData] = useSessionStorage<Wallet[]>("walletsData", []);
 
     useEffect(() => {
-        setItems(mapToSelectItems("id", "currencyCode", pursesData));
+        setItems(mapToSelectItems("id", "currencyCode", walletsData));
         console.log(items);
-    }, [pursesData])
+    }, [walletsData])
 
     const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -118,9 +118,9 @@ export const CreateExpenseForm: React.FC<CreateExpenseFormProps> = (props) => {
                                         <Grid item xs={5}>
                                             <InputForm 
                                             errorObj={errors}
-                                            name="purseId" 
+                                            name="walletId" 
                                             type="number"
-                                            label="Purse"
+                                            label="Wallet"
                                             required
                                             variant="outlined"
                                             select={{select: true, items: items, upperCase:true}}

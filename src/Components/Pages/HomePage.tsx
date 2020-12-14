@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { CircularProgress } from '@material-ui/core';
-import PursesDoughnutDiagram from '../Diagrams/PursesDoughnutDiagram';
+import WalletsDoughnutDiagram from '../Diagrams/WalletsDoughnutDiagram';
 import { Grid, makeStyles, Paper, Tab, Tabs, Typography, Box } from '@material-ui/core';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
-import Purse from '../../Data/Models/Purses/Purse';
-import { getCurrentUserPurses } from '../../Services/purse.services/Purse.service';
+import Wallet from '../../Data/Models/Wallets/Wallet';
+import { getCurrentUserWallets } from '../../Services/wallet.services/Wallet.service';
 import { ExpenseForSum } from "../../Data/Models/Expenses/ExpenseForSum";
 import { getExpensesSumForToday } from "../../Services/expense.service/ExpenseService";
 import ExpensesList from "../ExpensesList/ExpensesList";
@@ -46,10 +46,10 @@ const useStyles = makeStyles({
 const HomePage: React.FC = () => {
 
     const classes = useStyles();
-    const [isLoadingPurses, setIsLoadingPurses] = useState(true);
+    const [isLoadingWallets, setIsLoadingWallets] = useState(true);
     const [isLoadingExpenses, setIsLoadingExpenses] = useState(true);
-    const [pursesData, setPursesData] = useSessionStorage<Purse[]>(
-        "pursesData", []
+    const [walletsData, setWalletsData] = useSessionStorage<Wallet[]>(
+        "walletsData", []
         );
     const [dailyExpenseSum, setDailyExpenseSum] = useSessionStorage<ExpenseForSum[]>(
         "dailyExpenseSum", []
@@ -61,13 +61,12 @@ const HomePage: React.FC = () => {
     };
 
     useEffect(() => {
-        
-        getCurrentUserPurses()
+        getCurrentUserWallets()
                 .then(result => {
                     if(result.response.status == 200)
                     {
-                        setPursesData(result.data);
-                        setIsLoadingPurses(false);
+                        setWalletsData(result.data);
+                        setIsLoadingWallets(false);
                     }
                 })
                 .catch(error => {
@@ -89,7 +88,7 @@ const HomePage: React.FC = () => {
         
       }, []);
 
-      if(isLoadingPurses || isLoadingExpenses)
+      if(isLoadingWallets || isLoadingExpenses)
       {
         return(
         <Grid container xs={12} justify="center">
@@ -107,9 +106,9 @@ const HomePage: React.FC = () => {
                     <Paper elevation={12}>
                         <GridPaperHeader />
                         <Grid container justify="center" className={classes.root}>
-                            {pursesData.length == 0 &&
+                            {walletsData.length == 0 &&
                             <Typography variant="h4">
-                                There are not any purses
+                                There are not any wallets
                             </Typography>
                             }
                             <Grid
@@ -121,19 +120,19 @@ const HomePage: React.FC = () => {
                                 textColor="primary"
                                 centered
                             >
-                                {pursesData.map((purse) => (
-                                    <Grid component={Tab} item key={purse.id} 
+                                {walletsData.map((wallet) => (
+                                    <Grid component={Tab} item key={wallet.id} 
                                     label={
                                     <Typography variant="h5">
-                                        {purse.currencyCode.toUpperCase()}
+                                        {wallet.currencyCode.toUpperCase()}
                                     </Typography>}/>
                                 ))}
                             </Grid>
                         </Grid>
                         <Grid container item justify="center" xs={12}>
-                            {pursesData.map((purse, index) => {
+                            {walletsData.map((wallet, index) => {
                                 let expense = dailyExpenseSum.find(e => 
-                                    e.currencyCode == purse.currencyCode);
+                                    e.currencyCode == wallet.currencyCode);
                                 let sum:number = 0;
                                 let countDays: number = getDaysInMonth(new Date()); 
                                 if(expense != undefined)
@@ -141,7 +140,7 @@ const HomePage: React.FC = () => {
                                     sum = expense.sum;
                                 }
 
-                                let rest: number = purse.bill / countDays - sum;
+                                let rest: number = wallet.bill / countDays - sum;
                                 if(rest < 0)
                                 {
                                     rest = 0;
@@ -150,8 +149,8 @@ const HomePage: React.FC = () => {
                                 return(
                                 <Grid item xs={12} key={index}
                                 component={TabPanel} value={value} index={index}>
-                                    <PursesDoughnutDiagram 
-                                        title={"Daily expenses, purse " + purse.currencyCode.toUpperCase()}
+                                    <WalletsDoughnutDiagram 
+                                        title={"Daily expenses, wallet " + wallet.currencyCode.toUpperCase()}
                                         labels={["Remaining money", "Daily expenses" ]}
                                         data={[Number((rest).toFixed(2)), Number((sum).toFixed(2))]}                        
                                     />

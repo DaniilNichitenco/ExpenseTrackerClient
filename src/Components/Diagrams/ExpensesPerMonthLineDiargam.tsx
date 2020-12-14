@@ -33,7 +33,7 @@ interface ExpensesPerMonthLineDiagramProps
           })
           .catch(error => {
             console.log(error);
-          })
+          });
     }, []);
 
     const getData = () => {

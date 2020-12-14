@@ -59,7 +59,10 @@ export const TopicsPage: React.FC = () => {
                     setTopicsForList([...res.data]);
                     setIsLoadingTopics(false);
                 }
-            });
+            })
+            .catch(error => {
+                console.log(error);
+            });;
 
         getMaxUserTopics()
             .then(res => {
@@ -68,7 +71,10 @@ export const TopicsPage: React.FC = () => {
                     setMaxCountTopics(res.data);
                     setIsLoadingCurrencies(false);
                 }
-            });
+            })
+            .catch(error => {
+                console.log(error);
+            });;
     }, []);
 
     useNonInitialEffect(() => {
@@ -82,7 +88,10 @@ export const TopicsPage: React.FC = () => {
                     setTopicsForList([...res.data]);
                     setIsLoadingTopics(false);
                 }
-            });
+            })
+            .catch(error => {
+                console.log(error);
+            });;
         }
     }, [dialog])
 

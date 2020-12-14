@@ -1,7 +1,7 @@
 export default interface ExpenseForUpdate
 {
     id: number;
-    purseId: number;
+    walletId: number;
     title: string;
     date: Date;
     money: number;

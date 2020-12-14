@@ -19,6 +19,9 @@ export const TopicPercentsDiagram: React.FC = () => {
 					setPercentsTopic([...res.data]);
 					setIsLoading(false);
 				}
+			})
+			.catch(error => {
+				console.log(error);
 			});
 	}, []);
 
