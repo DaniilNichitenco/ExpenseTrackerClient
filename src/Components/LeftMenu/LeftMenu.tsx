@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { GetCurrentUser } from '../../Services/auth.services/auth-service';
+import { getCurrentUser } from '../../Services/auth.services/auth-service';
 import Navigator from './NavigationBar';
 import jwt_decode from 'jwt-decode';
 import { CircularProgress, Grid } from '@material-ui/core';
@@ -49,7 +49,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
     const [role, setRole] = useState<string>();
 
     useEffect(() => {
-      const token = GetCurrentUser().accessToken;
+      const token = getCurrentUser().accessToken;
       const role: string = (jwt_decode(token) as any).Role;
       setRole(role);
     }, []);

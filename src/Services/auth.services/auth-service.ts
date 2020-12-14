@@ -1,9 +1,8 @@
-import useLocalStorage from '../../CustomHooks/StorageHooks/useLocalStorage';
 import UserForSignIn from '../../Data/Models/User/UserForSignIn';
 import UserForSignUp from '../../Data/Models/User/UserForSignUp';
 import API from '../Api';
 
-export const SignIn = (userForSignIn: UserForSignIn) => {
+export const signIn = (userForSignIn: UserForSignIn) => {
 
     return API.post("/account/login", userForSignIn)
         .then(response => {
@@ -23,12 +22,12 @@ export const SignIn = (userForSignIn: UserForSignIn) => {
         });
 }
 
-export const SignOut = () => {
+export const signOut = () => {
     localStorage.removeItem("user");
     sessionStorage.clear();
 }
 
-export const SignUp = (userForSignUp: UserForSignUp) => {
+export const signUp = (userForSignUp: UserForSignUp) => {
     
     return API.post("/account/signup", userForSignUp)
         .then(response => {
@@ -47,7 +46,7 @@ export const SignUp = (userForSignUp: UserForSignUp) => {
 
 }
 
-export const GetCurrentUser = () => {
+export const getCurrentUser = () => {
 
     let user = localStorage.getItem("user");
     if(user && user != "undefined")
@@ -59,8 +58,8 @@ export const GetCurrentUser = () => {
 
 export default 
 {
-    SignIn,
-    SignOut,
-    SignUp,
-    GetCurrentUser
+    signIn,
+    signOut,
+    signUp,
+    getCurrentUser
 }

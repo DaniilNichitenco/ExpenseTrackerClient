@@ -5,7 +5,7 @@ import API from '../Api';
 import PagedRequest from '../pagedRequests/PagedRequest';
 import PagedResult from '../pagedRequests/PagedResult';
 
-export const GetCurrentUserData = async () => {
+export const getCurrentUserData = async () => {
 
     return API.get("/user/current")
         .then(response => {
@@ -30,7 +30,7 @@ export const GetCurrentUserData = async () => {
 
 }
 
-export const GetUserById = async (id: number) => {
+export const getUserById = async (id: number) => {
 
     return API.get("/user/" + id)
         .then(response => {
@@ -54,7 +54,7 @@ export const GetUserById = async (id: number) => {
 
 }
 
-export const GetPagedUsers = async (request: PagedRequest) => {
+export const getPagedUsers = async (request: PagedRequest) => {
 
     if(request.requestFilters == undefined)
     {
@@ -92,7 +92,7 @@ export const GetPagedUsers = async (request: PagedRequest) => {
         });
 }
 
-export const EditUser = async (userForUpdate: UserForUpdate) => {
+export const editUser = async (userForUpdate: UserForUpdate) => {
 
     return API.put('/user/', userForUpdate)
         .then(response => {
@@ -104,7 +104,7 @@ export const EditUser = async (userForUpdate: UserForUpdate) => {
         });
 }
 
-export const EditUserById = async (userForUpdate: UserForUpdate, userId: number) => {
+export const editUserById = async (userForUpdate: UserForUpdate, userId: number) => {
 
     return await API.put('/user/' + userId, userForUpdate)
         .catch(error => {
@@ -112,7 +112,7 @@ export const EditUserById = async (userForUpdate: UserForUpdate, userId: number)
         })
 }
 
-export const UpdateAccount = async (user: UserForUpdateAccount) => {
+export const updateAccount = async (user: UserForUpdateAccount) => {
     return API.post("/Account", user)
         .then(response => {
             
@@ -130,16 +130,17 @@ export const UpdateAccount = async (user: UserForUpdateAccount) => {
         });
 }
 
-export const DeleteAccount = async () => await API.delete("/account");
+export const deleteAccount = async () => await API.delete("/account");
 
-export const DeleteAccountById = async (id: number) => await API.delete("/account/" + id);
+export const deleteAccountById = async (id: number) => await API.delete("/account/" + id);
 
 export default {
-    GetCurrentUserData,
-    EditUser,
-    EditUserById,
-    DeleteAccount,
-    DeleteAccountById,
-    GetUserById,
-    UpdateAccount
+    getCurrentUserData,
+    editUser,
+    editUserById,
+    deleteAccount,
+    deleteAccountById,
+    getUserById,
+    updateAccount,
+    getPagedUsers
 }

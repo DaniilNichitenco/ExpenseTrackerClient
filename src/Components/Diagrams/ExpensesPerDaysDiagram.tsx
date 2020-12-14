@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PurseExpensesPerDay from '../../Data/Models/Expenses/PurseExpensesPerDay';
 import CountDays from '../../Date/CountDays';
 import BarDiagram from './Generic/BarDiagram';
-import { GetExpensesPerDayForCurrentMonth } from '../../Services/expense.service/ExpenseService';
+import { getExpensesPerDayForCurrentMonth } from '../../Services/expense.service/ExpenseService';
 import { CircularProgress, Grid } from '@material-ui/core';
 import { getColor } from '../../Colors/colors';
 
@@ -12,7 +12,7 @@ export const ExpensesPerDaysDiagram: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        GetExpensesPerDayForCurrentMonth()
+        getExpensesPerDayForCurrentMonth()
             .then(res => {
                 if(res.response.status == 200)
                 {

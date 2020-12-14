@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import "react-datepicker/dist/react-datepicker.css";
 import "../ExpenseForm/datepickerStyles.css";
 import TopicForCreate from "../../../Data/Models/Topics/TopicForCreate";
-import { CreateTopic } from "../../../Services/topic.services/TopicService";
+import { createTopic } from "../../../Services/topic.services/TopicService";
 
 const validationSchema = yup.object().shape({
     name: yup.string().required("Enter topic's name!").min(3, "Should be 3 chars minimum!")
@@ -34,7 +34,7 @@ const validationSchema = yup.object().shape({
     const { handleSubmit, errors } = methods;
 
     const onSubmit = async (formValues: TopicForCreate) => {
-            CreateTopic(formValues)
+            createTopic(formValues)
                 .then(res => {
                     props.handleClose();
                 });

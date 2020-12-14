@@ -1,10 +1,6 @@
-import React, { Component } from 'react';
-import { Button, Box, AppBar, Toolbar, IconButton, Container, Typography } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
+import React from 'react';
+import { Box, AppBar, Toolbar, IconButton, Container, Typography } from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import SignInButton from '../Buttons/SignInButton';
-import SignUpButton from '../Buttons/SignUpButton';
-import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) =>({
