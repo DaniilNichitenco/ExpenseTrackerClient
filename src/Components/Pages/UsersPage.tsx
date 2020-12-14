@@ -84,6 +84,9 @@ const UsersPage: React.FC = () => {
                     setPageIndex(pageIndex + 1);
                 }
             })
+            .catch(error => {
+                console.log(error);
+            });
         }
     }
 

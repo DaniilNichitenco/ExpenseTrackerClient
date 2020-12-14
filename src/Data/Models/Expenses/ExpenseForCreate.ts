@@ -1,6 +1,6 @@
 export default interface ExpenseForCreate
 {
-    purseId: number;
+    walletId: number;
     title: string;
     date?: Date;
     money: number;

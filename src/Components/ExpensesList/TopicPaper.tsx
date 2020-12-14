@@ -9,7 +9,7 @@ import TopicWithExpenses from '../../Data/Models/Topics/TopicWithExpenses';
 import { getPagedUserExpenses, deleteExpense } from '../../Services/expense.service/ExpenseService';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
-import Purse from '../../Data/Models/Purses/Purse';
+import Wallet from '../../Data/Models/Wallets/Wallet';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import PagedRequest from '../../Services/pagedRequests/PagedRequest';
 import useNonInitialEffect from '../../CustomHooks/CustomUseEffectHooks/useNonInitialEffect';
@@ -51,7 +51,7 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
     const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
     const [expenses, setExpenses] = useState<Expense[]>([]);
     const [hasNextPage, setHasNextPage] = useState<boolean>(true);
-    const [pursesData] = useSessionStorage<Purse[]>("pursesData", []);
+    const [walletsData] = useSessionStorage<Wallet[]>("walletsData", []);
     
 
     const [dialog, setDialog] = useState<{
@@ -173,11 +173,11 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
                             {expenses.map((expense) => {
     
                             let currencyCode: string = "";
-                            let purse = pursesData.find(p => p.id == expense.purseId);
+                            let wallet = walletsData.find(p => p.id == expense.walletId);
                             
-                            if(purse != null && purse != undefined)
+                            if(wallet != null && wallet != undefined)
                             {
-                                currencyCode = purse.currencyCode.toUpperCase();
+                                currencyCode = wallet.currencyCode.toUpperCase();
                             }
                             return(
                                 <Grid item key={expense.id} container justify="center">

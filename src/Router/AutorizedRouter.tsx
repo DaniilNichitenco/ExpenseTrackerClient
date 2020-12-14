@@ -15,9 +15,10 @@ import User from '../Data/Models/User/User';
 import { signOut } from '../Services/auth.services/auth-service';
 import { getCurrentUserData } from '../Services/user.services/User.service';
 import HomeIcon from '@material-ui/icons/Home';
-import PursesPage from '../Components/Pages/PursesPage';
+import WalletsPage from '../Components/Pages/WalletsPage';
 import AdminRouter from './AdminRouter';
 import TopicsPage from '../Components/Pages/TopicsPage';
+import ErrorBoundary from '../Components/ErrorBoundaries/ErrorBoundary';
 
   const AuthorizedRouter:React.FC = () => {
 
@@ -69,15 +70,17 @@ import TopicsPage from '../Components/Pages/TopicsPage';
                 <AppbarGeneric leftMenu={leftIcon()} title="Expense Tracker Web Application"
                 rightButtons={<><SignOutButtom style={{backgroundColor: theme.palette.primary.light, width: 100}} /></>} />
                 <AppContent>
-                  <Switch>
-                    <Route exact path="/au/home" component={HomePage} />
-                    <Route exact path="/au/profile" component={ProfilePage} />
-                    <Route exact path="/au/statistic" component={StatisticPage} />
-                    <Route exact path="/au/purses" component={PursesPage} />
-                    <Route exact path="/au/topics" component={TopicsPage} />
-                    <Route path="/au/admin" component={AdminRouter} />
-                    <Redirect to="/au/home" />
-                  </Switch>
+                  <ErrorBoundary>
+                    <Switch>
+                      <Route exact path="/au/home" component={HomePage} />
+                      <Route exact path="/au/profile" component={ProfilePage} />
+                      <Route exact path="/au/statistic" component={StatisticPage} />
+                      <Route exact path="/au/wallets" component={WalletsPage} />
+                      <Route exact path="/au/topics" component={TopicsPage} />
+                      <Route path="/au/admin" component={AdminRouter} />
+                      <Redirect to="/au/home" />
+                    </Switch>
+                  </ErrorBoundary>
                 </AppContent>
             </div>
         </React.Fragment>

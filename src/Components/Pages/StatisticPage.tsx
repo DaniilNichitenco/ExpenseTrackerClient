@@ -1,8 +1,8 @@
 import { CircularProgress, Container, Grid, Paper, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
-import Purse from '../../Data/Models/Purses/Purse';
-import { getCurrentUserPurses } from '../../Services/purse.services/Purse.service';
+import Wallet from '../../Data/Models/Wallets/Wallet';
+import { getCurrentUserWallets } from '../../Services/wallet.services/Wallet.service';
 import ExpensesPerDaysDiagram from '../Diagrams/ExpensesPerDaysDiagram';
 import ExpensesPerMonthLineDiagram from '../Diagrams/ExpensesPerMonthLineDiargam';
 import TopicPercentsDiagram from '../Diagrams/TopicPercentsDiagram';
@@ -10,15 +10,15 @@ import GridPaperHeader from '../GridPaper/GridPaperHeader';
 
 const StatisticPage:React.FC = () => {
 
-    const [pursesData, setPursesData] = useSessionStorage<Purse[]>("pursesData", []);
+    const [walletsData, setWalletsData] = useSessionStorage<Wallet[]>("walletsData", []);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        getCurrentUserPurses()
+        getCurrentUserWallets()
             .then(result => {
                 if(result.response.status == 200)
                 {
-                    setPursesData(result.data);
+                    setWalletsData(result.data);
                     setIsLoading(false);
                 }
             })
@@ -35,10 +35,10 @@ const StatisticPage:React.FC = () => {
                     <Grid item container xs={12} justify="center">
                         <CircularProgress color="secondary" />
                     </Grid> :
-                    pursesData.length == 0 ?
+                    walletsData.length == 0 ?
                     <Grid item xs={12}>
                         <Typography variant="h4" align="center">
-                            There are not any purses
+                            There are not any wallets
                         </Typography>
                     </Grid> :
                     <>
