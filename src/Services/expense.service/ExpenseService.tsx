@@ -11,7 +11,7 @@ import PagedResult from '../pagedRequests/PagedResult';
 import LogicalOperators from '../pagedRequests/LogicalOperators';
 import ExpenseForCreate from '../../Data/Models/Expenses/ExpenseForCreate';
 import PercentsTopicExpense from '../../Data/Models/Expenses/PercentsTopicExpense';
-import PurseExpensesPerDay from '../../Data/Models/Expenses/PurseExpensesPerDay';
+import WalletExpensesPerDay from '../../Data/Models/Expenses/WalletExpensesPerDay';
 
 export const getAllExpenses = async () => {
     
@@ -25,7 +25,7 @@ export const getAllExpenses = async () => {
                 let date = dateString.substring(0, 10);
                 let expense:Expense = {
                     id: element.id,
-                    purseId: element.purseId,
+                    walletId: element.walletId,
                     title: element.title,
                     money: element.money,
                     date: new Date(date),
@@ -184,7 +184,7 @@ export const getUserExpenses = async () => {
                 let date = dateString.substring(0, 10);
                 let expense:Expense = {
                     id: element.id,
-                    purseId: element.purseId,
+                    walletId: element.walletId,
                     title: element.title,
                     money: element.money,
                     date: new Date(date),
@@ -220,7 +220,7 @@ export const getUserExpensesByTopic = async (topic: Topic) => {
                 let date = dateString.substring(0, 10);
                 let expense:Expense = {
                     id: element.id,
-                    purseId: element.purseId,
+                    walletId: element.walletId,
                     title: element.title,
                     money: element.money,
                     date: new Date(date),
@@ -290,7 +290,7 @@ export const getPagedUserExpenses = async (request: PagedRequest, topic?: Topic)
                 let date = dateString.substring(0, 10);
                 let expense:Expense = {
                     id: e.id,
-                    purseId: e.purseId,
+                    walletId: e.walletId,
                     title: e.title,
                     money: e.money,
                     date: new Date(date),
@@ -398,7 +398,7 @@ export const getExpensesPerDayForCurrentMonth = async () => {
 
             return{
                 response: response,
-                data: response.data as PurseExpensesPerDay[]
+                data: response.data as WalletExpensesPerDay[]
             };
         })
         .catch(error => {

@@ -8,17 +8,17 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { mapToSelectItems } from "../../../mapper/mapper";
 import "react-datepicker/dist/react-datepicker.css";
 import "../ExpenseForm/datepickerStyles.css";
-import { createPurse, getAvailableCurrencies } from "../../../Services/purse.services/Purse.service";
-import PurseForCreate from "../../../Data/Models/Purses/PurseForCreate";
+import { createWallet, getAvailableCurrencies } from "../../../Services/wallet.services/Wallet.service";
+import WalletForCreate from "../../../Data/Models/Wallets/WalletForCreate";
 import DialogContentText from "@material-ui/core/DialogContentText/DialogContentText";
 
 const validationSchema = yup.object().shape({
-    purseId: yup.string().required("Chose purse!"),
+    walletId: yup.string().required("Chose wallet!"),
     bill: yup.string().required("Enter monthly salary!")
         .min(1, "Minimum value is 1!").max(9999999999, "Maximum value is 9999999999!")
   });
 
-  interface CreatePurseFormProps
+  interface CreateWalletFormProps
   {
       handleClose: () => void
   }
@@ -29,7 +29,7 @@ const validationSchema = yup.object().shape({
     }
 }));
 
-  export const CreatePurseForm: React.FC<CreatePurseFormProps> = (props) => {
+  export const CreateWalletForm: React.FC<CreateWalletFormProps> = (props) => {
 
     const classes = useStyles();
     const methods = useForm({
@@ -79,15 +79,15 @@ const validationSchema = yup.object().shape({
       );
     }
 
-    const onSubmit = async (formValues:{purseId: number, bill: number}) => {
-            let currencyCode = items.find(i => i.id == formValues.purseId)?.label
+    const onSubmit = async (formValues:{walletId: number, bill: number}) => {
+            let currencyCode = items.find(i => i.id == formValues.walletId)?.label
             .toLowerCase() as "mdl" | "usd" | "eur";
-            const purseForCreate: PurseForCreate = {
+            const walletForCreate: WalletForCreate = {
                 currencyCode: currencyCode,
                 bill: Number(formValues.bill)
             }
             
-            createPurse(purseForCreate)
+            createWallet(walletForCreate)
                 .then(res => {
                     console.log(res);
                     props.handleClose();
@@ -99,7 +99,7 @@ const validationSchema = yup.object().shape({
             <FormProvider {...methods}>
                 <DialogTitle>
                         <Grid container justify="center" xs={12}>
-                            <Typography variant="h6">Creating purse</Typography>
+                            <Typography variant="h6">Creating wallet</Typography>
                         </Grid>
                     </DialogTitle>
                     <DialogContent dividers={true}>
@@ -108,9 +108,9 @@ const validationSchema = yup.object().shape({
                                         <Grid item xs={7}>
                                             <InputForm 
                                             errorObj={errors}
-                                            name="purseId" 
+                                            name="walletId" 
                                             type="number"
-                                            label="Purse"
+                                            label="Wallet"
                                             required
                                             variant="outlined"
                                             select={{select: true, items: items, upperCase:true}}
@@ -154,4 +154,4 @@ const validationSchema = yup.object().shape({
     );
   }
 
-export default CreatePurseForm;
+export default CreateWalletForm;

@@ -1,16 +1,16 @@
-import Purse from '../../Data/Models/Purses/Purse';
-import PurseForCreate from '../../Data/Models/Purses/PurseForCreate';
-import PurseForList from '../../Data/Models/Purses/PurseForList';
-import PursesForUpdate from '../../Data/Models/Purses/PurseForUpdate';
+import Wallet from '../../Data/Models/Wallets/Wallet';
+import WalletForCreate from '../../Data/Models/Wallets/WalletForCreate';
+import WalletForList from '../../Data/Models/Wallets/WalletForList';
+import WalletsForUpdate from '../../Data/Models/Wallets/WalletForUpdate';
 import API from '../Api';
 
-export const getPurse = async (id: number) => {
-    return API.get("/purses/" + id)
+export const getWallet = async (id: number) => {
+    return API.get("/Wallets/" + id)
         .then(response => {
-            const purse: Purse = response.data;
+            const wallet: Wallet = response.data;
 
             return {
-                data: purse,
+                data: wallet,
                 response: response
             }
         })
@@ -24,14 +24,14 @@ export const getPurse = async (id: number) => {
         });
 }
 
-export const getAllPurses = async () => {
+export const getAllWallets = async () => {
 
-    return API.get("/purses")
+    return API.get("/Wallets")
         .then(response => {
-            const purses: Purse[] = response.data;
+            const wallets: Wallet[] = response.data;
 
             return {
-                data: purses,
+                data: wallets,
                 response: response
             };
         })
@@ -45,14 +45,14 @@ export const getAllPurses = async () => {
         });
 }
 
-export const getUserPurses = async (Id: number) => {
+export const getUserWallets = async (Id: number) => {
 
-    return API.get('/Purses/user/' + Id)
+    return API.get('/Wallets/user/' + Id)
         .then(response => {
-            const purses: Purse[] = response.data;
+            const wallets: Wallet[] = response.data;
 
             return {
-                data: purses,
+                data: wallets,
                 response: response
             };
         })
@@ -66,14 +66,14 @@ export const getUserPurses = async (Id: number) => {
         });
 }
 
-export const getCurrentUserPurses = async () => {
+export const getCurrentUserWallets = async () => {
 
-    return API.get('/Purses/currentUser/')
+    return API.get('/Wallets/currentUser/')
         .then(response => {
-            const purses: Purse[] = response.data;
+            const wallets: Wallet[] = response.data;
 
             return {
-                data: purses,
+                data: wallets,
                 response: response
             };
         })
@@ -86,9 +86,9 @@ export const getCurrentUserPurses = async () => {
         });
 }
 
-export const updatePurse = async (pursesForUpdate: PursesForUpdate) => {
+export const updateWallet = async (walletsForUpdate: WalletsForUpdate) => {
 
-    return API.put('/Purses', pursesForUpdate)
+    return API.put('/Wallets', walletsForUpdate)
         .then(response => {
             return {response: response};
         })
@@ -98,9 +98,9 @@ export const updatePurse = async (pursesForUpdate: PursesForUpdate) => {
         })
 }
 
-export const createPurse = async (purseForUpdate: PurseForCreate) => {
+export const createWallet = async (walletForUpdate: WalletForCreate) => {
 
-    return API.post('/Purses', purseForUpdate)
+    return API.post('/Wallets', walletForUpdate)
         .then(response => {
             console.log(response.data);
             return {response: response};
@@ -111,9 +111,9 @@ export const createPurse = async (purseForUpdate: PurseForCreate) => {
         });
 }
 
-export const deletePurse = async (id: number) => {
+export const deleteWallet = async (id: number) => {
 
-    return API.delete('/Purses/' + id)
+    return API.delete('/Wallets/' + id)
         .then(response => {
             console.log(response);
             return {response: response};
@@ -124,17 +124,17 @@ export const deletePurse = async (id: number) => {
         });
 }
 
-export const getPursesForList = async () => {
-    return API.get("Purses/list")
+export const getWalletsForList = async () => {
+    return API.get("Wallets/list")
         .then(response => {
-            let purses: PurseForList[] = response.data;
+            let wallets: WalletForList[] = response.data;
 
-            purses.forEach(p => {
+            wallets.forEach(p => {
                 p.createdAt = new Date(p.createdAt);
             });
             return{
                 response: response,
-                data: purses
+                data: wallets
             };
         })
         .catch(error => {
@@ -146,7 +146,7 @@ export const getPursesForList = async () => {
 }
 
 export const getAvailableCurrencies = async () => {
-    return API.get("Purses/available")
+    return API.get("Wallets/available")
         .then(response => {
 
             const data: string[] = response.data;
@@ -178,7 +178,7 @@ export const getAvailableCurrencies = async () => {
 }
 
 export const getAllCurrenciesAmount = async () => {
-    return API.get("Purses/AmountCurrencies")
+    return API.get("Wallets/AmountCurrencies")
         .then(response => {
             return{
                 response: response,
@@ -194,14 +194,14 @@ export const getAllCurrenciesAmount = async () => {
 }
 
 export default {
-    getPurse,
-    getAllPurses,
-    getUserPurses,
-    getCurrentUserPurses,
-    updatePurse,
-    createPurse,
-    deletePurse,
-    getPursesForList,
+    getWallet,
+    getAllWallets,
+    getUserWallets,
+    getCurrentUserWallets,
+    updateWallet,
+    createWallet,
+    deleteWallet,
+    getWalletsForList,
     getAvailableCurrencies,
     getAllCurrenciesAmount
 }

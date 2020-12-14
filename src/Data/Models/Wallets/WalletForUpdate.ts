@@ -1,4 +1,4 @@
-export default interface PurseForUpdate
+export default interface WalletForUpdate
 {
     id: number;
     bill: number;

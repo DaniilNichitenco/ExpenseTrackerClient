@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import DoughnutDiagram from './Generic/DoughnutDiagram';
 
-interface PursesDoughnutDiagramProps
+interface WalletsDoughnutDiagramProps
 {
   labels: string[],
   data: number[],
   title?: string
 }
 
-const PursesDoughnutDiagram: React.FC<PursesDoughnutDiagramProps> = (props) => {
+const WalletsDoughnutDiagram: React.FC<WalletsDoughnutDiagramProps> = (props) => {
   
-  let title: string = "Purses diagram";
+  let title: string = "Wallets diagram";
   if(props.title != undefined)
   {
     title = props.title;
@@ -20,7 +20,7 @@ const PursesDoughnutDiagram: React.FC<PursesDoughnutDiagramProps> = (props) => {
     labels: props.labels,
     datasets: [
       {
-        label: 'Purses',
+        label: 'Wallets',
         backgroundColor: [
           '#03A600',
           '#DD0000'
@@ -48,4 +48,4 @@ const PursesDoughnutDiagram: React.FC<PursesDoughnutDiagramProps> = (props) => {
     );
 }
 
-export default PursesDoughnutDiagram;
+export default WalletsDoughnutDiagram;

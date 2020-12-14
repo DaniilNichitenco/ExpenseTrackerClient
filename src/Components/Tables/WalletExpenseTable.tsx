@@ -8,8 +8,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
-import Purse from '../../Data/Models/Purses/Purse';
-import { getCurrentUserPurses } from '../../Services/purse.services/Purse.service';
+import Wallet from '../../Data/Models/Wallets/Wallet';
+import { getCurrentUserWallets } from '../../Services/wallet.services/Wallet.service';
 import { CircularProgress, Grid, Typography } from '@material-ui/core';
 import ExpenseForSum from '../../Data/Models/Expenses/ExpenseForSum';
 import { getExpensesSumForMonth, getExpensesSumForToday, 
@@ -202,20 +202,20 @@ const TableYearlyData: React.FC<TableDataProps> = ({currencyCode}) => {
     return (<>{expenseForSum}</>);
 }
 
-const PurseExpenseTable:React.FC = () => {
+const WalletExpenseTable:React.FC = () => {
   const classes = useStyles();
   const [isLoading, setIsLoading] = useState(true);
-  const [pursesData, setPursesData] = useSessionStorage<Purse[]>("pursesData", []);
+  const [walletsData, setWalletsData] = useSessionStorage<Wallet[]>("walletsData", []);
 
   useEffect(() => {
     
-    if(pursesData == [])
+    if(walletsData == [])
     {
-        getCurrentUserPurses()
+        getCurrentUserWallets()
             .then(result => {
                 if(result.response.status == 200)
                 {
-                    setPursesData(result.data);
+                    setWalletsData(result.data);
                     setIsLoading(false);
                 }
             })
@@ -244,46 +244,46 @@ const PurseExpenseTable:React.FC = () => {
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell align="center" className={classes.textTable}>Purse</StyledTableCell>
+            <StyledTableCell align="center" className={classes.textTable}>Wallet</StyledTableCell>
             <StyledTableCell align="center" className={classes.textTable}>Daily expenses/plan</StyledTableCell>
             <StyledTableCell align="center" className={classes.textTable}>Monthly expenses/plan</StyledTableCell>
             <StyledTableCell align="center" className={classes.textTable}>Yearly expenses/plan</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {pursesData.length == 0 && 
+          {walletsData.length == 0 && 
           <StyledTableRow className={classes.textTable}>
             <>
             <StyledTableCell align="center" className={classes.textTable}>
-              <Typography>There are not any purses</Typography>    
+              <Typography>There are not any wallets</Typography>    
             </StyledTableCell>
             <StyledTableCell align="center" className={classes.textTable}>
-              <Typography>There are not any purses</Typography>    
+              <Typography>There are not any wallets</Typography>    
             </StyledTableCell>
             <StyledTableCell align="center" className={classes.textTable}>
-              <Typography>There are not any purses</Typography>    
+              <Typography>There are not any wallets</Typography>    
             </StyledTableCell>
             <StyledTableCell align="center" className={classes.textTable}>
-              <Typography>There are not any purses</Typography>    
+              <Typography>There are not any wallets</Typography>    
             </StyledTableCell>
             </>
           </StyledTableRow>
           }
-          {pursesData.map((purse) => (
-            <StyledTableRow key={purse.id} className={classes.textTable}>
+          {walletsData.map((wallet) => (
+            <StyledTableRow key={wallet.id} className={classes.textTable}>
               <StyledTableCell component="th" scope="row" align="center" 
                 className={clsx(classes.rowHeader, classes.textTable)}>
-                {purse.currencyCode.toUpperCase()}
+                {wallet.currencyCode.toUpperCase()}
               </StyledTableCell>
               <StyledTableCell align="center" className={classes.textTable}>
-                <TableDailyData currencyCode={purse.currencyCode}/>/{
-                  (purse.bill/getDaysInMonth(new Date())).toFixed(2)}
+                <TableDailyData currencyCode={wallet.currencyCode}/>/{
+                  (wallet.bill/getDaysInMonth(new Date())).toFixed(2)}
               </StyledTableCell>
               <StyledTableCell align="center" className={classes.textTable}>
-                <TableMonthlyData currencyCode={purse.currencyCode}/>/{(purse.bill).toFixed(2)}
+                <TableMonthlyData currencyCode={wallet.currencyCode}/>/{(wallet.bill).toFixed(2)}
               </StyledTableCell>
               <StyledTableCell align="center" className={classes.textTable}>
-                <TableYearlyData currencyCode={purse.currencyCode}/>/{(purse.bill*12).toFixed(2)}
+                <TableYearlyData currencyCode={wallet.currencyCode}/>/{(wallet.bill*12).toFixed(2)}
               </StyledTableCell>
             </StyledTableRow>
           ))}
@@ -293,4 +293,4 @@ const PurseExpenseTable:React.FC = () => {
   );
 }
 
-export default PurseExpenseTable;
+export default WalletExpenseTable;

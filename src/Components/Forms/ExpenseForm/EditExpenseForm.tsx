@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Topic from "../../../Data/Models/Topics/Topic";
 import { mapToSelectItems } from "../../../mapper/mapper";
 import useSessionStorage from "../../../CustomHooks/StorageHooks/useSessionStorage";
-import Purse from "../../../Data/Models/Purses/Purse";
+import Wallet from "../../../Data/Models/Wallets/Wallet";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./datepickerStyles.css";
@@ -18,7 +18,7 @@ import ExpenseForUpdate from "../../../Data/Models/Expenses/ExpenseForUpdate";
 const validationSchema = yup.object().shape({
     title: yup.string().required("Enter title!")
         .min(3, "Title is too short!").max(15,  "Should be 15 chars maximum"),
-    purseId: yup.number().required("Chose purse!"),
+    walletId: yup.number().required("Chose wallet!"),
     money: yup.number().required("Enter money!")
         .min(1, "Minimum value is 1!").max(9999999999, "Maximum value is 9999999999!")
   });
@@ -44,7 +44,7 @@ export const EditExpenseForm: React.FC<EditExpenseFormProps> = (props) => {
     const { handleSubmit, errors } = methods;
     const classes = useStyles();
     const [items, setitems] = useState<{id: number, label: string}[]>([]);
-    const [pursesData] = useSessionStorage<Purse[]>("pursesData", []);
+    const [walletsData] = useSessionStorage<Wallet[]>("walletsData", []);
     const [currentDate, setCurrentDate] = useState(new Date());
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [result, setResult] = useState<{
@@ -54,9 +54,9 @@ export const EditExpenseForm: React.FC<EditExpenseFormProps> = (props) => {
     }>({successed: false, description: ""});
 
     useEffect(() => {
-        setitems(mapToSelectItems("id", "currencyCode", pursesData));
+        setitems(mapToSelectItems("id", "currencyCode", walletsData));
         console.log(items);
-    }, [pursesData])
+    }, [walletsData])
 
     useEffect(() => {
         getResult(props.expenseId)
@@ -66,8 +66,8 @@ export const EditExpenseForm: React.FC<EditExpenseFormProps> = (props) => {
                     setCurrentDate(new Date(res.expense.date));
                 }
                 setResult(res);
-                console.log(res.expense.purseId);
-                console.log(pursesData);
+                console.log(res.expense.walletId);
+                console.log(walletsData);
                 setIsLoading(false);
             });
     }, []);
@@ -235,11 +235,11 @@ export const EditExpenseForm: React.FC<EditExpenseFormProps> = (props) => {
                                         <Grid item xs={5}>
                                             <InputForm 
                                             errorObj={errors}
-                                            name="purseId" 
+                                            name="walletId" 
                                             type="number"
-                                            label="Purse"
+                                            label="Wallet"
                                             required
-                                            defaultValue={result.expense.purseId.toString()}
+                                            defaultValue={result.expense.walletId.toString()}
                                             variant="outlined"
                                             select={{select: true, items: items, upperCase:true}}
                                             />

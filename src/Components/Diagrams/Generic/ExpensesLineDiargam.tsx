@@ -1,6 +1,6 @@
 import { Line } from 'react-chartjs-2';
 import React from 'react';
-import Purse from '../../../Data/Models/Purses/Purse';
+import Wallet from '../../../Data/Models/Wallets/Wallet';
 
   interface ExpensesLineDiagramProps
   {

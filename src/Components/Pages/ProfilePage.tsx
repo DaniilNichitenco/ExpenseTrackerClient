@@ -6,15 +6,15 @@ import FlyingGridTile from '../Tiles/FlyingGridTile';
 import { CircularProgress } from '@material-ui/core';
 import User from '../../Data/Models/User/User';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
-import PurseExpenseTable from '../Tables/PurseExpenseTable';
-import Purse from '../../Data/Models/Purses/Purse';
-import { getCurrentUserPurses } from '../../Services/purse.services/Purse.service';
+import WalletExpenseTable from '../Tables/WalletExpenseTable';
+import Wallet from '../../Data/Models/Wallets/Wallet';
 import EditProfileButton from '../Buttons/EditProfileButton';
 import { getCountUserExpenses } from '../../Services/expense.service/ExpenseService';
 import { getCurrentUserData } from '../../Services/user.services/User.service';
 import ExpenseForSum from '../../Data/Models/Expenses/ExpenseForSum';
 import EditProfileForm from '../Forms/EditProfileForm/EditProfileForm';
 import { useHistory } from 'react-router-dom';
+import { getCurrentUserWallets } from '../../Services/wallet.services/Wallet.service';
 
 const useStyles = makeStyles((theme) => ({
     contentList: {
@@ -61,9 +61,9 @@ const ProfilePage: React.FC = () => {
     const [userData, setUserData] = useSessionStorage<User | undefined>("userData", 
     undefined);
     const classes = useStyles();
-    const [isLoadingPurses, setIsLoadingPurses] = useState(true);
+    const [isLoadingWallets, setIsLoadingWallets] = useState(true);
     const [isLoadingExpenses, setIsLoadingExpenses] = useState(true);
-    const [pursesData, setPursesData] = useSessionStorage<Purse[]>("pursesData", []);
+    const [WalletsData, setWalletsData] = useSessionStorage<Wallet[]>("WalletsData", []);
     const [countExpenses, setCountExpenses] = useState<number>(0);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [rerender, setRerender] = useState<boolean>(true);
@@ -93,12 +93,12 @@ const ProfilePage: React.FC = () => {
                     setIsLoadingExpenses(false);
                 }
             });
-            getCurrentUserPurses()
+            getCurrentUserWallets()
                 .then(result => {
                     if(result.response.status == 200)
                     {
-                        setPursesData(result.data);
-                        setIsLoadingPurses(false);
+                        setWalletsData(result.data);
+                        setIsLoadingWallets(false);
                     }
                 })
                 .catch(error => {
@@ -177,8 +177,8 @@ const ProfilePage: React.FC = () => {
                                 <Grid item className={classes.subInfo}>
                                     <Typography>
                                         {
-                                            isLoadingPurses ? (<CircularProgress color="secondary" />) :
-                                                <><b>Count purses:</b><br/>{pursesData.length}</>
+                                            isLoadingWallets ? (<CircularProgress color="secondary" />) :
+                                                <><b>Count Wallets:</b><br/>{WalletsData.length}</>
                                         }    
                                         </Typography>
                                 </Grid>
@@ -194,7 +194,7 @@ const ProfilePage: React.FC = () => {
                         </Grid>
                     </FlyingGridTile>
                     <FlyingGridTile xl={10} xs={11}>
-                        <PurseExpenseTable />
+                        <WalletExpenseTable />
                     </FlyingGridTile>
                 </Grid>
                 <Dialog open={isOpen}>

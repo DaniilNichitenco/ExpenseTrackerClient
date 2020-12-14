@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PurseExpensesPerDay from '../../Data/Models/Expenses/PurseExpensesPerDay';
+import PurseExpensesPerDay from '../../Data/Models/Expenses/WalletExpensesPerDay';
 import BarDiagram from './Generic/BarDiagram';
 import { getExpensesPerDayForCurrentMonth } from '../../Services/expense.service/ExpenseService';
 import { CircularProgress, Grid } from '@material-ui/core';

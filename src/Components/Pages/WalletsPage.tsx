@@ -1,12 +1,12 @@
 import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import PurseForList from '../../Data/Models/Purses/PurseForList';
-import { deletePurse, getAllCurrenciesAmount, getPursesForList } from '../../Services/purse.services/Purse.service';
+import WalletForList from '../../Data/Models/Wallets/WalletForList';
+import { deleteWallet, getAllCurrenciesAmount, getWalletsForList } from '../../Services/wallet.services/Wallet.service';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { format } from 'date-fns';
-import { CreatePurseForm } from '../Forms/PursesForm/CreatePurseForm';
+import { CreateWalletForm } from '../Forms/WalletsForm/CreateWalletForm';
 import useNonInitialEffect from '../../CustomHooks/CustomUseEffectHooks/useNonInitialEffect';
-import EditPurseForm from '../Forms/PursesForm/EditPurseForm';
+import EditWalletForm from '../Forms/WalletsForm/EditWalletForm';
 import GridPaperHeader from '../GridPaper/GridPaperHeader';
 
 const useStyles = makeStyles((theme) => ({
@@ -19,11 +19,11 @@ const useStyles = makeStyles((theme) => ({
       }
 }));
 
-export const PursesPage: React.FC = () => {
+export const WalletsPage: React.FC = () => {
 
     const classes = useStyles();
-    const [isLoadingPurses, setIsLoadingPurses] = useState<boolean>(true);
-    const [pursesForList, setPursesForList] = useState<PurseForList[]>([]);
+    const [isLoadingWallets, setIsLoadingWallets] = useState<boolean>(true);
+    const [walletsForList, setWalletsForList] = useState<WalletForList[]>([]);
     const [countCurrencies, setCountCurrencies] = useState<number>(0);
     const [isLoadingCurrencies, setIsLoadingCurrencies] = useState<boolean>(true);
     const theme = useTheme();
@@ -50,12 +50,12 @@ export const PursesPage: React.FC = () => {
     }
 
     useEffect(() => {
-        getPursesForList()
+        getWalletsForList()
             .then(res => {
                 if(res.response.status == 200)
                 {
-                    setPursesForList([...res.data]);
-                    setIsLoadingPurses(false);
+                    setWalletsForList([...res.data]);
+                    setIsLoadingWallets(false);
                 }
             })
             .catch(error => {
@@ -78,13 +78,13 @@ export const PursesPage: React.FC = () => {
     useNonInitialEffect(() => {
         if(!dialog.isOpen) //if we close nested dialog, we rerender whole component
         {
-            setIsLoadingPurses(true);
-            getPursesForList()
+            setIsLoadingWallets(true);
+            getWalletsForList()
                 .then(res => {
                 if(res.response.status == 200)
                 {
-                    setPursesForList([...res.data]);
-                    setIsLoadingPurses(false);
+                    setWalletsForList([...res.data]);
+                    setIsLoadingWallets(false);
                 }
             })
             .catch(error => {
@@ -93,8 +93,8 @@ export const PursesPage: React.FC = () => {
         }
     }, [dialog])
 
-    const handleDeletePurse = async (id: number) => {
-        deletePurse(id)
+    const handleDeleteWallet = async (id: number) => {
+        deleteWallet(id)
             .then(res => {
                 handleClose();
             })
@@ -104,7 +104,7 @@ export const PursesPage: React.FC = () => {
             });
     }
 
-    if(isLoadingPurses)
+    if(isLoadingWallets)
     {
       return (
         <Grid container xs={12} justify="center">
@@ -121,10 +121,10 @@ export const PursesPage: React.FC = () => {
                     <Grid item container xs={12} direction="row-reverse"
                     spacing={2} alignItems="center">
                         <Grid item>
-                            {isLoadingPurses || isLoadingCurrencies ? 
+                            {isLoadingWallets || isLoadingCurrencies ? 
                             <CircularProgress color="secondary" /> :
                             <Button color="secondary" 
-                            disabled={pursesForList.length >= countCurrencies} 
+                            disabled={walletsForList.length >= countCurrencies} 
                             variant="outlined" onClick={() => {handleOpen("create");}}>
                                 Create
                             </Button>
@@ -132,9 +132,9 @@ export const PursesPage: React.FC = () => {
                         </Grid>
                         <Grid item>
                             <Typography variant="h6">
-                                Count purses: {isLoadingPurses ?
+                                Count wallets: {isLoadingWallets ?
                                 <CircularProgress color="secondary" /> :
-                                    pursesForList.length}/{isLoadingCurrencies ?
+                                    walletsForList.length}/{isLoadingCurrencies ?
                                 <CircularProgress color="secondary" /> :
                                     countCurrencies}
                             </Typography>
@@ -144,29 +144,29 @@ export const PursesPage: React.FC = () => {
                         </Grid>
                     </Grid>
                     <Grid item container xs={12} justify="center" spacing={2}>
-                        {isLoadingPurses ? 
+                        {isLoadingWallets ? 
                         <Grid item>
                             <CircularProgress color="secondary" />
                         </Grid> :
-                        pursesForList.length == 0 ? 
+                        walletsForList.length == 0 ? 
                         <Grid item>
                             <Typography variant="h5">
-                                There are not any purses
+                                There are not any wallets
                             </Typography>
                         </Grid> :
-                        pursesForList.map((purse) => {
+                        walletsForList.map((wallet) => {
                             return(
-                                <Grid key={purse.id} item container xs={12} justify="center">
-                                    <Accordion key={purse.id} style={{width: "100%"}}>
+                                <Grid key={wallet.id} item container xs={12} justify="center">
+                                    <Accordion key={wallet.id} style={{width: "100%"}}>
                                         <Grid item xs={12}>
                                             <GridPaperHeader style={{margin:0}} />
                                             <AccordionSummary
                                             expandIcon={<ExpandMoreIcon />}
-                                            aria-controls={purse.id + "-content"}
-                                            id={purse.id + "-header"}
+                                            aria-controls={wallet.id + "-content"}
+                                            id={wallet.id + "-header"}
                                             >
                                                 <Typography className={classes.heading}>
-                                                    {purse.currencyCode.toUpperCase()}
+                                                    {wallet.currencyCode.toUpperCase()}
                                                 </Typography>
                                             </AccordionSummary>
                                         </Grid>
@@ -174,12 +174,12 @@ export const PursesPage: React.FC = () => {
                                             <Grid container xs={12} spacing={6}>
                                                 <Grid container item xs={12}>
                                                     <Typography>
-                                                        Currency code: {purse.currencyCode.toUpperCase()}<br />
+                                                        Currency code: {wallet.currencyCode.toUpperCase()}<br />
                                                         Created at: {format(
-                                                                    new Date(purse.createdAt),
+                                                                    new Date(wallet.createdAt),
                                                                     "MMMM d, yyyy"
                                                                     )}<br />
-                                                        Monthly plan: {(purse.bill).toFixed(2)}
+                                                        Monthly plan: {(wallet.bill).toFixed(2)}
                                                     </Typography>
                                                 </Grid>
                                                 <Grid spacing={3}
@@ -188,7 +188,7 @@ export const PursesPage: React.FC = () => {
                                                     <Grid item>
                                                         <Button variant="contained" 
                                                             color="secondary" 
-                                                            onClick={() => {handleOpen("delete", purse.id);}}
+                                                            onClick={() => {handleOpen("delete", wallet.id);}}
                                                             className={classes.buttons}>
                                                             <Typography>
                                                                 Delete
@@ -198,7 +198,7 @@ export const PursesPage: React.FC = () => {
                                                     <Grid item>
                                                         <Button variant="contained" 
                                                         color="primary" 
-                                                        onClick={() => {handleOpen("update", purse.id);}}
+                                                        onClick={() => {handleOpen("update", wallet.id);}}
                                                         className={classes.buttons}>
                                                             <Typography>
                                                                 Edit
@@ -217,19 +217,19 @@ export const PursesPage: React.FC = () => {
             </Grid>
             <Dialog open={dialog.isOpen} fullWidth={width}>
                 {dialog.action == "create" ? 
-                <CreatePurseForm handleClose={handleClose} /> :
+                <CreateWalletForm handleClose={handleClose} /> :
                 dialog.action == "update" ?
-                <EditPurseForm purseId={dialog.itemId} handleClose={handleClose} /> :
+                <EditWalletForm walletId={dialog.itemId} handleClose={handleClose} /> :
                 <React.Fragment>
                     <DialogTitle>
                         <Grid container justify="center" xs={12}>
-                            <Typography variant="h6">Delete purse?</Typography>
+                            <Typography variant="h6">Delete wallet?</Typography>
                         </Grid>
                     </DialogTitle>
                     <DialogContent dividers={true}>
                         <DialogContentText>
                             <Typography>
-                                Are you sure you want to delete this purse?
+                                Are you sure you want to delete this wallet?
                             </Typography>
                         </DialogContentText>
                     </DialogContent>
@@ -237,7 +237,7 @@ export const PursesPage: React.FC = () => {
                     <Button 
                         variant="contained" 
                         color="secondary"
-                        onClick={async () => {await handleDeletePurse(dialog.itemId);}}
+                        onClick={async () => {await handleDeleteWallet(dialog.itemId);}}
                         >
                         <Typography>
                             Delete
@@ -260,4 +260,4 @@ export const PursesPage: React.FC = () => {
     );
 }
 
-export default PursesPage;
+export default WalletsPage;

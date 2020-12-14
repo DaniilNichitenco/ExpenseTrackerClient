@@ -1,6 +1,5 @@
-export default interface Purse
+export default interface WalletForCreate
 {
-    id: number;
     bill: number;
     currencyCode: "mdl" | "usd" | "eur";
 }

@@ -6,9 +6,9 @@ import { Button, DialogTitle, DialogContent,
 import InputForm from '../InputForm/InputForm';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Purse from "../../../Data/Models/Purses/Purse";
-import { getPurse, updatePurse } from "../../../Services/purse.services/Purse.service";
-import PurseForUpdate from "../../../Data/Models/Purses/PurseForUpdate";
+import Wallet from "../../../Data/Models/Wallets/Wallet";
+import { getWallet, updateWallet } from "../../../Services/wallet.services/Wallet.service";
+import WalletForUpdate from "../../../Data/Models/Wallets/WalletForUpdate";
 
 const validationSchema = yup.object().shape({
     currencyCode: yup.string().required("Chose currency code!"),
@@ -16,9 +16,9 @@ const validationSchema = yup.object().shape({
         .min(1, "Minimum value is 1!").max(9999999999, "Maximum value is 9999999999!")
   });
 
-interface EditPurseFormProps
+interface EditWalletFormProps
 {
-    purseId: number;
+    walletId: number;
     handleClose: () => void;
 }
 
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export const EditPurseForm: React.FC<EditPurseFormProps> = (props) => {
+export const EditWalletForm: React.FC<EditWalletFormProps> = (props) => {
 
     const classes = useStyles();
     const methods = useForm({
@@ -37,26 +37,26 @@ export const EditPurseForm: React.FC<EditPurseFormProps> = (props) => {
     const { handleSubmit, errors } = methods;
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [result, setResult] = useState<{
-        purse?:Purse,
+        wallet?:Wallet,
         successed: boolean,
         description: string
     }>({successed: false, description: ""});
 
     useEffect(() => {
-        getResult(props.purseId)
+        getResult(props.walletId)
             .then(res => {
                 setResult(res);
                 setIsLoading(false);
             })
     }, []);
 
-    const getResult = async (purseId: number) => {
-        return getPurse(purseId)
+    const getResult = async (walletId: number) => {
+        return getWallet(walletId)
             .then(result => {
                 if(result.response.status == 200)
                 {
                     return{
-                        purse: result.data,
+                        wallet: result.data,
                         successed: true,
                         description: "Successed"
                     }
@@ -65,14 +65,14 @@ export const EditPurseForm: React.FC<EditPurseFormProps> = (props) => {
                 {
                     return{
                         successed: false,
-                        description: "Purse has already deleted",
-                        purse: undefined
+                        description: "Wallet has already deleted",
+                        wallet: undefined
                     };
                 }
                 return{
                     successed: false,
-                    description: "You do not have access to this purse",
-                    purse: undefined
+                    description: "You do not have access to this wallet",
+                    wallet: undefined
                 };
             })
             .catch(error => {
@@ -81,7 +81,7 @@ export const EditPurseForm: React.FC<EditPurseFormProps> = (props) => {
                 return{
                     successed: false,
                     description: "Something went wrong",
-                    purse: undefined
+                    wallet: undefined
                 };
             })
       }
@@ -116,18 +116,18 @@ export const EditPurseForm: React.FC<EditPurseFormProps> = (props) => {
       }
 
       const onSubmit = (formValues: {currencyCode: string, bill: number}) => {
-        const purseForUpdate: PurseForUpdate = {
+        const walletForUpdate: WalletForUpdate = {
             currencyCode: formValues.currencyCode.toLocaleLowerCase() as "mdl" | "usd" | "eur",
             bill: Number(formValues.bill),
-            id: props.purseId
+            id: props.walletId
         }
-        updatePurse(purseForUpdate)
+        updateWallet(walletForUpdate)
             .then(res => {
                 props.handleClose();
             });
       }
 
-    if(!result.successed || result.purse == undefined)
+    if(!result.successed || result.wallet == undefined)
     {
         return(
             <React.Fragment>
@@ -164,7 +164,7 @@ export const EditPurseForm: React.FC<EditPurseFormProps> = (props) => {
                 <DialogTitle id="scroll-dialog-title">
                     <Grid container justify="center" xs={12}>
                         <Typography variant="h6">
-                            Edit purse {result.purse.currencyCode.toUpperCase()}
+                            Edit wallet {result.wallet.currencyCode.toUpperCase()}
                         </Typography>
                     </Grid>
                 </DialogTitle>
@@ -180,7 +180,7 @@ export const EditPurseForm: React.FC<EditPurseFormProps> = (props) => {
                                 required
                                 variant="outlined"
                                 disabled
-                                defaultValue={result.purse.currencyCode.toUpperCase()}
+                                defaultValue={result.wallet.currencyCode.toUpperCase()}
                                 />
                             </Grid>
                             <Grid item xs={7}>
@@ -221,4 +221,4 @@ export const EditPurseForm: React.FC<EditPurseFormProps> = (props) => {
     );
 }
 
-export default EditPurseForm;
+export default EditWalletForm;

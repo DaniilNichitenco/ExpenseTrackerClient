@@ -1,4 +1,4 @@
-export default interface PurseExpensesPerDay
+export default interface WalletExpensesPerDay
 {
     currencyCode: string;
     expensesPerDay: {
