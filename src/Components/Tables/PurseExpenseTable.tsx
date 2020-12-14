@@ -9,12 +9,13 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import Purse from '../../Data/Models/Purses/Purse';
-import PursesService from '../../Services/purse.services/Purse.service';
+import { getCurrentUserPurses } from '../../Services/purse.services/Purse.service';
 import { CircularProgress, Grid, Typography } from '@material-ui/core';
 import ExpenseForSum from '../../Data/Models/Expenses/ExpenseForSum';
-import ExpenseService from '../../Services/expense.service/ExpenseService';
+import { getExpensesSumForMonth, getExpensesSumForToday, 
+  getExpensesSumForYear } from '../../Services/expense.service/ExpenseService';
 import clsx from 'clsx';
-import CountDays from '../../Date/CountDays';
+import { getDaysInMonth } from 'date-fns';
 
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
@@ -66,7 +67,7 @@ const TableDailyData: React.FC<TableDataProps> = ({currencyCode}) => {
         useEffect(() => {
             if(dailyExpenseSum == undefined)
             {
-                ExpenseService.GetExpensesSumForToday()
+                getExpensesSumForToday()
                     .then(result => {
 
                         if(result.response.status == 200)
@@ -115,7 +116,7 @@ const TableMonthlyData: React.FC<TableDataProps> = ({currencyCode}) => {
         useEffect(() => {
           if(monlyExpenseSum == undefined)
           {
-            ExpenseService.GetExpensesSumForMonth()
+            getExpensesSumForMonth()
                 .then(result => {
                 if(result.response.status == 200)
                 {
@@ -163,7 +164,7 @@ const TableYearlyData: React.FC<TableDataProps> = ({currencyCode}) => {
         useEffect(() => {
             if(yearlyExpenseSum == undefined)
             {
-                ExpenseService.GetExpensesSumForYear()
+                getExpensesSumForYear()
                     .then(result => {
 
                         if(result.response.status == 200)
@@ -210,7 +211,7 @@ const PurseExpenseTable:React.FC = () => {
     
     if(pursesData == [])
     {
-        PursesService.GetCurrentUserPurses()
+        getCurrentUserPurses()
             .then(result => {
                 if(result.response.status == 200)
                 {
@@ -270,11 +271,13 @@ const PurseExpenseTable:React.FC = () => {
           }
           {pursesData.map((purse) => (
             <StyledTableRow key={purse.id} className={classes.textTable}>
-              <StyledTableCell component="th" scope="row" align="center" className={clsx(classes.rowHeader, classes.textTable)}>
+              <StyledTableCell component="th" scope="row" align="center" 
+                className={clsx(classes.rowHeader, classes.textTable)}>
                 {purse.currencyCode.toUpperCase()}
               </StyledTableCell>
               <StyledTableCell align="center" className={classes.textTable}>
-                <TableDailyData currencyCode={purse.currencyCode}/>/{(purse.bill/CountDays()).toFixed(2)}
+                <TableDailyData currencyCode={purse.currencyCode}/>/{
+                  (purse.bill/getDaysInMonth(new Date())).toFixed(2)}
               </StyledTableCell>
               <StyledTableCell align="center" className={classes.textTable}>
                 <TableMonthlyData currencyCode={purse.currencyCode}/>/{(purse.bill).toFixed(2)}

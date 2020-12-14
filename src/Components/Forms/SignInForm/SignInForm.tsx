@@ -6,7 +6,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ISignInFormProps from './ISignInFormProps';
 import UserForSignIn from "../../../Data/Models/User/UserForSignIn";
-import AuthService from "../../../Services/auth.services/auth-service";
+import { signIn } from "../../../Services/auth.services/auth-service";
 import { useHistory } from "react-router-dom";
 
 const validationSchema = yup.object().shape({
@@ -42,11 +42,8 @@ const SignInForm: React.FC<ISignInFormProps> = (props) => {
     const { handleSubmit, errors } = methods;
     const [signInError, setSignInError] = useState("");
 
-    const onSubmit: SubmitHandler<UserForSignIn> = async (formValues) => await signIn(formValues);
-
-    const signIn = async (formValues: UserForSignIn) => {
-        
-        AuthService.SignIn(formValues)
+    const onSubmit = async (formValues: UserForSignIn) => {
+        signIn(formValues)
             .then(response => {
                 if(response.status == 200)
                 {
@@ -61,8 +58,28 @@ const SignInForm: React.FC<ISignInFormProps> = (props) => {
             .catch(error => {
                 console.log(error);
                 setSignInError("Cannot sign in, server may be down");
-            });      
-    }
+            });   
+    };
+
+    // const signIn = async (formValues: UserForSignIn) => {
+        
+    //     signIn(formValues)
+    //         .then(response => {
+    //             if(response.status == 200)
+    //             {
+    //                 props.handleClose();
+    //                 history.push("/au/home");
+    //             }
+    //             else
+    //             {
+    //                 setSignInError("Incorrect login or password");
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.log(error);
+    //             setSignInError("Cannot sign in, server may be down");
+    //         });      
+    // }
 
     return(
         <FormProvider {...methods}>

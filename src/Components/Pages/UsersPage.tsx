@@ -1,12 +1,11 @@
 import { Accordion, AccordionDetails, AccordionSummary,
      Button, CircularProgress, useMediaQuery, 
-     Grid, makeStyles, Paper, Typography, useTheme, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, List, Divider, GridList } from '@material-ui/core';
+     Grid, makeStyles, Typography, useTheme, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, List, Divider, GridList } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import { GetCurrentUser } from '../../Services/auth.services/auth-service';
+import { getCurrentUser } from '../../Services/auth.services/auth-service';
 import jwt_decode from 'jwt-decode';
-import { useHistory } from 'react-router-dom';
 import User from '../../Data/Models/User/User';
-import { DeleteAccountById, GetPagedUsers } from '../../Services/user.services/User.service';
+import { deleteAccountById, getPagedUsers } from '../../Services/user.services/User.service';
 import PagedRequest from '../../Services/pagedRequests/PagedRequest';
 import GridPaperHeader from '../GridPaper/GridPaperHeader';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -27,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
 const UsersPage: React.FC = () => {
     const pageSize: number = 20;
     
-    const history = useHistory();
     const [pageIndex, setPageIndex] = useState<number>(0);
     const [hasData, setHasData] = useState<boolean>(true);
     const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
@@ -41,7 +39,7 @@ const UsersPage: React.FC = () => {
         itemId: number
     }>({isOpen: false, action: "update", itemId: 0});
     const classes = useStyles();
-    const token = GetCurrentUser().accessToken;
+    const token = getCurrentUser().accessToken;
     const userId = (jwt_decode(token) as any).UserId as number;
 
     useEffect(() => {
@@ -71,7 +69,7 @@ const UsersPage: React.FC = () => {
             pageSize: pageSize
         };
 
-        GetPagedUsers(request)
+        getPagedUsers(request)
             .then(result => {
                 if(result.response.status == 200)
                 {
@@ -97,7 +95,7 @@ const UsersPage: React.FC = () => {
       });
 
     const deleteUser = async (id: number) => {
-        DeleteAccountById(id)
+        deleteAccountById(id)
             .then(res => {
                 handleClose();
             })

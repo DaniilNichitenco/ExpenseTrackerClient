@@ -1,4 +1,5 @@
-import { Grid, makeStyles, Typography, Divider, DialogContent, Button, Dialog, DialogActions, DialogContentText, DialogTitle } from '@material-ui/core';
+import { Grid, makeStyles, Typography, Divider, 
+    Dialog } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import './PageStyles.css';
 import FlyingGridTile from '../Tiles/FlyingGridTile';
@@ -7,10 +8,10 @@ import User from '../../Data/Models/User/User';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import PurseExpenseTable from '../Tables/PurseExpenseTable';
 import Purse from '../../Data/Models/Purses/Purse';
-import { GetCurrentUserPurses } from '../../Services/purse.services/Purse.service';
+import { getCurrentUserPurses } from '../../Services/purse.services/Purse.service';
 import EditProfileButton from '../Buttons/EditProfileButton';
-import { GetCountUserExpenses } from '../../Services/expense.service/ExpenseService';
-import { GetCurrentUserData } from '../../Services/user.services/User.service';
+import { getCountUserExpenses } from '../../Services/expense.service/ExpenseService';
+import { getCurrentUserData } from '../../Services/user.services/User.service';
 import ExpenseForSum from '../../Data/Models/Expenses/ExpenseForSum';
 import EditProfileForm from '../Forms/EditProfileForm/EditProfileForm';
 import { useHistory } from 'react-router-dom';
@@ -59,7 +60,6 @@ const ProfilePage: React.FC = () => {
 
     const [userData, setUserData] = useSessionStorage<User | undefined>("userData", 
     undefined);
-    // const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
     const classes = useStyles();
     const [isLoadingPurses, setIsLoadingPurses] = useState(true);
     const [isLoadingExpenses, setIsLoadingExpenses] = useState(true);
@@ -86,14 +86,14 @@ const ProfilePage: React.FC = () => {
             removeDailyExpenseSum();
             removeMonthlyExpenseSum();
             removeYearlyExpenseSum();
-            GetCountUserExpenses().then(res => {
+            getCountUserExpenses().then(res => {
                 if(res.response.status == 200)
                 {
                     setCountExpenses(res.data);
                     setIsLoadingExpenses(false);
                 }
             });
-            GetCurrentUserPurses()
+            getCurrentUserPurses()
                 .then(result => {
                     if(result.response.status == 200)
                     {
@@ -104,12 +104,11 @@ const ProfilePage: React.FC = () => {
                 .catch(error => {
                     console.log(error);
                 });
-            GetCurrentUserData()
+            getCurrentUserData()
                 .then(res => {
                     if(res.status == 200)
                     {
                         setUserData(res.data);
-                        // setIsLoadingUser(false);
                     }
                 })
                 .catch(error => {
@@ -124,20 +123,10 @@ const ProfilePage: React.FC = () => {
     }
 
     const handleClose = () => {
-        // setIsLoadingUser(true);
         setRerender(true);
         setIsOpen(false);
         history.push("/au/profile");
     }
-
-    // if(isLoadingUser)
-    // {
-    //     return(
-    //         <Grid container xs={12} >
-    //             <CircularProgress color="secondary" />
-    //         </Grid>
-    //     )
-    // }
 
     return(
         <React.Fragment> 

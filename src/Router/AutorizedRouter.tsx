@@ -12,8 +12,8 @@ import ProfilePage from '../Components/Pages/ProfilePage';
 import StatisticPage from '../Components/Pages/StatisticPage';
 import useSessionStorage from '../CustomHooks/StorageHooks/useSessionStorage';
 import User from '../Data/Models/User/User';
-import { SignOut } from '../Services/auth.services/auth-service';
-import { GetCurrentUserData } from '../Services/user.services/User.service';
+import { signOut } from '../Services/auth.services/auth-service';
+import { getCurrentUserData } from '../Services/user.services/User.service';
 import HomeIcon from '@material-ui/icons/Home';
 import PursesPage from '../Components/Pages/PursesPage';
 import AdminRouter from './AdminRouter';
@@ -28,7 +28,7 @@ import TopicsPage from '../Components/Pages/TopicsPage';
       const theme = useTheme();
 
       useEffect(() => {
-            GetCurrentUserData().then(result => {
+            getCurrentUserData().then(result => {
               if(result.status == 200)
               {
                 setUserData(result.data);
@@ -36,7 +36,7 @@ import TopicsPage from '../Components/Pages/TopicsPage';
               }
               else
               {
-                SignOut();
+                signOut();
                 history.push('/');
               }
             })

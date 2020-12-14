@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, DialogTitle, DialogContent, DialogContentText, DialogActions, makeStyles, Theme } from "@material-ui/core";
 import ISignOutFormProps from './ISignOutFormProps';
-import AuthService from '../../../Services/auth.services/auth-service';
+import { signOut } from '../../../Services/auth.services/auth-service';
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -27,8 +27,8 @@ const SignOutForm: React.FC<ISignOutFormProps> = (props) => {
     const classes = useStyles();
     const history = useHistory();
 
-    const SignOut = () => {
-        AuthService.SignOut();
+    const handleSignOut = () => {
+        signOut();
         props.handleClose();
         history.push("/");
     }
@@ -46,7 +46,7 @@ const SignOutForm: React.FC<ISignOutFormProps> = (props) => {
                 <Button 
                     variant="contained" 
                     color="primary"
-                    onClick={SignOut}
+                    onClick={handleSignOut}
                     className={classes.button}
                     >
                     Sign Out

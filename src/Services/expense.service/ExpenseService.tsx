@@ -3,7 +3,7 @@ import ExpenseForSum from '../../Data/Models/Expenses/ExpenseForSum';
 import ExpensesForYear from '../../Data/Models/Expenses/ExpensesForYear';
 import Topic from '../../Data/Models/Topics/Topic';
 import API from '../Api';
-import { GetCurrentUser } from '../auth.services/auth-service';
+import { getCurrentUser } from '../auth.services/auth-service';
 import PagedRequest from '../pagedRequests/PagedRequest';
 import RequestFilters from '../pagedRequests/RequestFilters';
 import jwt_decode from 'jwt-decode';
@@ -13,7 +13,7 @@ import ExpenseForCreate from '../../Data/Models/Expenses/ExpenseForCreate';
 import PercentsTopicExpense from '../../Data/Models/Expenses/PercentsTopicExpense';
 import PurseExpensesPerDay from '../../Data/Models/Expenses/PurseExpensesPerDay';
 
-export const GetAllExpenses = async () => {
+export const getAllExpenses = async () => {
     
     return API.get("/expenses/all")
         .then(response => {
@@ -48,7 +48,7 @@ export const GetAllExpenses = async () => {
         });
 }
 
-export const GetExpensesForCurrentYear = async () => {
+export const getExpensesForCurrentYear = async () => {
     
     return API.get("/expenses/year")
         .then(response => {
@@ -69,7 +69,7 @@ export const GetExpensesForCurrentYear = async () => {
         });
 }
 
-export const DeleteExpense = async (id: number) => {
+export const deleteExpense = async (id: number) => {
 
     return API.delete("/expenses/" + id)
         .then(response => {
@@ -90,7 +90,7 @@ export const DeleteExpense = async (id: number) => {
         })
 }
 
-export const UpdateExpense = async (expense: Expense) => {
+export const updateExpense = async (expense: Expense) => {
 
     return API.put("/expenses", expense)
         .then(response => {
@@ -109,7 +109,7 @@ export const UpdateExpense = async (expense: Expense) => {
         })
 }
 
-export const GetExpensesSumForYear = async () => {
+export const getExpensesSumForYear = async () => {
 
     return API.get("/expenses/sum/year")
         .then(response => {
@@ -130,7 +130,7 @@ export const GetExpensesSumForYear = async () => {
         });
 }
 
-export const GetExpensesSumForMonth = async () => {
+export const getExpensesSumForMonth = async () => {
 
     return API.get("/expenses/sum/month")
         .then(response => {
@@ -151,7 +151,7 @@ export const GetExpensesSumForMonth = async () => {
         });
 }
 
-export const GetExpensesSumForToday = async () => {
+export const getExpensesSumForToday = async () => {
 
     return API.get("/expenses/sum/today")
         .then(response => {
@@ -172,7 +172,7 @@ export const GetExpensesSumForToday = async () => {
         });
 }
 
-export const GetUserExpenses = async () => {
+export const getUserExpenses = async () => {
 
     return API.get("/expenses")
         .then(response => {
@@ -208,7 +208,7 @@ export const GetUserExpenses = async () => {
         })
 }
 
-export const GetUserExpensesByTopic = async (topic: Topic) => {
+export const getUserExpensesByTopic = async (topic: Topic) => {
 
     return API.get("/expenses/topic/" + topic.id)
         .then(response => {
@@ -244,9 +244,9 @@ export const GetUserExpensesByTopic = async (topic: Topic) => {
         })
 }
 
-export const GetPagedUserExpenses = async (request: PagedRequest, topic?: Topic) => {
+export const getPagedUserExpenses = async (request: PagedRequest, topic?: Topic) => {
 
-    const token = GetCurrentUser().accessToken;
+    const token = getCurrentUser().accessToken;
     const userId: string = (jwt_decode(token) as any).UserId;
 
     const filters: RequestFilters = {
@@ -315,7 +315,7 @@ export const GetPagedUserExpenses = async (request: PagedRequest, topic?: Topic)
         });
 }
 
-export const CreateExpense = async (expense: ExpenseForCreate) => {
+export const createExpense = async (expense: ExpenseForCreate) => {
     return API.post("Expenses", expense)
         .then(response => {
             return {
@@ -331,7 +331,7 @@ export const CreateExpense = async (expense: ExpenseForCreate) => {
         });
 }
 
-export const GetExpense = async (id: number) => {
+export const getExpense = async (id: number) => {
     return API.get("Expenses/" + id)
         .then(response => {
             const expense: Expense = response.data;
@@ -353,7 +353,7 @@ export const GetExpense = async (id: number) => {
         });
 }
 
-export const GetPercentsExpensesPerTopic = async () => {
+export const getPercentsExpensesPerTopic = async () => {
     return API.get("Expenses/percentsExpensesPerTopic")
         .then(response => {
             let percents: PercentsTopicExpense[] = response.data;
@@ -374,7 +374,7 @@ export const GetPercentsExpensesPerTopic = async () => {
         });
 }
 
-export const GetCountUserExpenses = async () => {
+export const getCountUserExpenses = async () => {
     return API.get("Expenses/count")
         .then(response => {
 
@@ -392,7 +392,7 @@ export const GetCountUserExpenses = async () => {
         });
 }
 
-export const GetExpensesPerDayForCurrentMonth = async () => {
+export const getExpensesPerDayForCurrentMonth = async () => {
     return API.get("Expenses/month")
         .then(response => {
 
@@ -411,19 +411,19 @@ export const GetExpensesPerDayForCurrentMonth = async () => {
 }
 
 export default {
-    GetExpensesForCurrentYear,
-    GetAllExpenses,
-    DeleteExpense,
-    GetExpensesSumForToday,
-    GetExpensesSumForMonth,
-    GetExpensesSumForYear,
-    GetUserExpensesByTopic,
-    GetUserExpenses,
-    GetPagedUserExpenses,
-    GetExpense,
-    CreateExpense,
-    UpdateExpense,
-    GetPercentsExpensesPerTopic,
-    GetCountUserExpenses,
-    GetExpensesPerDayForCurrentMonth
+    getExpensesForCurrentYear,
+    getAllExpenses,
+    deleteExpense,
+    getExpensesSumForToday,
+    getExpensesSumForMonth,
+    getExpensesSumForYear,
+    getUserExpensesByTopic,
+    getUserExpenses,
+    getPagedUserExpenses,
+    getExpense,
+    createExpense,
+    updateExpense,
+    getPercentsExpensesPerTopic,
+    getCountUserExpenses,
+    getExpensesPerDayForCurrentMonth
 }

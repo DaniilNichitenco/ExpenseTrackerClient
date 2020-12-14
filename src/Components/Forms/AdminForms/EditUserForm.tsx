@@ -7,7 +7,7 @@ import InputForm from '../InputForm/InputForm';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import User from "../../../Data/Models/User/User";
-import { GetUserById, UpdateAccount } from "../../../Services/user.services/User.service";
+import { getUserById, updateAccount } from "../../../Services/user.services/User.service";
 import UserForUpdateAccount from "../../../Data/Models/User/UserForUpdateAccount";
 
 const validationSchema = yup.object().shape({
@@ -49,7 +49,7 @@ export const EditUserForm: React.FC<EditUserFormProps> = (props) => {
     }>({successed: false, description: ""});
 
     useEffect(() => {
-        GetResult(props.userId)
+        getResult(props.userId)
             .then(res => {
                 console.log(res);
                 setResult(res);
@@ -61,7 +61,7 @@ export const EditUserForm: React.FC<EditUserFormProps> = (props) => {
 
         formValues.id = Number(formValues.id);
         
-        UpdateAccount(formValues)
+        updateAccount(formValues)
             .then(res => {
                 console.log(res);
                 if(res.response.status == 200)
@@ -81,8 +81,8 @@ export const EditUserForm: React.FC<EditUserFormProps> = (props) => {
             });
       }
 
-    const GetResult = async (userId: number) => {
-        return GetUserById(userId)
+    const getResult = async (userId: number) => {
+        return getUserById(userId)
             .then(result => { 
                 if(result.status == 200)
                 {

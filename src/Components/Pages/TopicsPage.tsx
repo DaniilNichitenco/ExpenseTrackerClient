@@ -1,12 +1,12 @@
-import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Button, 
+    CircularProgress, Dialog, DialogActions, DialogContent, 
+    DialogContentText, DialogTitle, Divider, Grid, makeStyles, 
+    Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import GetMonthName from '../../Date/MonthName';
-import { CreatePurseForm } from '../Forms/PursesForm/CreatePurseForm';
 import useNonInitialEffect from '../../CustomHooks/CustomUseEffectHooks/useNonInitialEffect';
-import EditPurseForm from '../Forms/PursesForm/EditPurseForm';
 import GridPaperHeader from '../GridPaper/GridPaperHeader';
-import { DeleteTopic, GetMaxUserTopics, GetTopicsForList } from '../../Services/topic.services/TopicService';
+import { deleteTopic, getMaxUserTopics, getTopicsForList } from '../../Services/topic.services/TopicService';
 import TopicForList from '../../Data/Models/Topics/TopicForList';
 import CreateTopicForm from '../Forms/topicForms/CreateTopicForm';
 import EditTopicForm from '../Forms/topicForms/EditTopicForm';
@@ -52,7 +52,7 @@ export const TopicsPage: React.FC = () => {
     }
 
     useEffect(() => {
-        GetTopicsForList()
+        getTopicsForList()
             .then(res => {
                 if(res.response.status == 200)
                 {
@@ -61,7 +61,7 @@ export const TopicsPage: React.FC = () => {
                 }
             });
 
-        GetMaxUserTopics()
+        getMaxUserTopics()
             .then(res => {
                 if(res.response.status == 200)
                 {
@@ -75,7 +75,7 @@ export const TopicsPage: React.FC = () => {
         if(!dialog.isOpen) //if we close nested dialog, we rerender whole component
         {
             setIsLoadingTopics(true);
-            GetTopicsForList()
+            getTopicsForList()
                 .then(res => {
                 if(res.response.status == 200)
                 {
@@ -86,8 +86,8 @@ export const TopicsPage: React.FC = () => {
         }
     }, [dialog])
 
-    const deleteTopic = async (id: number) => {
-        DeleteTopic(id)
+    const handleDeleteTopic = async (id: number) => {
+        deleteTopic(id)
             .then(res => {
                 handleClose();
             })
@@ -228,7 +228,7 @@ export const TopicsPage: React.FC = () => {
                     <Button 
                         variant="contained" 
                         color="secondary"
-                        onClick={async () => {await deleteTopic(dialog.itemId);}}
+                        onClick={async () => {await handleDeleteTopic(dialog.itemId);}}
                         >
                         <Typography>
                             Delete

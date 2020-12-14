@@ -7,7 +7,7 @@ import InputForm from '../InputForm/InputForm';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Purse from "../../../Data/Models/Purses/Purse";
-import { GetPurse, UpdatePurse } from "../../../Services/purse.services/Purse.service";
+import { getPurse, updatePurse } from "../../../Services/purse.services/Purse.service";
 import PurseForUpdate from "../../../Data/Models/Purses/PurseForUpdate";
 
 const validationSchema = yup.object().shape({
@@ -43,15 +43,15 @@ export const EditPurseForm: React.FC<EditPurseFormProps> = (props) => {
     }>({successed: false, description: ""});
 
     useEffect(() => {
-        GetResult(props.purseId)
+        getResult(props.purseId)
             .then(res => {
                 setResult(res);
                 setIsLoading(false);
             })
     }, []);
 
-    const GetResult = async (purseId: number) => {
-        return GetPurse(purseId)
+    const getResult = async (purseId: number) => {
+        return getPurse(purseId)
             .then(result => {
                 if(result.response.status == 200)
                 {
@@ -121,7 +121,7 @@ export const EditPurseForm: React.FC<EditPurseFormProps> = (props) => {
             bill: Number(formValues.bill),
             id: props.purseId
         }
-        UpdatePurse(purseForUpdate)
+        updatePurse(purseForUpdate)
             .then(res => {
                 props.handleClose();
             });

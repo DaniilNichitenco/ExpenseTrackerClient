@@ -10,10 +10,9 @@ import useSessionStorage from "../../../CustomHooks/StorageHooks/useSessionStora
 import Purse from "../../../Data/Models/Purses/Purse";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import ExpenseForCreate from "../../../Data/Models/Expenses/ExpenseForCreate";
 import "./datepickerStyles.css";
 import Expense from "../../../Data/Models/Expenses/Expense";
-import { GetExpense, UpdateExpense } from "../../../Services/expense.service/ExpenseService";
+import { getExpense, updateExpense } from "../../../Services/expense.service/ExpenseService";
 import ExpenseForUpdate from "../../../Data/Models/Expenses/ExpenseForUpdate";
 
 const validationSchema = yup.object().shape({
@@ -60,7 +59,7 @@ export const EditExpenseForm: React.FC<EditExpenseFormProps> = (props) => {
     }, [pursesData])
 
     useEffect(() => {
-        GetResult(props.expenseId)
+        getResult(props.expenseId)
             .then(res => {
                 if(res.successed)
                 {
@@ -73,8 +72,8 @@ export const EditExpenseForm: React.FC<EditExpenseFormProps> = (props) => {
             });
     }, []);
 
-    const GetResult = async (expenseId: number) => {
-        return GetExpense(expenseId)
+    const getResult = async (expenseId: number) => {
+        return getExpense(expenseId)
             .then(result => {
                 if(result.response.status == 200)
                 {
@@ -122,7 +121,7 @@ export const EditExpenseForm: React.FC<EditExpenseFormProps> = (props) => {
         formValues.id = props.expenseId;
         formValues.topicId = props.topic.id;
          
-        UpdateExpense(formValues).then(res => {
+        updateExpense(formValues).then(res => {
             props.handleClose();
         })
     }

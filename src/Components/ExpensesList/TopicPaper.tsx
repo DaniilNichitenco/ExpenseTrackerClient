@@ -1,16 +1,15 @@
-import { Box, Button, List, CircularProgress, Dialog, DialogContent,
+import { Box, Button, CircularProgress, Dialog, DialogContent,
     DialogActions, DialogTitle, Grid, makeStyles, Paper, 
-    Typography, DialogProps, DialogContentText, useMediaQuery, 
+    Typography, DialogContentText, useMediaQuery, 
     useTheme, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import Expense from '../../Data/Models/Expenses/Expense';
 import Topic from '../../Data/Models/Topics/Topic';
 import TopicWithExpenses from '../../Data/Models/Topics/TopicWithExpenses';
-import { GetPagedUserExpenses, DeleteExpense } from '../../Services/expense.service/ExpenseService';
+import { getPagedUserExpenses, deleteExpense } from '../../Services/expense.service/ExpenseService';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import Purse from '../../Data/Models/Purses/Purse';
-import { GetMonthName } from '../../Date/MonthName';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import PagedRequest from '../../Services/pagedRequests/PagedRequest';
 import useNonInitialEffect from '../../CustomHooks/CustomUseEffectHooks/useNonInitialEffect';
@@ -18,6 +17,7 @@ import CreateExpenseForm from '../Forms/ExpenseForm/CreateExpenseForm';
 import EditExpenseForm from '../Forms/ExpenseForm/EditExpenseForm';
 import GridPaperHeader from '../GridPaper/GridPaperHeader';
 import { useHistory } from 'react-router-dom';
+import { format } from 'date-fns';
 
 const useStyles = makeStyles((theme) =>
 ({
@@ -89,7 +89,7 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
             pageSize: pageSize
         };
 
-        GetPagedUserExpenses(request, props.topic)
+        getPagedUserExpenses(request, props.topic)
             .then(result => {
                 if(result.response.status == 200)
                 {
@@ -129,8 +129,8 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
         }
       }
 
-      const Delete = async (expenseId: number) => {
-        await DeleteExpense(expenseId);
+      const handleDeleteExpense = async (expenseId: number) => {
+        await deleteExpense(expenseId);
         handleClose();
       }
 
@@ -197,9 +197,8 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
                                             <Grid container item xs={12}>
                                                 <Typography>
                                                     Title: {expense.title}<br/>
-                                                    Date: {expense.date.getDate()}/
-                                                    {GetMonthName(expense.date.getMonth())}/
-                                                    {expense.date.getFullYear()}
+                                                    Date: {format(new Date(),
+                                                            "MMMM d, yyyy")}
                                                     <br/>
                                                     Sum: {expense.money} {currencyCode}
                                                 </Typography>
@@ -261,7 +260,7 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
             <Dialog open={dialog.isOpen && dialog.action=="delete"}>
                 <DialogTitle>
                     <Typography>
-                        Delete expense
+                        Deleting expense
                     </Typography>
                 </DialogTitle>
                 <DialogContent dividers={true}>
@@ -275,7 +274,7 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
                 <Button 
                     variant="contained" 
                     color="secondary"
-                    onClick={async () => {await Delete(dialog.itemId);}}
+                    onClick={async () => {await handleDeleteExpense(dialog.itemId);}}
                     >
                     <Typography>
                         Delete

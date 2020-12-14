@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { Button, DialogTitle, DialogContent, DialogActions, makeStyles, Grid, Typography, CircularProgress } from "@material-ui/core";
+import { Button, DialogTitle, DialogContent, DialogActions, 
+    makeStyles, Grid, Typography, CircularProgress } from "@material-ui/core";
 import InputForm from '../InputForm/InputForm';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { mapToSelectItems } from "../../../mapper/mapper";
 import "react-datepicker/dist/react-datepicker.css";
 import "../ExpenseForm/datepickerStyles.css";
-import { CreatePurse, GetAvailableCurrencies } from "../../../Services/purse.services/Purse.service";
+import { createPurse, getAvailableCurrencies } from "../../../Services/purse.services/Purse.service";
 import PurseForCreate from "../../../Data/Models/Purses/PurseForCreate";
 import DialogContentText from "@material-ui/core/DialogContentText/DialogContentText";
 
@@ -39,7 +40,7 @@ const validationSchema = yup.object().shape({
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        GetAvailableCurrencies()
+        getAvailableCurrencies()
             .then(res => {
                 if(res.response.status == 200)
                 {
@@ -85,8 +86,8 @@ const validationSchema = yup.object().shape({
                 currencyCode: currencyCode,
                 bill: Number(formValues.bill)
             }
-            console.log(purseForCreate);
-            CreatePurse(purseForCreate)
+            
+            createPurse(purseForCreate)
                 .then(res => {
                     console.log(res);
                     props.handleClose();

@@ -2,7 +2,7 @@ import { CircularProgress } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import useSessionStorage from "../../CustomHooks/StorageHooks/useSessionStorage";
 import ExpensesLineDiagram from "./Generic/ExpensesLineDiargam";
-import { GetExpensesForCurrentYear } from "../../Services/expense.service/ExpenseService";
+import { getExpensesForCurrentYear } from "../../Services/expense.service/ExpenseService";
 import ExpensesForYear from "../../Data/Models/Expenses/ExpensesForYear";
 import { getColor } from "../../Colors/colors";
 
@@ -23,7 +23,7 @@ interface ExpensesPerMonthLineDiagramProps
       "expensesForYearData", []);
 
     useEffect(() => {
-        GetExpensesForCurrentYear()
+        getExpensesForCurrentYear()
           .then(result => {
             if(result.response.status == 200)
             {
