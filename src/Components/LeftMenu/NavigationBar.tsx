@@ -103,7 +103,7 @@ const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
                   primary: classes.categoryHeaderPrimary,
                 }}
               >
-                <Typography variant="h5" style={{color: "white"}}>
+                <Typography variant="h6" style={{color: "white"}}>
                   {id}
                 </Typography>
               </ListItemText>

@@ -2,11 +2,9 @@ import { CircularProgress } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import useSessionStorage from "../../CustomHooks/StorageHooks/useSessionStorage";
 import ExpensesLineDiagram from "./Generic/ExpensesLineDiargam";
-import ExpensesForYearDefault from '../../Data/Models/Expenses/default/ExpensesForYearDefault';
 import { GetExpensesForCurrentYear } from "../../Services/expense.service/ExpenseService";
 import ExpensesForYear from "../../Data/Models/Expenses/ExpensesForYear";
-
-const randomColor = require('random-color');
+import { getColor } from "../../Colors/colors";
 
 interface ExpensesPerMonthLineDiagramProps
   {
@@ -41,8 +39,8 @@ interface ExpensesPerMonthLineDiagramProps
     const getData = () => {
       let datasets:any[] = [];
 
-      for (const expense of expensesForYearData) {
-        let color = randomColor(0.99, 0.99);
+      expensesForYearData.forEach((expense, index) => {
+        let color = getColor(index);
 
         let expenses: number[] = [];
         expense.expenses.forEach(exp => {
@@ -56,20 +54,20 @@ interface ExpensesPerMonthLineDiagramProps
             data: expenses,
             lineTension: 0.1,
             fill: false,
-            backgroundColor: color.rgbString(),
-            borderColor: color.rgbString(),
-            pointBorderColor: color.rgbString(),
-            pointBackgroundColor: '#fff',
+            backgroundColor: color,
+            borderColor: color,
+            pointBorderColor: color,
+            pointBackgroundColor: color,
             pointBorderWidth: 2,
             pointHoverRadius: 9,
-            pointHoverBackgroundColor: color.rgbString(),
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBackgroundColor: color,
+            pointHoverBorderColor: color,
             pointHoverBorderWidth: 2,
             pointRadius: 4,
             pointHitRadius: 10,
             }
         )
-      }
+      });
 
       const data = {
         labels: [

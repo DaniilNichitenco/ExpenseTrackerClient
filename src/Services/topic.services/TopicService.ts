@@ -1,4 +1,7 @@
+import { responsiveFontSizes } from '@material-ui/core';
 import Topic from '../../Data/Models/Topics/Topic';
+import TopicForCreate from '../../Data/Models/Topics/TopicForCreate';
+import TopicForUpdate from '../../Data/Models/Topics/TopicForUpdate';
 import TopicWithExpenses from '../../Data/Models/Topics/TopicWithExpenses';
 import API from '../Api';
 
@@ -44,9 +47,31 @@ export const GetTopics = async () => {
         })
 }
 
+export const DeleteTopic = async (id: number) => await API.delete("Topics/" + id);
+
+export const CreateTopic = async (topic: TopicForCreate) => {
+
+    return API.post("/Topics", topic)
+        .then(response => {
+            
+            return{
+                response: response,
+                data: response.data
+            };
+        })
+        .catch(error => {
+            console.log(error);
+
+            return{
+                response: error.response,
+                data: error.response.data
+            };
+        });
+}
+
 export const GetTopic = async (id: number) => {
 
-    return API.get("/Topic/" + id)
+    return API.get("/Topics/" + id)
         .then(response => {
             console.log(response);
             const topic:Topic = response.data;
@@ -63,11 +88,94 @@ export const GetTopic = async (id: number) => {
                 response: error.response,
                 data: error.response.data
             }
+        });
+}
+
+export const updateTopic = async (topic: TopicForUpdate) => {
+
+    return API.put("/Topics", topic)
+        .then(response => {
+                
+            return{
+                response: response,
+                data: response.data
+            };
         })
+        .catch(error => {
+            console.log(error);
+
+            return{
+                response: error.response,
+                data: error.response.data
+            };
+        });
+}
+
+export const GetMaxUserTopics = async () => {
+
+    return API.get("/Topics/maxUserTopics")
+        .then(response => {
+
+            return{
+                response: response,
+                data: response.data
+            }
+        })
+        .catch(error => {
+            console.log(error);
+
+            return{
+                response: error,
+                data: error.data
+            }
+        });
+}
+
+export const GetUserTopicsAmount = async () => {
+    return API.get("Topics/amountTopics")
+        .then(response => {
+
+            return{
+                response: response,
+                data: response.data
+            }
+        })
+        .catch(error => {
+            
+            return{
+                response: error,
+                data: error.data
+            }
+        });
+}
+
+export const GetTopicsForList = async () => {
+    return API.get("Topics/userTopicsForList")
+        .then(response => {
+
+            return{
+                response: response,
+                data: response.data
+            };
+        })
+        .catch(error => {
+            console.log(error);
+            
+            return{
+                response: error,
+                data: error.data
+            }
+        });
 }
 
 export default {
     GetTopicsWithExpenses,
     GetTopics,
-    GetTopic
+    GetTopic,
+    DeleteTopic,
+    CreateTopic,
+    GetTopicsForList,
+    GetUserTopicsAmount,
+    GetMaxUserTopics,
+    updateTopic
 }

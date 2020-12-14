@@ -153,3 +153,4 @@ const validationSchema = yup.object().shape({
     );
   }
 
+export default CreatePurseForm;

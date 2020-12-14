@@ -17,6 +17,7 @@ import { GetCurrentUserData } from '../Services/user.services/User.service';
 import HomeIcon from '@material-ui/icons/Home';
 import PursesPage from '../Components/Pages/PursesPage';
 import AdminRouter from './AdminRouter';
+import TopicsPage from '../Components/Pages/TopicsPage';
 
   const AuthorizedRouter:React.FC = () => {
 
@@ -73,6 +74,7 @@ import AdminRouter from './AdminRouter';
                     <Route exact path="/au/profile" component={ProfilePage} />
                     <Route exact path="/au/statistic" component={StatisticPage} />
                     <Route exact path="/au/purses" component={PursesPage} />
+                    <Route exact path="/au/topics" component={TopicsPage} />
                     <Route path="/au/admin" component={AdminRouter} />
                     <Redirect to="/au/home" />
                   </Switch>

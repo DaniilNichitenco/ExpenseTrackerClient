@@ -19,7 +19,7 @@ const validationSchema = yup.object().shape({
     username: yup.string().required("Enter username!").min(5, "Username is too short!")
         .max(9, "Should be 9 chars maximum!"),
     email: yup.string().required("Enter email address!").email("Not valid email!"),
-    password: yup.string().required("Enter password!").min(8, "Should be 6 chars minimum!")
+    password: yup.string().required("Enter password!").min(6, "Should be 6 chars minimum!")
         .max(12, "Should be 12 chars maximum!"),
     passwordConfirmation: yup.string()
         .oneOf([yup.ref("password"), ""], "Password must match!").required("Confirm password!")

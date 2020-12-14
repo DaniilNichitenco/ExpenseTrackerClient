@@ -4,8 +4,7 @@ import CountDays from '../../Date/CountDays';
 import BarDiagram from './Generic/BarDiagram';
 import { GetExpensesPerDayForCurrentMonth } from '../../Services/expense.service/ExpenseService';
 import { CircularProgress, Grid } from '@material-ui/core';
-
-const randomColor = require('random-color');
+import { getColor } from '../../Colors/colors';
 
 export const ExpensesPerDaysDiagram: React.FC = () => {
 
@@ -35,10 +34,8 @@ export const ExpensesPerDaysDiagram: React.FC = () => {
     const getData = () => {
         let datasets: any[] = [];
         
-        for(const expense of expenses)
-        {
-            let color = randomColor(0.99, 0.99);
-            let color2 = randomColor(0.99, 0.99);
+        expenses.forEach((expense, index) => {
+            let color = getColor(index);
             
             let sums: number[] = [];
             
@@ -49,15 +46,15 @@ export const ExpensesPerDaysDiagram: React.FC = () => {
             datasets.push(
                 {
                     label: expense.currencyCode.toUpperCase(),
-                    backgroundColor: color.rgbString(),
-                    borderColor: color.rgbString(),
+                    backgroundColor: color,
+                    borderColor: color,
                     borderWidth: 1,
-                    hoverBackgroundColor: color2.rgbString(),
-                    hoverBorderColor: color2.rgbString(),
+                    hoverBackgroundColor: color,
+                    hoverBorderColor: color,
                     data: sums
                 }
             );
-        }
+        });
 
         const data = {
             labels: Array.from({length: CountDays()}, (_, i) => i + 1),
