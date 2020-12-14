@@ -10,7 +10,6 @@ import { getPagedUserExpenses, deleteExpense } from '../../Services/expense.serv
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import Purse from '../../Data/Models/Purses/Purse';
-import { GetMonthName } from '../../Date/MonthName';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import PagedRequest from '../../Services/pagedRequests/PagedRequest';
 import useNonInitialEffect from '../../CustomHooks/CustomUseEffectHooks/useNonInitialEffect';
@@ -18,6 +17,7 @@ import CreateExpenseForm from '../Forms/ExpenseForm/CreateExpenseForm';
 import EditExpenseForm from '../Forms/ExpenseForm/EditExpenseForm';
 import GridPaperHeader from '../GridPaper/GridPaperHeader';
 import { useHistory } from 'react-router-dom';
+import { format } from 'date-fns';
 
 const useStyles = makeStyles((theme) =>
 ({
@@ -129,7 +129,7 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
         }
       }
 
-      const deleteExpense = async (expenseId: number) => {
+      const handleDeleteExpense = async (expenseId: number) => {
         await deleteExpense(expenseId);
         handleClose();
       }
@@ -197,9 +197,8 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
                                             <Grid container item xs={12}>
                                                 <Typography>
                                                     Title: {expense.title}<br/>
-                                                    Date: {expense.date.getDate()}/
-                                                    {GetMonthName(expense.date.getMonth())}/
-                                                    {expense.date.getFullYear()}
+                                                    Date: {format(new Date(),
+                                                            "MMMM d, yyyy")}
                                                     <br/>
                                                     Sum: {expense.money} {currencyCode}
                                                 </Typography>
@@ -211,7 +210,7 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
                                                     <Button variant="contained" onClick={() => handleOpen("delete", expense.id)}
                                                     color="secondary" className={classes.buttons}>
                                                         <Typography>
-                                                            deleteExpense
+                                                            Delete
                                                         </Typography>
                                                     </Button>
                                                 </Grid>
@@ -261,7 +260,7 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
             <Dialog open={dialog.isOpen && dialog.action=="delete"}>
                 <DialogTitle>
                     <Typography>
-                        deleteExpense expense
+                        Deleting expense
                     </Typography>
                 </DialogTitle>
                 <DialogContent dividers={true}>
@@ -275,10 +274,10 @@ const TopicExpensesList: React.FC<TopicExpensesListProps> = (props) => {
                 <Button 
                     variant="contained" 
                     color="secondary"
-                    onClick={async () => {await deleteExpense(dialog.itemId);}}
+                    onClick={async () => {await handleDeleteExpense(dialog.itemId);}}
                     >
                     <Typography>
-                        deleteExpense
+                        Delete
                     </Typography>
                 </Button>
                 <Button 

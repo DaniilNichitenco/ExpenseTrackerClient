@@ -7,9 +7,9 @@ import Purse from '../../Data/Models/Purses/Purse';
 import { getCurrentUserPurses } from '../../Services/purse.services/Purse.service';
 import { ExpenseForSum } from "../../Data/Models/Expenses/ExpenseForSum";
 import { getExpensesSumForToday } from "../../Services/expense.service/ExpenseService";
-import { CountDays } from "../../Date/CountDays";
 import ExpensesList from "../ExpensesList/ExpensesList";
 import GridPaperHeader from "../GridPaper/GridPaperHeader";
+import { getDaysInMonth } from 'date-fns';
 
 interface TabPanelProps {
     index: number,
@@ -135,7 +135,7 @@ const HomePage: React.FC = () => {
                                 let expense = dailyExpenseSum.find(e => 
                                     e.currencyCode == purse.currencyCode);
                                 let sum:number = 0;
-                                let countDays: number = CountDays(); 
+                                let countDays: number = getDaysInMonth(new Date()); 
                                 if(expense != undefined)
                                 {
                                     sum = expense.sum;

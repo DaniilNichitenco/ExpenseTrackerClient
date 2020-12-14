@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import PurseForList from '../../Data/Models/Purses/PurseForList';
 import { deletePurse, getAllCurrenciesAmount, getPursesForList } from '../../Services/purse.services/Purse.service';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import GetMonthName from '../../Date/MonthName';
+import { format } from 'date-fns';
 import { CreatePurseForm } from '../Forms/PursesForm/CreatePurseForm';
 import useNonInitialEffect from '../../CustomHooks/CustomUseEffectHooks/useNonInitialEffect';
 import EditPurseForm from '../Forms/PursesForm/EditPurseForm';
@@ -166,9 +166,10 @@ export const PursesPage: React.FC = () => {
                                                 <Grid container item xs={12}>
                                                     <Typography>
                                                         Currency code: {purse.currencyCode.toUpperCase()}<br />
-                                                        Created at: {purse.createdAt.getDate()}/
-                                                        {GetMonthName(purse.createdAt.getMonth())}/
-                                                        {purse.createdAt.getFullYear()}<br />
+                                                        Created at: {format(
+                                                                    new Date(purse.createdAt),
+                                                                    "MMMM d, yyyy"
+                                                                    )}<br />
                                                         Monthly plan: {(purse.bill).toFixed(2)}
                                                     </Typography>
                                                 </Grid>
