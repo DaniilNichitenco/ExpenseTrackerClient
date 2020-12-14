@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
       }
 }));
 
-const UsersPage:React.FC = () => {
+const UsersPage: React.FC = () => {
     const pageSize: number = 20;
     
     const history = useHistory();
@@ -43,14 +43,6 @@ const UsersPage:React.FC = () => {
     const classes = useStyles();
     const token = GetCurrentUser().accessToken;
     const userId = (jwt_decode(token) as any).UserId as number;
-
-    // useEffect(() => {
-    //     const role: string = (jwt_decode(token) as any).Role;
-    //     if(role != "admin")
-    //     {
-    //         history.push('au/home');
-    //     }
-    // }, []);
 
     useEffect(() => {
         if (isLoadingData)

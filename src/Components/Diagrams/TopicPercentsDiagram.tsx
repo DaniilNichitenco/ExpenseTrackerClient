@@ -1,11 +1,10 @@
  import { CircularProgress, Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import { getColor } from '../../Colors/colors';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import PercentsTopicExpense from '../../Data/Models/Expenses/PercentsTopicExpense';
 import { GetPercentsExpensesPerTopic } from '../../Services/expense.service/ExpenseService';
 import RadarDiagram from './Generic/RadarDiagram';
-
-const randomColor = require('random-color');
 
 export const TopicPercentsDiagram: React.FC = () => {
 
@@ -26,15 +25,13 @@ export const TopicPercentsDiagram: React.FC = () => {
 	const getData = () => {
 		let datasets:any[] = [];
 		
-		for (const percent of percentsTopic) 
-		{
-			let color = randomColor(0.99, 0.99);
-			let color2 = randomColor(0.99, 0.99);
+		percentsTopic.forEach((percent, index) => {
+			let color = getColor(index);
   
 			let percents: number[] = [];
 
 			percent.percents.forEach(p => {
-				percents.push(p.sum);
+				percents.push(Number(p.sum.toFixed(2)));
 			});
 		  
   
@@ -44,12 +41,12 @@ export const TopicPercentsDiagram: React.FC = () => {
 			  data: percents,
 			  lineTension: 0.1,
 			  fill: false,
-			  backgroundColor: color.rgbString(),
-			  borderColor: color.rgbString(),
-			  pointBackgroundColor: color.rgbString(),
-			  pointHoverBorderColor: color2.rgbString(),
-			  pointHoverBackgroundColor: color2.rgbString(),
-			  pointBorderColor: color.rgbString(),
+			  backgroundColor: color,
+			  borderColor: color,
+			  pointBackgroundColor: color,
+			  pointHoverBorderColor: color,
+			  pointHoverBackgroundColor: color,
+			  pointBorderColor: color,
 			  pointBorderWidth: 2,
 			  pointHoverRadius: 9,
 			  pointHoverBorderWidth: 2,
@@ -57,7 +54,7 @@ export const TopicPercentsDiagram: React.FC = () => {
 			  pointHitRadius: 10,
 			  }
 		  )
-		}
+		})
 
 		const topics: string[] = [];
 

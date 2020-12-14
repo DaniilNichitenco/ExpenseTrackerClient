@@ -5,12 +5,8 @@ import jwt_decode from 'jwt-decode';
 import { CircularProgress, Grid } from '@material-ui/core';
 import PeopleIcon from '@material-ui/icons/People';
 import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
-import PermMediaOutlinedIcon from '@material-ui/icons/PhotoSizeSelectActual';
-import PublicIcon from '@material-ui/icons/Public';
-import TimerIcon from '@material-ui/icons/Timer';
-import SettingsIcon from '@material-ui/icons/Settings';
 import PersonIcon from '@material-ui/icons/Person';
-import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import NotesIcon from '@material-ui/icons/Notes';
 import HomeWorkIcon from '@material-ui/icons/HomeWork';
 import BarChartIcon from '@material-ui/icons/BarChart';
 
@@ -23,6 +19,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
         { id: 'Home', icon: <HomeWorkIcon />, to: "/au/home" },
         { id: 'Profile', icon: <PersonIcon />, to: "/au/profile" },
         { id: 'Purses', icon: <DnsRoundedIcon />, to: "/au/purses" },
+        { id: 'Topics', icon: <NotesIcon />, to: "/au/topics" },
         { id: 'Statistic', icon: <BarChartIcon />, to: "/au/statistic" },
       ],
     }, 
@@ -41,6 +38,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
         { id: 'Home', icon: <HomeWorkIcon />, to: "/au/home" },
         { id: 'Profile', icon: <PersonIcon />, to: "/au/profile" },
         { id: 'Purses', icon: <DnsRoundedIcon />, to: "/au/purses" },
+        { id: 'Topics', icon: <NotesIcon />, to: "/au/topics" },
         { id: 'Statistic', icon: <BarChartIcon />, to: "/au/statistic" },
       ],
     }
