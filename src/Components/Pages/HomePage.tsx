@@ -61,7 +61,6 @@ const HomePage: React.FC = () => {
     };
 
     useEffect(() => {
-        
         getCurrentUserPurses()
                 .then(result => {
                     if(result.response.status == 200)

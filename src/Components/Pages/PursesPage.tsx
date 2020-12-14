@@ -57,7 +57,10 @@ export const PursesPage: React.FC = () => {
                     setPursesForList([...res.data]);
                     setIsLoadingPurses(false);
                 }
-            });
+            })
+            .catch(error => {
+                console.log(error);
+            });;
 
         getAllCurrenciesAmount()
             .then(res => {
@@ -66,7 +69,10 @@ export const PursesPage: React.FC = () => {
                     setCountCurrencies(res.data);
                     setIsLoadingCurrencies(false);
                 }
-            });
+            })
+            .catch(error => {
+                console.log(error);
+            });;
     }, []);
 
     useNonInitialEffect(() => {
@@ -80,6 +86,9 @@ export const PursesPage: React.FC = () => {
                     setPursesForList([...res.data]);
                     setIsLoadingPurses(false);
                 }
+            })
+            .catch(error => {
+                console.log(error);
             });
         }
     }, [dialog])

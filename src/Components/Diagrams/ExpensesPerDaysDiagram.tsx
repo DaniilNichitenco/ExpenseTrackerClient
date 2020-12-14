@@ -19,6 +19,9 @@ export const ExpensesPerDaysDiagram: React.FC = () => {
                     setExpenses([...res.data]);
                     setIsLoading(false);
                 }
+            })
+            .catch(error => {
+                console.log(error);
             });
     }, []);
 
