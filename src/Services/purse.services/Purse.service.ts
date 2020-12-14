@@ -4,7 +4,7 @@ import PurseForList from '../../Data/Models/Purses/PurseForList';
 import PursesForUpdate from '../../Data/Models/Purses/PurseForUpdate';
 import API from '../Api';
 
-export const GetPurse = async (id: number) => {
+export const getPurse = async (id: number) => {
     return API.get("/purses/" + id)
         .then(response => {
             const purse: Purse = response.data;
@@ -24,7 +24,7 @@ export const GetPurse = async (id: number) => {
         });
 }
 
-export const GetAllPurses = async () => {
+export const getAllPurses = async () => {
 
     return API.get("/purses")
         .then(response => {
@@ -45,7 +45,7 @@ export const GetAllPurses = async () => {
         });
 }
 
-export const GetUserPurses = async (Id: number) => {
+export const getUserPurses = async (Id: number) => {
 
     return API.get('/Purses/user/' + Id)
         .then(response => {
@@ -66,7 +66,7 @@ export const GetUserPurses = async (Id: number) => {
         });
 }
 
-export const GetCurrentUserPurses = async () => {
+export const getCurrentUserPurses = async () => {
 
     return API.get('/Purses/currentUser/')
         .then(response => {
@@ -86,7 +86,7 @@ export const GetCurrentUserPurses = async () => {
         });
 }
 
-export const UpdatePurse = async (pursesForUpdate: PursesForUpdate) => {
+export const updatePurse = async (pursesForUpdate: PursesForUpdate) => {
 
     return API.put('/Purses', pursesForUpdate)
         .then(response => {
@@ -98,7 +98,7 @@ export const UpdatePurse = async (pursesForUpdate: PursesForUpdate) => {
         })
 }
 
-export const CreatePurse = async (purseForUpdate: PurseForCreate) => {
+export const createPurse = async (purseForUpdate: PurseForCreate) => {
 
     return API.post('/Purses', purseForUpdate)
         .then(response => {
@@ -111,7 +111,7 @@ export const CreatePurse = async (purseForUpdate: PurseForCreate) => {
         });
 }
 
-export const DeletePurse = async (id: number) => {
+export const deletePurse = async (id: number) => {
 
     return API.delete('/Purses/' + id)
         .then(response => {
@@ -124,7 +124,7 @@ export const DeletePurse = async (id: number) => {
         });
 }
 
-export const GetPursesForList = async () => {
+export const getPursesForList = async () => {
     return API.get("Purses/list")
         .then(response => {
             let purses: PurseForList[] = response.data;
@@ -145,7 +145,7 @@ export const GetPursesForList = async () => {
         })
 }
 
-export const GetAvailableCurrencies = async () => {
+export const getAvailableCurrencies = async () => {
     return API.get("Purses/available")
         .then(response => {
 
@@ -177,7 +177,7 @@ export const GetAvailableCurrencies = async () => {
         });
 }
 
-export const GetAllCurrenciesAmount = async () => {
+export const getAllCurrenciesAmount = async () => {
     return API.get("Purses/AmountCurrencies")
         .then(response => {
             return{
@@ -194,14 +194,14 @@ export const GetAllCurrenciesAmount = async () => {
 }
 
 export default {
-    GetPurse,
-    GetAllPurses,
-    GetUserPurses,
-    GetCurrentUserPurses,
-    UpdatePurse,
-    CreatePurse,
-    DeletePurse,
-    GetPursesForList,
-    GetAvailableCurrencies,
-    GetAllCurrenciesAmount
+    getPurse,
+    getAllPurses,
+    getUserPurses,
+    getCurrentUserPurses,
+    updatePurse,
+    createPurse,
+    deletePurse,
+    getPursesForList,
+    getAvailableCurrencies,
+    getAllCurrenciesAmount
 }

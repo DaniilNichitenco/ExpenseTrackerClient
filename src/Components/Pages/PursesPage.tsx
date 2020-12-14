@@ -1,9 +1,9 @@
 import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import PurseForList from '../../Data/Models/Purses/PurseForList';
-import { DeletePurse, GetAllCurrenciesAmount, GetPursesForList } from '../../Services/purse.services/Purse.service';
+import { deletePurse, getAllCurrenciesAmount, getPursesForList } from '../../Services/purse.services/Purse.service';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import GetMonthName from '../../Date/MonthName';
+import { format } from 'date-fns';
 import { CreatePurseForm } from '../Forms/PursesForm/CreatePurseForm';
 import useNonInitialEffect from '../../CustomHooks/CustomUseEffectHooks/useNonInitialEffect';
 import EditPurseForm from '../Forms/PursesForm/EditPurseForm';
@@ -50,7 +50,7 @@ export const PursesPage: React.FC = () => {
     }
 
     useEffect(() => {
-        GetPursesForList()
+        getPursesForList()
             .then(res => {
                 if(res.response.status == 200)
                 {
@@ -59,7 +59,7 @@ export const PursesPage: React.FC = () => {
                 }
             });
 
-        GetAllCurrenciesAmount()
+        getAllCurrenciesAmount()
             .then(res => {
                 if(res.response.status == 200)
                 {
@@ -73,7 +73,7 @@ export const PursesPage: React.FC = () => {
         if(!dialog.isOpen) //if we close nested dialog, we rerender whole component
         {
             setIsLoadingPurses(true);
-            GetPursesForList()
+            getPursesForList()
                 .then(res => {
                 if(res.response.status == 200)
                 {
@@ -84,8 +84,8 @@ export const PursesPage: React.FC = () => {
         }
     }, [dialog])
 
-    const deletePurse = async (id: number) => {
-        DeletePurse(id)
+    const handleDeletePurse = async (id: number) => {
+        deletePurse(id)
             .then(res => {
                 handleClose();
             })
@@ -166,9 +166,10 @@ export const PursesPage: React.FC = () => {
                                                 <Grid container item xs={12}>
                                                     <Typography>
                                                         Currency code: {purse.currencyCode.toUpperCase()}<br />
-                                                        Created at: {purse.createdAt.getDate()}/
-                                                        {GetMonthName(purse.createdAt.getMonth())}/
-                                                        {purse.createdAt.getFullYear()}<br />
+                                                        Created at: {format(
+                                                                    new Date(purse.createdAt),
+                                                                    "MMMM d, yyyy"
+                                                                    )}<br />
                                                         Monthly plan: {(purse.bill).toFixed(2)}
                                                     </Typography>
                                                 </Grid>
@@ -227,7 +228,7 @@ export const PursesPage: React.FC = () => {
                     <Button 
                         variant="contained" 
                         color="secondary"
-                        onClick={async () => {await deletePurse(dialog.itemId);}}
+                        onClick={async () => {await handleDeletePurse(dialog.itemId);}}
                         >
                         <Typography>
                             Delete

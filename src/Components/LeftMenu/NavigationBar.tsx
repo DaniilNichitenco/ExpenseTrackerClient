@@ -7,19 +7,12 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import PeopleIcon from '@material-ui/icons/People';
-import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
-import PermMediaOutlinedIcon from '@material-ui/icons/PhotoSizeSelectActual';
-import PublicIcon from '@material-ui/icons/Public';
-import TimerIcon from '@material-ui/icons/Timer';
-import SettingsIcon from '@material-ui/icons/Settings';
 import { Omit } from '@material-ui/types';
 import { NavLink, useLocation } from 'react-router-dom';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
-import GetDay from '../../Date/DayOfWeek';
-import { SvgIconTypeMap, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import User from '../../Data/Models/User/User';
-import { OverridableComponent } from '@material-ui/core/OverridableComponent';
+import { format } from 'date-fns';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -90,7 +83,12 @@ const Navigator: React.FC<NavigatorProps> = (props: NavigatorProps) => {
     <Drawer className={classes.drawer} variant="permanent" {...other} open={true}>
       <List disablePadding>
         <ListItem className={clsx(classes.firebase, classes.item, classes.itemCategory)}>
-          <Typography variant="h5">{GetDay()}</Typography>
+          <Typography variant="h5">
+            {format(
+              new Date(),
+              "MMMM d, yyyy"
+            )}
+</Typography>
         </ListItem>
         <ListItem className={clsx(classes.item, classes.itemCategory)}>
           <Typography variant="h5">Hello, {userData != undefined && userData.firstName}!</Typography>

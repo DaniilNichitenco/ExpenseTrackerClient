@@ -8,7 +8,7 @@ import SignUpPage from '../Components/Pages/SignUpPage';
 import UnauthorizedPage from '../Components/Pages/UnauthorizedPage';
 import CreditCardRoundedIcon from '@material-ui/icons/CreditCardRounded';
 import SignUpButton from '../Components/Buttons/SignUpButton';
-import { GetCurrentUserData } from '../Services/user.services/User.service';
+import { getCurrentUserData } from '../Services/user.services/User.service';
 import { useTheme } from '@material-ui/core';
 
   const UnauthorizedRouter:React.FC = () => {
@@ -18,7 +18,7 @@ import { useTheme } from '@material-ui/core';
     const history = useHistory();
     useEffect(() => {
        
-        GetCurrentUserData()
+        getCurrentUserData()
             .then(res => {
                 if(res.status == 200)
                 {

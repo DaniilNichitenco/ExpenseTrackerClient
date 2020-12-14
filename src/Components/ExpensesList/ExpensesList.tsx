@@ -2,7 +2,7 @@ import { Grid, GridList, CircularProgress } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import TopicWithExpenses from '../../Data/Models/Topics/TopicWithExpenses';
-import { GetTopicsWithExpenses } from '../../Services/topic.services/TopicService';
+import { getTopicsWithExpenses } from '../../Services/topic.services/TopicService';
 import { TopicPaper } from './TopicPaper';
 
 export const ExpensesList: React.FC = () => {
@@ -13,7 +13,7 @@ export const ExpensesList: React.FC = () => {
         );
 
     useEffect(() => {
-        GetTopicsWithExpenses(5)
+        getTopicsWithExpenses(5)
         .then(result => {
             if(result.response.status == 200)
             {

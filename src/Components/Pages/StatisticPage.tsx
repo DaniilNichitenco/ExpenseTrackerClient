@@ -2,7 +2,7 @@ import { CircularProgress, Container, Grid, Paper, Typography } from '@material-
 import React, { useEffect, useState } from 'react';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import Purse from '../../Data/Models/Purses/Purse';
-import { GetCurrentUserPurses } from '../../Services/purse.services/Purse.service';
+import { getCurrentUserPurses } from '../../Services/purse.services/Purse.service';
 import ExpensesPerDaysDiagram from '../Diagrams/ExpensesPerDaysDiagram';
 import ExpensesPerMonthLineDiagram from '../Diagrams/ExpensesPerMonthLineDiargam';
 import TopicPercentsDiagram from '../Diagrams/TopicPercentsDiagram';
@@ -14,7 +14,7 @@ const StatisticPage:React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        GetCurrentUserPurses()
+        getCurrentUserPurses()
             .then(result => {
                 if(result.response.status == 200)
                 {

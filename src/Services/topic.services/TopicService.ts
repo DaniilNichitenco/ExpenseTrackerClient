@@ -1,11 +1,10 @@
-import { responsiveFontSizes } from '@material-ui/core';
 import Topic from '../../Data/Models/Topics/Topic';
 import TopicForCreate from '../../Data/Models/Topics/TopicForCreate';
 import TopicForUpdate from '../../Data/Models/Topics/TopicForUpdate';
 import TopicWithExpenses from '../../Data/Models/Topics/TopicWithExpenses';
 import API from '../Api';
 
-export const GetTopicsWithExpenses = async (limit: number) => {
+export const getTopicsWithExpenses = async (limit: number) => {
 
     return API.get("/Topics/topicsWithFixedExpenses/" + limit)
         .then(response => {
@@ -25,7 +24,7 @@ export const GetTopicsWithExpenses = async (limit: number) => {
         })
 }
 
-export const GetTopics = async () => {
+export const getTopics = async () => {
 
     return API.get("/Topics")
         .then(response => {
@@ -47,9 +46,9 @@ export const GetTopics = async () => {
         })
 }
 
-export const DeleteTopic = async (id: number) => await API.delete("Topics/" + id);
+export const deleteTopic = async (id: number) => await API.delete("Topics/" + id);
 
-export const CreateTopic = async (topic: TopicForCreate) => {
+export const createTopic = async (topic: TopicForCreate) => {
 
     return API.post("/Topics", topic)
         .then(response => {
@@ -69,7 +68,7 @@ export const CreateTopic = async (topic: TopicForCreate) => {
         });
 }
 
-export const GetTopic = async (id: number) => {
+export const getTopic = async (id: number) => {
 
     return API.get("/Topics/" + id)
         .then(response => {
@@ -111,7 +110,7 @@ export const updateTopic = async (topic: TopicForUpdate) => {
         });
 }
 
-export const GetMaxUserTopics = async () => {
+export const getMaxUserTopics = async () => {
 
     return API.get("/Topics/maxUserTopics")
         .then(response => {
@@ -131,7 +130,7 @@ export const GetMaxUserTopics = async () => {
         });
 }
 
-export const GetUserTopicsAmount = async () => {
+export const getUserTopicsAmount = async () => {
     return API.get("Topics/amountTopics")
         .then(response => {
 
@@ -149,7 +148,7 @@ export const GetUserTopicsAmount = async () => {
         });
 }
 
-export const GetTopicsForList = async () => {
+export const getTopicsForList = async () => {
     return API.get("Topics/userTopicsForList")
         .then(response => {
 
@@ -169,13 +168,13 @@ export const GetTopicsForList = async () => {
 }
 
 export default {
-    GetTopicsWithExpenses,
-    GetTopics,
-    GetTopic,
-    DeleteTopic,
-    CreateTopic,
-    GetTopicsForList,
-    GetUserTopicsAmount,
-    GetMaxUserTopics,
+    getTopicsWithExpenses,
+    getTopics,
+    getTopic,
+    deleteTopic,
+    createTopic,
+    getTopicsForList,
+    getUserTopicsAmount,
+    getMaxUserTopics,
     updateTopic
 }

@@ -24,7 +24,6 @@ const SignOutButtom: React.FC<SignOutButtomProps> = ({ text="Sign Out", style })
     return (
         <Box mr={3}>
             <Button color="primary" style={style}
-            // startIcon={<MeetingRoomIcon />}
             variant="contained" 
             onClick={() => handleClickOpen()}>
                 <Typography>{text}</Typography>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { getColor } from '../../Colors/colors';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import PercentsTopicExpense from '../../Data/Models/Expenses/PercentsTopicExpense';
-import { GetPercentsExpensesPerTopic } from '../../Services/expense.service/ExpenseService';
+import { getPercentsExpensesPerTopic } from '../../Services/expense.service/ExpenseService';
 import RadarDiagram from './Generic/RadarDiagram';
 
 export const TopicPercentsDiagram: React.FC = () => {
@@ -12,7 +12,7 @@ export const TopicPercentsDiagram: React.FC = () => {
     const [percentsTopic, setPercentsTopic] = useSessionStorage<PercentsTopicExpense[]>("percentsTopic", []);
 
 	useEffect(() => {
-		GetPercentsExpensesPerTopic()
+		getPercentsExpensesPerTopic()
 			.then(res => {
 				if(res.response.status == 200)
 				{

@@ -2,16 +2,14 @@ import React, { useEffect, useState } from "react";
 import { CircularProgress } from '@material-ui/core';
 import PursesDoughnutDiagram from '../Diagrams/PursesDoughnutDiagram';
 import { Grid, makeStyles, Paper, Tab, Tabs, Typography, Box } from '@material-ui/core';
-import { PursesDefault } from '../../Data/Models/Purses/default/PurseDefault';
 import useSessionStorage from '../../CustomHooks/StorageHooks/useSessionStorage';
 import Purse from '../../Data/Models/Purses/Purse';
-import { GetCurrentUserPurses } from '../../Services/purse.services/Purse.service';
-import { ExpensesForSumDefault } from "../../Data/Models/Expenses/default/ExpenseForSumDefault";
+import { getCurrentUserPurses } from '../../Services/purse.services/Purse.service';
 import { ExpenseForSum } from "../../Data/Models/Expenses/ExpenseForSum";
-import { GetExpensesSumForToday } from "../../Services/expense.service/ExpenseService";
-import { CountDays } from "../../Date/CountDays";
+import { getExpensesSumForToday } from "../../Services/expense.service/ExpenseService";
 import ExpensesList from "../ExpensesList/ExpensesList";
 import GridPaperHeader from "../GridPaper/GridPaperHeader";
+import { getDaysInMonth } from 'date-fns';
 
 interface TabPanelProps {
     index: number,
@@ -64,7 +62,7 @@ const HomePage: React.FC = () => {
 
     useEffect(() => {
         
-        GetCurrentUserPurses()
+        getCurrentUserPurses()
                 .then(result => {
                     if(result.response.status == 200)
                     {
@@ -76,7 +74,7 @@ const HomePage: React.FC = () => {
                     console.log(error);
                 })
 
-        GetExpensesSumForToday()
+        getExpensesSumForToday()
                 .then(result => {
 
                     if(result.response.status == 200)
@@ -137,7 +135,7 @@ const HomePage: React.FC = () => {
                                 let expense = dailyExpenseSum.find(e => 
                                     e.currencyCode == purse.currencyCode);
                                 let sum:number = 0;
-                                let countDays: number = CountDays(); 
+                                let countDays: number = getDaysInMonth(new Date()); 
                                 if(expense != undefined)
                                 {
                                     sum = expense.sum;

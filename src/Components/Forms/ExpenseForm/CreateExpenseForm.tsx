@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
-import { Button, DialogTitle, DialogContent, DialogContentText, DialogActions, makeStyles, Theme, Grid, Typography } from "@material-ui/core";
+import { useForm, FormProvider } from "react-hook-form";
+import { Button, DialogTitle, DialogContent, DialogContentText, 
+    DialogActions, makeStyles, Grid, Typography } from "@material-ui/core";
 import InputForm from '../InputForm/InputForm';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -12,7 +13,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ExpenseForCreate from "../../../Data/Models/Expenses/ExpenseForCreate";
 import "./datepickerStyles.css";
-import { CreateExpense } from "../../../Services/expense.service/ExpenseService";
+import { createExpense } from "../../../Services/expense.service/ExpenseService";
 
 const validationSchema = yup.object().shape({
     title: yup.string().required("Enter title!")
@@ -63,7 +64,7 @@ export const CreateExpenseForm: React.FC<CreateExpenseFormProps> = (props) => {
         formValues.date = new Date(currentDate);
         formValues.topicId = props.topic.id;
         
-        CreateExpense(formValues).then(res => {
+        createExpense(formValues).then(res => {
             console.log(res);
             props.handleClose();
         });

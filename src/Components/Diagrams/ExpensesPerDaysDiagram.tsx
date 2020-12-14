@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import PurseExpensesPerDay from '../../Data/Models/Expenses/PurseExpensesPerDay';
-import CountDays from '../../Date/CountDays';
 import BarDiagram from './Generic/BarDiagram';
-import { GetExpensesPerDayForCurrentMonth } from '../../Services/expense.service/ExpenseService';
+import { getExpensesPerDayForCurrentMonth } from '../../Services/expense.service/ExpenseService';
 import { CircularProgress, Grid } from '@material-ui/core';
 import { getColor } from '../../Colors/colors';
+import { getDaysInMonth } from 'date-fns'
 
 export const ExpensesPerDaysDiagram: React.FC = () => {
 
@@ -12,7 +12,7 @@ export const ExpensesPerDaysDiagram: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        GetExpensesPerDayForCurrentMonth()
+        getExpensesPerDayForCurrentMonth()
             .then(res => {
                 if(res.response.status == 200)
                 {
@@ -57,7 +57,7 @@ export const ExpensesPerDaysDiagram: React.FC = () => {
         });
 
         const data = {
-            labels: Array.from({length: CountDays()}, (_, i) => i + 1),
+            labels: Array.from({length: getDaysInMonth(new Date())}, (_, i) => i + 1),
             datasets: datasets
         };
 

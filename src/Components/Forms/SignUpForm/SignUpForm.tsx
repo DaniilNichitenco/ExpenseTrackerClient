@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import AuthService from '../../../Services/auth.services/auth-service';
+import { signUp } from '../../../Services/auth.services/auth-service';
 import InputForm from '../InputForm/InputForm';
 import SignInForm from '../SignInForm/SignInForm';
 import { useHistory } from 'react-router-dom';
@@ -99,7 +99,7 @@ const SignUpForm: React.FC = () => {
 
     const onSubmit: SubmitHandler<UserForSignUp> = async (formValues) => {
 
-        await AuthService.SignUp(formValues)
+        await signUp(formValues)
             .then(response => {
                 if(response.status == 200)
                 {

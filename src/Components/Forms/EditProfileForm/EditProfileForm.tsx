@@ -8,7 +8,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import IEditProfileFormProps from './IEditProfileFormProps';
 import UserForUpdate from "../../../Data/Models/User/UserForUpdate";
-import { EditUser, GetCurrentUserData } from "../../../Services/user.services/User.service";
+import { editUser, getCurrentUserData } from "../../../Services/user.services/User.service";
 import User from "../../../Data/Models/User/User";
 import useSessionStorage from "../../../CustomHooks/StorageHooks/useSessionStorage";
 
@@ -38,7 +38,7 @@ const EditProfileForm: React.FC<IEditProfileFormProps> = (props) => {
 
     const onSubmit: SubmitHandler<UserForUpdate> = async (formValues) => {
 
-        EditUser(formValues)
+        editUser(formValues)
             .then(res => {
                 props.handleClose();
             });
@@ -47,7 +47,7 @@ const EditProfileForm: React.FC<IEditProfileFormProps> = (props) => {
     useEffect(() => {
         if(userData == undefined)
         {
-            GetCurrentUserData()
+            getCurrentUserData()
                 .then(res => {
                     if(res.status == 200)
                     {

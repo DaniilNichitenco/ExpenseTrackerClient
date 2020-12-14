@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { deepEqual, propertiesEqual } from "../../Comparers/ObjectsComparer";
 
 const useSessionStorage = <T extends unknown>(key: string, initialValue:T, check = false) => {
 
@@ -20,8 +19,6 @@ const useSessionStorage = <T extends unknown>(key: string, initialValue:T, check
             return initialValue;
         }   
     });
-
-    let checkItem = storedValue;
 
     const setValue = (value: T) => {
         try
@@ -57,16 +54,9 @@ const useSessionStorage = <T extends unknown>(key: string, initialValue:T, check
                     try
                     {
                         const item = JSON.parse(itemStr) as T;
-                        if(propertiesEqual(item, storedValue))
-                        {
-                            if(!deepEqual(item, checkItem))
-                            {
-                                setStoredValue(item);
-                                checkItem = item;
-                            }
-                        }
+                        setStoredValue(item);
                     }
-                    catch(error : any)
+                    catch(error: any)
                     {
                         console.log(error);
                     }

@@ -6,9 +6,8 @@ import { Button, DialogTitle, DialogContent,
 import InputForm from '../InputForm/InputForm';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import PurseForUpdate from "../../../Data/Models/Purses/PurseForUpdate";
 import Topic from "../../../Data/Models/Topics/Topic";
-import { GetTopic, updateTopic } from "../../../Services/topic.services/TopicService";
+import { getTopic, updateTopic } from "../../../Services/topic.services/TopicService";
 import TopicForUpdate from "../../../Data/Models/Topics/TopicForUpdate";
 
 const validationSchema = yup.object().shape({
@@ -43,15 +42,15 @@ export const EditTopicForm: React.FC<EditTopicFormProps> = (props) => {
     }>({successed: false, description: ""});
 
     useEffect(() => {
-        GetResult(props.topicId)
+        getResult(props.topicId)
             .then(res => {
                 setResult(res);
                 setIsLoading(false);
             })
     }, []);
 
-    const GetResult = async (topicId: number) => {
-        return GetTopic(topicId)
+    const getResult = async (topicId: number) => {
+        return getTopic(topicId)
             .then(result => {
                 if(result.response.status == 200)
                 {
