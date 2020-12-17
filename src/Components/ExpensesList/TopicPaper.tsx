@@ -342,7 +342,7 @@ export const TopicPaper: React.FC<TopicPaperProps> = (props) => {
                                     flexWrap="wrap" key={expense.id}
                                     >
                                         <Typography>
-                                            {expense.title} - {expense.money}
+                                            {expense.title}
                                         </Typography>
                                     </Box>
                                     );
