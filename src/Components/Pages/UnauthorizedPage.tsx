@@ -236,7 +236,7 @@ const UnauthorizedPage: React.FC = () => {
                 <StartPost />
             </Grid>
             <Grid item container xs={12} style={{margin: 20}}>
-                <Grid item container justify="center" xs={4}>
+                <Grid item container justify="space-evenly" xs={4} xl={3}>
                     <Paper elevation={10} className={classes.gridPaper}>
                         <GridPaperHeader />
                         <Grid item container justify="center">
@@ -253,7 +253,7 @@ const UnauthorizedPage: React.FC = () => {
                         </Grid>
                     </Paper>
                 </Grid>
-                <Grid item container justify="center" xs={4}>
+                <Grid item container justify="space-evenly" xs={4} xl={3}>
                     <Paper elevation={10} className={classes.gridPaper}>
                         <GridPaperHeader />
                         <Grid item container justify="center">
@@ -270,7 +270,7 @@ const UnauthorizedPage: React.FC = () => {
                         </Grid>
                     </Paper>
                 </Grid>
-                <Grid item container justify="center" xs={4}>
+                <Grid item container justify="space-evenly" xs={4} xl={3}>
                     <Paper elevation={10} className={classes.gridPaper}>
                         <GridPaperHeader />
                         <Grid item container justify="center">
